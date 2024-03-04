@@ -37,19 +37,6 @@ void readPixelData(BMPProcessor *bmpProcessor) {
     }
 }
 
-// Function to modify LSB and write to target file
-void modifyLSBAndWrite(BMPProcessor *bmpProcessor) {
-    int i; 
-    /*for (i = 0; i < bmpProcessor->bih.width * bmpProcessor->bih.height; i++) {
-        bmpProcessor->byte[i] = (bmpProcessor->byte[i] & 0xFE) | (get_LSB(bmpProcessor->pic[i].blue) & 0x01);
-    }*/
-//    printf("a%d",&bmpProcessor->image);
-	rewind(bmpProcessor->image);
-//	printf("a%d",&bmpProcessor->image);
-
-//    fwrite(bmpProcessor->byte, sizeof(unsigned char), bmpProcessor->bih.width * bmpProcessor->bih.height, bmpProcessor->target);
-}
-
 void WriteTargetFile(BMPProcessor *bmpProcessor){
 	rewind(bmpProcessor->image);
 	while (fread(bmpProcessor->byte, sizeof(unsigned char), 1, bmpProcessor->image)==1){
