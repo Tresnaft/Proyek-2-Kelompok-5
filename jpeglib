@@ -1,0 +1,157 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdint.h>
+#include <jpeglib.h>
+
+typedef struct {
+    char* src;
+    char* message;
+    char* dest;
+} ImageData;
+
+void Encode(ImageData* data) {
+    FILE *image = fopen(data->src, "rb");
+    if (image == NULL) {
+        printf("ERROR: Cannot open source image\n");
+        return;
+    }
+
+    FILE *output = fopen(data->dest, "wb");
+    if (output == NULL) {
+        printf("ERROR: Cannot open destination file\n");
+        fclose(image);
+        return;
+    }
+
+    fseek(image, 0, SEEK_END);
+    size_t image_size = ftell(image);
+    fseek(image, 0, SEEK_SET);
+
+    uint8_t *buffer = (uint8_t *)malloc(image_size);
+    if (buffer == NULL) {
+        printf("ERROR: Memory allocation failed\n");
+        fclose(image);
+        fclose(output);
+        return;
+    }
+
+    fread(buffer, 1, image_size, image);
+
+    char* encoded_message = (char *)malloc(strlen(data->message) + 10); // +10 for "$t3g0" and padding
+    strcpy(encoded_message, data->message);
+    strcat(encoded_message, "$t3g0");
+
+    size_t message_length = strlen(encoded_message);
+
+    if (message_length * 8 > image_size) {
+        printf("ERROR: Need larger file size\n");
+        free(buffer);
+        fclose(image);
+        fclose(output);
+        return;
+    }
+
+    int index = 0;
+    for (size_t i = 0; i < message_length; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (index < image_size) {
+                buffer[index] = (buffer[index] & 0xFE) | ((encoded_message[i] >> (7 - j)) & 1);
+                index++;
+            }
+        }
+    }
+
+    fwrite(buffer, 1, image_size, output);
+    printf("Image Encoded Successfully\n");
+
+    free(buffer);
+    free(encoded_message);
+    fclose(image);
+    fclose(output);
+}
+
+void Decode(const char* src) {
+    FILE *image = fopen(src, "rb");
+    if (image == NULL) {
+        printf("ERROR: Cannot open source image\n");
+        return;
+    }
+
+    fseek(image, 0, SEEK_END);
+    size_t image_size = ftell(image);
+    fseek(image, 0, SEEK_SET);
+
+    uint8_t *buffer = (uint8_t *)malloc(image_size);
+    if (buffer == NULL) {
+        printf("ERROR: Memory allocation failed\n");
+        fclose(image);
+        return;
+    }
+
+    fread(buffer, 1, image_size, image);
+    fclose(image);
+
+    size_t message_length = 0;
+    char decoded_message[1000] = {0};
+
+    for (size_t i = 0; i < image_size; i++) {
+        decoded_message[message_length] |= (buffer[i] & 1) << (7 - (i % 8));
+        if ((i + 1) % 8 == 0) {
+            message_length++;
+        }
+        if (decoded_message[message_length - 1] == '$' && decoded_message[message_length - 2] == '0' &&
+            decoded_message[message_length - 3] == 'g' && decoded_message[message_length - 4] == '3' &&
+            decoded_message[message_length - 5] == 't') {
+            break;
+        }
+    }
+
+    if (strstr(decoded_message, "$t3g0") != NULL) {
+        decoded_message[message_length - 5] = '\0';
+        printf("Hidden Message: %s\n", decoded_message);
+    } else {
+        printf("No Hidden Message Found\n");
+    }
+
+    free(buffer);
+}
+
+int main() {
+    printf("--Welcome to $t3g0--\n");
+    printf("1: Encode\n");
+    printf("2: Decode\n");
+
+    char func;
+    scanf("%c", &func);
+
+    if (func == '1') {
+        ImageData data;
+        data.src = (char*)malloc(100 * sizeof(char));
+        data.message = (char*)malloc(100 * sizeof(char));
+        data.dest = (char*)malloc(100 * sizeof(char));
+        
+        printf("Enter Source Image Path: ");
+        scanf("%s", data.src);
+        printf("Enter Message to Hide: ");
+        scanf("%s", data.message);
+        printf("Enter Destination Image Path: ");
+        scanf("%s", data.dest);
+        printf("Encoding...\n");
+        Encode(&data);
+        
+        free(data.src);
+        free(data.message);
+        free(data.dest);
+    } else if (func == '2') {
+        char src[100];
+        printf("Enter Source Image Path: ");
+        scanf("%s", src);
+        printf("Decoding...\n");
+        Decode(src);
+    } else {
+        printf("ERROR: Invalid option chosen\n");
+    }
+
+    return 0;
+}
