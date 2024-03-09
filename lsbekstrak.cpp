@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <cstring>
 
 typedef struct {
     unsigned char red, green, blue;
@@ -108,6 +109,7 @@ void extractLSB(const BMPImage *img, unsigned char *lsbData) {
 
 
 void combineLSB(const unsigned char *lsbData, int dataSize) {
+
     if (!lsbData) {
         fprintf(stderr, "Invalid input\n");
         return;
@@ -121,6 +123,8 @@ void combineLSB(const unsigned char *lsbData, int dataSize) {
     }
     printf("\n");
 }
+
+
 
 void convertToASCII(const unsigned char *lsbData, int dataSize) {
     if (!lsbData || dataSize % 8 != 0) {
@@ -138,6 +142,7 @@ void convertToASCII(const unsigned char *lsbData, int dataSize) {
     }
     printf("\n");
 }
+
 
 
 int main() {
@@ -171,8 +176,4 @@ int main() {
     return 0;
 }
 
-// Program masih error
-// 1. Tidak bisa mengubah kode kedalam ascii 
-//     Solusi: pisahkan setiap 8 Bit
-// 2. Hanya bisa membaca beberapa digit pesan saja
-//     Solusi: Membaca bit dari kiri ke kanan (bisa jadi kesalahan saat input pesan)
+// Pisahkan bit yang dibaca per 8 bit agar bisa di konversi kedalam ascii

@@ -44,15 +44,24 @@ void inputMessage(char *message) {
     }
 }
 
-void messageToBinary(const char *message, char *binaryMessage) {
-    int len = strlen(message);
-    for (int i = 0; i < len; i++) {
-        char ch = message[i];
-        for (int j = 7; j >= 0; j--) {
-            binaryMessage[(i * 8) + (7 - j)] = ((ch >> j) & 1) + '0';
+
+char* messageToBinary(char* s) {
+    if (s == NULL) return NULL; // Handle NULL input
+    size_t len = strlen(s);
+    char *binary = (char *)malloc(len * 8 + 1); // Allocate memory for binary string
+    if (binary == NULL) return NULL; // Check for allocation failure
+    binary[0] = '\0';
+    for (size_t i = 0; i < len; ++i) {
+        char ch = s[i];
+        for (int j = 7; j >= 0; --j) {
+            if (ch & (1 << j)) {
+                strcat(binary, "1");
+            } else {
+                strcat(binary, "0");
+            }
         }
     }
-    binaryMessage[len * 8] = '\0'; // Null-terminate the binary string
+    return binary;
 }
 
 BMPImage *readBMP(const char *filename) {
@@ -130,6 +139,7 @@ void writeMsg(BMPImage *img, const char *binaryMessage) {
         }
     }
 }
+
 
 void writeBMP(const char *filename, BMPImage *img) {
     FILE *file = fopen(filename, "wb");
@@ -218,14 +228,15 @@ int main() {
     const char *filename_read = "sample.bmp";
     const char *filename_write = "sampleout.bmp";
     char message[MAX_MESSAGE_LENGTH];
-    char binaryMessage[MAX_MESSAGE_LENGTH * 8];
+    char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
 
     // Membaca pesan dari pengguna
     inputMessage(message);
 
     // Mengonversi pesan menjadi representasi biner
-    messageToBinary(message, binaryMessage);
-
+//    messageToBinary(message, binaryMessage);
+	
+	*binaryMessage = messageToBinary(message);
     // Membaca gambar BMP dari file
     image = readBMP(filename_read);
 
@@ -235,20 +246,10 @@ int main() {
     }
 
     // Menulis pesan ke dalam gambar
-    writeMsg(image, binaryMessage);
+    writeMsg(image, *binaryMessage);
 
     // Menulis gambar dengan pesan ke file
     writeBMP(filename_write, image);
-
-    // Ekstraksi pesan dari gambar yang baru disimpan
-//    char *extracted_message = extractMsg(image);
-//
-//    // Membandingkan pesan asli dengan pesan yang diekstraksi
-//    if (strcmp(message, extracted_message) == 0) {
-//        printf("Pesan berhasil disisipkan dan diekstraksi dengan benar: %s\n", extracted_message);
-//    } else {
-//        printf("Pesan tidak berhasil disisipkan atau diekstraksi dengan benar\n");
-//    }
 
 	printf("berhasil\n");
 
@@ -260,5 +261,5 @@ int main() {
     return 0;
 }
 
-// Kemungkinan ada kesalahan saat menyisipkan pesan
-// - Sepertinya tidak dari kiri ke kanan
+// Tidak ada kesalahan dari, program sudah bisa berjalan dan pesan dalam BMP sudah bisa dibaca. 
+// Kesalahan ada pada saat membaca file di program "lsbinput.cpp"
