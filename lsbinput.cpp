@@ -182,48 +182,6 @@ void writeBMP(const char *filename, BMPImage *img) {
     fclose(file);
 }
 
-char *extractMsg(BMPImage *img) {
-    int len = (img->width * img->height * 3) / 8; // Panjang pesan dalam byte
-    char *binaryMessage = (char *)malloc(len + 1); // alokasi memori untuk pesan
-    if (!binaryMessage) {
-        fprintf(stderr, "Unable to allocate memory\n");
-        exit(1);
-    }
-
-    int bitIndex = 0;
-    for (int i = 0; i < img->width * img->height; i++) {
-        for (int bit = 0; bit < 3; bit++) {
-            unsigned char *color;
-            switch (bit) {
-                case 0: color = &img->data[i].red; break;
-                case 1: color = &img->data[i].green; break;
-                case 2: color = &img->data[i].blue; break;
-            }
-            binaryMessage[bitIndex++] = ((*color) & 1) + '0';
-        }
-    }
-    binaryMessage[len] = '\0'; // Null-terminate the binary string
-
-    char *message = (char *)malloc(len / 8 + 1); // alokasi memori untuk pesan
-    if (!message) {
-        fprintf(stderr, "Unable to allocate memory\n");
-        exit(1);
-    }
-
-    // Mengonversi biner ke ASCII
-    for (int i = 0; i < len / 8; i++) {
-        char ch = 0;
-        for (int j = 0; j < 8; j++) {
-            ch |= (binaryMessage[i * 8 + j] - '0') << (7 - j);
-        }
-        message[i] = ch;
-    }
-    message[len / 8] = '\0'; // Null-terminate the string
-
-    free(binaryMessage);
-
-    return message;
-}
 
 int main() {
     BMPImage *image;
@@ -234,9 +192,6 @@ int main() {
 
     // Membaca pesan dari pengguna
     inputMessage(message);
-
-    // Mengonversi pesan menjadi representasi biner
-//    messageToBinary(message, binaryMessage);
 	
 	*binaryMessage = messageToBinary(message);
     // Membaca gambar BMP dari file
@@ -258,7 +213,6 @@ int main() {
     // Membebaskan memori yang digunakan oleh gambar dan pesan yang diekstraksi
     free(image->data);
     free(image);
-//    free(extracted_message);
 
     return 0;
 }

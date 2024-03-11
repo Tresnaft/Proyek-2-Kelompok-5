@@ -88,10 +88,9 @@ BMPImage *readBMP(const char *filename) {
     return img;
 }
 
-void convertToASCII(const unsigned char *lsbData, int dataSize);
 
-void extractLSB(const BMPImage *img, unsigned char *lsbData) {
-    if (!img || !lsbData) {
+void extractLSB(const BMPImage *img) {
+    if (!img) {
         fprintf(stderr, "Invalid input\n");
         return;
     }
@@ -122,18 +121,12 @@ void extractLSB(const BMPImage *img, unsigned char *lsbData) {
 		lsbsem1[6] = redLSB3;
 		lsbsem1[7] = greenLSB3;
 		
-//		printf("Isi array lsbsem1:\n");
-//		for (int q = 0; q < 8; q++) {
-//		    printf("%u ", lsbsem1[q]);
-//		}
-//		printf("\n");
-		
 
 		// Gabungkan setiap elemen dari lsbsem1 menjadi satu nilai unsigned char
 		for (int q = 0; q < 8; q++) {
 		    combinedValue1 |= lsbsem1[q] << (7 - q);
 		}
-//		printf("Combined value: %c\n", combinedValue1);
+
 		
 		
 		
@@ -160,17 +153,12 @@ void extractLSB(const BMPImage *img, unsigned char *lsbData) {
 		lsbsem2[5] = greenLSB5;
 		lsbsem2[6] = blueLSB5;
 		lsbsem2[7] = redLSB6;
-//		
-//		printf("Isi array lsbsem2:\n");
-//		for (int q = 0; q < 8; q++) {
-//		    printf("%u ", lsbsem2[q]);
-//		}
-//		printf("\n");
+
 		
 		for (int q = 0; q < 8; q++) {
 		    combinedValue2 |= lsbsem2[q] << (7 - q);
 		}
-//		printf("Combined value: %c\n", combinedValue2);		
+	
         
         
         
@@ -194,16 +182,12 @@ void extractLSB(const BMPImage *img, unsigned char *lsbData) {
 		lsbsem3[6] = greenLSB8;
 		lsbsem3[7] = blueLSB8;
 		
-//		printf("Isi array lsbsem3:\n");
-//		for (int i = 0; i < 8; i++) {
-//		    printf("%u ", lsbsem3[i]);
-//		}
-//		printf("\n");
+
         
         for (int q = 0; q < 8; q++) {
 		    combinedValue3 |= lsbsem3[q] << (7 - q);
 		}
-//		printf("Combined value: %c\n\n", combinedValue3);
+
 	
 		printf("%c", combinedValue1);
 		printf("%c", combinedValue2);
@@ -216,78 +200,14 @@ void extractLSB(const BMPImage *img, unsigned char *lsbData) {
         
         
         
-//        
-//        printf("Red LSB: %d\n", redLSB);
-//		printf("Green LSB: %d\n", greenLSB);
-//		printf("Blue LSB: %d\n", blueLSB);
 
-        
-
-        // Susun ulang bit-bit terakhir menjadi satu byte
-        lsbData[dataIndex] = 0;
-        lsbData[dataIndex] |= (redLSB << 2) | (greenLSB << 1) | blueLSB;
-        dataIndex++;
 		
     }
-//	printf("\nData LSB yang diekstraksi dari gambar:\n");
-//    for (int i = 0; i < 1000; i++) {
-//        printf("%d ", lsbData[i]);
-//    }
-//    printf("\n");
-    
-    // menampilkan
-    
 }
 
 
 
-//void combineLSB(const unsigned char *lsbData, int dataSize) {
-//    if (!lsbData) {
-//        fprintf(stderr, "Invalid input\n");
-//        return;
-//    }
-//
-//    printf("Kumpulan bit terakhir (berurutan dari kiri ke kanan):\n");
-//
-//    // Loop melalui setiap bit dalam lsbData
-//    for (int i = 0; i < 1000; i++) {
-//        // Menampilkan setiap bit dalam bentuk biner
-//        printf("%d", (lsbData[i] >> 2) & 1);
-//        printf("%d", (lsbData[i] >> 1) & 1);
-//        printf("%d ", lsbData[i] & 1);
-//
-//        // Jika sudah mencapai 8 bit, tambahkan spasi
-//        if ((i + 1) % 8 == 0) {
-//            printf(" ");
-//        }
-//    }
-//
-//    printf("\n");
-//}
-//
-//
-//
-//
-//
-//void convertToASCII(const unsigned char *lsbData, int dataSize) {
-//    if (!lsbData || dataSize % 8 != 0) {
-//        fprintf(stderr, "Invalid input\n");
-//        return;
-//    }
-//
-//    printf("Karakter ASCII yang dihasilkan dari setiap 8 bit (1 byte):\n");
-//    for (int i = 0; i < dataSize; i += 8) {
-//        unsigned char byte = 0;
-//        for (int j = 0; j < 8; j++) {
-//            byte |= lsbData[i + j] << (7 - j);
-//        }
-//        printf("%c", byte);
-//    }
-//    printf("\n");
-//}
-//
-//
-//
+
 
 
 int main() {
@@ -304,19 +224,11 @@ int main() {
 
     // Mengambil bit terakhir dari setiap byte dalam komponen warna
     int dataSize = image->width * image->height;
-    unsigned char *lsbData = (unsigned char *)malloc(dataSize * sizeof(unsigned char));
-    extractLSB(image, lsbData);
-
-//    // Menggabungkan semua bit terakhir secara berurutan
-//    combineLSB(lsbData, dataSize);
-//
-//    // Mengonversi setiap 8 bit menjadi ASCII dan menampilkan hasilnya
-//    convertToASCII(lsbData, dataSize);
+    extractLSB(image);
 
     // Membebaskan memori yang digunakan oleh gambar dan data bit terakhir
     free(image->data);
     free(image);
-    free(lsbData);
 
     return 0;
 }
