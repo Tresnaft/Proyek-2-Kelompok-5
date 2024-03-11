@@ -47,7 +47,9 @@ void inputMessage(char *message) {
 
 char* messageToBinary(char* s) {
     if (s == NULL) return NULL; // Handle NULL input
+
     size_t len = strlen(s);
+    
     char *binary = (char *)malloc(len * 8 + 1); // Allocate memory for binary string
     if (binary == NULL) return NULL; // Check for allocation failure
     binary[0] = '\0';
@@ -260,6 +262,3 @@ int main() {
 
     return 0;
 }
-
-// Tidak ada kesalahan dari, program sudah bisa berjalan dan pesan dalam BMP sudah bisa dibaca. 
-// Kesalahan ada pada saat membaca file di program "lsbinput.cpp"
