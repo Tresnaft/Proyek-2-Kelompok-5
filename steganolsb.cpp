@@ -293,13 +293,21 @@ int extractinfolen(const BMPImage *img) {
     return(combinedValue);
 }
 
-void extractlsb(const BMPImage *img, int len) {
+void extractlsb(const BMPImage *img, int len, int panjang) {
+	char* dekripsi = (char* ) malloc (panjang * sizeof(char));
+	char tes;
+
     if (!img) {
         fprintf(stderr, "Invalid input\n");
         exit(1);
     }
+    char combinedValue[panjang]; // Array karakter untuk menyimpan combinedValue1
+
+    int index = 0; // Indeks untuk menyimpan nilai ke dalam array combinedValues
     
-	unsigned char lsbsem1[8];
+
+    
+	unsigned char lsbsem1[8], lsbsem2[8], lsbsem3[8];
 	
     for (int i = 12; i < len; i+=4) {
     	unsigned char combinedValue1 = 0;
@@ -328,11 +336,18 @@ void extractlsb(const BMPImage *img, int len) {
 		lsbsem1[7] = blueLSB4;
 		
 
+		// Gabungkan setiap elemen dari lsbsem1 menjadi satu nilai unsigned char
 		for (int q = 0; q < 8; q++) {
 		    combinedValue1 |= lsbsem1[q] << (7 - q);
 		}
-
-		printf("%c", combinedValue1);
 		
-    }
+		combinedValue[index++] = combinedValue1;
+		
+		printf("%c", combinedValue1);
+   	}
+   	
+   	
+		for (int i = 0; i < panjang - 1; i++) {
+        printf("%c", combinedValue[i]);
+		}
 }

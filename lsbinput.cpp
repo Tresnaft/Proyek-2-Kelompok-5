@@ -38,7 +38,7 @@ typedef struct {
 void inputMessage(char *message) {
     int messageLength;
     char pesan[MAX_MESSAGE_LENGTH];
-    char str[MAX_MESSAGE_LENGTH]; // Perbaiki deklarasi str sebagai array karakter
+    char str[MAX_MESSAGE_LENGTH]; 
     int i;
     
     printf("Masukkan pesan yang ingin disembunyikan: ");
@@ -49,13 +49,11 @@ void inputMessage(char *message) {
         pesan[strlen(pesan) - 1] = '\0';
     }
 
-    // Menghitung jumlah byte dalam pesan
     messageLength = strlen(pesan) + 1; // Jumlah byte termasuk karakter null terminator
     
     sprintf(str, "%d", messageLength); // Menyimpan messageLength sebagai karakter ke dalam str
-    printf("%s\n", str); // Cetak str sebagai string, bukan sebagai satu karakter
+    printf("%s\n", str); 
 
-    // Menyalin pesan ke array message dimulai dari indeks ke-1
     message[0] = str[0];
     message[1] = str[1];
     message[2] = str[2];
@@ -161,23 +159,7 @@ BMPImage *readBMP(const char *filename) {
     return img;
 }
 
-//void writeMsg(BMPImage *img, const char *binaryMessage) {
-//    int len = strlen(binaryMessage);
-//    int bitIndex = 0;
-//    for (int i = 0; i < img->width * img->height; i++) {
-//        for (int bit = 0; bit < 3; bit++) {
-//            if (bitIndex < len) {
-//                unsigned char *color;
-//                switch (bit) {
-//                    case 0: color = &img->data[i].red; break;
-//                    case 1: color = &img->data[i].green; break;
-//                    case 2: color = &img->data[i].blue; break;
-//                }
-//                *color = (*color & 0xFE) | (binaryMessage[bitIndex++] - '0');
-//            }
-//        }
-//    }
-//}
+
 
 
 void writeMsg(BMPImage *img, const char *binaryMessage) {
@@ -246,11 +228,9 @@ int main() {
     char message[MAX_MESSAGE_LENGTH];
     char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
 
-    // Membaca pesan dari pengguna
     inputMessage(message);
 	
 	*binaryMessage = messageToBinary(message);
-    // Membaca gambar BMP dari file
     image = readBMP(filename_read);
 
     if (!image) {
@@ -258,74 +238,14 @@ int main() {
         return 1;
     }
 
-    // Menulis pesan ke dalam gambar
     writeMsg(image, *binaryMessage);
 
-    // Menulis gambar dengan pesan ke file
     writeBMP(filename_write, image);
 
 	printf("berhasil\n");
 
-    // Membebaskan memori yang digunakan oleh gambar dan pesan yang diekstraksi
     free(image->data);
     free(image);
 
     return 0;
 }
-
-
-//int extractinfolen(const BMPImage *img) {
-//	unsigned char combinedValue1 = 0;
-//	unsigned char combinedValue2 = 0;
-//	unsigned char combinedValue3 = 0;
-//	char arraypanjang[3];
-//	int combinedValue;
-//    if (!img) {
-//        fprintf(stderr, "Invalid input\n");
-//        exit(1);
-//    }
-//    
-//    
-//	unsigned char lsbsem1[8], lsbsem2[8], lsbsem3[8];
-//	int j = 0;
-//    for (int i = 0; i < 12; i+=4) {
-//    	
-//		
-//        unsigned char redLSB = img->data[i].red & 1;
-////        unsigned char greenLSB = img->data[i].green & 1;
-//        unsigned char blueLSB = img->data[i].blue & 1;
-//        
-//        unsigned char redLSB2 = img->data[i+1].red & 1;
-////        unsigned char greenLSB2 = img->data[i+1].green & 1;
-//        unsigned char blueLSB2 = img->data[i+1].blue & 1;
-//        
-//        unsigned char redLSB3 = img->data[i+2].red & 1;
-////        unsigned char greenLSB3 = img->data[i+2].green & 1;
-//        unsigned char blueLSB3 = img->data[i+2].blue & 1;
-//        
-//        unsigned char redLSB4 = img->data[i+3].red & 1;
-////        unsigned char greenLSB4 = img->data[i+3].green & 1;
-//		unsigned char blueLSB4 = img->data[i+3].blue & 1;
-//		
-//		lsbsem1[0] = redLSB;
-//		lsbsem1[1] = blueLSB;
-//		lsbsem1[2] = redLSB2;
-//		lsbsem1[3] = blueLSB2;
-//		lsbsem1[4] = redLSB3;
-//		lsbsem1[5] = blueLSB3;
-//		lsbsem1[6] = redLSB4;
-//		lsbsem1[7] = blueLSB4;
-//		
-//
-//		// Gabungkan setiap elemen dari lsbsem1 menjadi satu nilai unsigned char
-//		for (int q = 0; q < 8; q++) {
-//		    combinedValue1 |= lsbsem1[q] << (7 - q);
-//		}
-//		
-//		
-//		combinedValue1 = combinedValue1 - '0';
-//			arraypanjang[j] = combinedValue1;
-//			printf("combine value [%d]: %d\n", j, combinedValue1);
-//			j++;
-//		
-		

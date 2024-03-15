@@ -199,7 +199,7 @@ int extractinfolen(const BMPImage *img) {
     return(combinedValue);
 }
 
-// algoritma infolen
+
 void extractlsbinfolen(const BMPImage *img, int len, int panjang) {
 	char* dekripsi = (char* ) malloc (panjang * sizeof(char));
 	char tes;
@@ -208,9 +208,9 @@ void extractlsbinfolen(const BMPImage *img, int len, int panjang) {
         fprintf(stderr, "Invalid input\n");
         exit(1);
     }
-    char combinedValue[panjang]; // Array karakter untuk menyimpan combinedValue1
+    char combinedValue[panjang]; 
 
-    int index = 0; // Indeks untuk menyimpan nilai ke dalam array combinedValues
+    int index = 0;
     
 
     
@@ -266,7 +266,6 @@ int main() {
     BMPImage *image;
     const char *filename_read = "sampleout.bmp";
     printf("%s\n", filename_read);
-    // Membaca gambar BMP dari file
     image = readBMP(filename_read);
     int panjangpesan;
     int reallen;
@@ -276,17 +275,13 @@ int main() {
         return 1;
     }
 
-    // Mengambil bit terakhir dari setiap byte dalam komponen warna
-    int dataSize = image->width * image->height;
     panjangpesan = extractinfolen(image);
     reallen = panjangpesan;
     panjangpesan = panjangpesan * 4 + 8;
-//    extractLSB(image, panjangpesan);
-//	extractredblue(image, panjangpesan);
+
 	extractlsbinfolen(image, panjangpesan, reallen);
 		
-//	printf("\npanjang pesan adalah : %d", panjangpesan);
-    // Membebaskan memori yang digunakan oleh gambar dan data bit terakhir
+
     free(image->data);
     free(image);
 

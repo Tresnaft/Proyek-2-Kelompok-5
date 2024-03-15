@@ -39,6 +39,6 @@ char* messageToBinary(char* s);
 void writeMsg(BMPImage *img, const char *binaryMessage);
 void writeBMP(const char *filename, BMPImage *img);
 int extractinfolen(const BMPImage *img);
-void extractlsb(const BMPImage *img, int len);
+void extractlsb(const BMPImage *img, int len, int panjang)
 
 #endif
