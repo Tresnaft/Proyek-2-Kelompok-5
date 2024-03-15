@@ -8,6 +8,7 @@ int main() {
 	utama var[50];
 	Enkripsi En[50];
 	Dekripsi De[50];
-	tampilan(var, En, De);
+	BMPImage *image;
+	tampilan(var, En, De, image);
 	return 0;
 }
