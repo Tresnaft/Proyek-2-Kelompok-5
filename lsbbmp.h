@@ -1,5 +1,5 @@
-#ifndef steganolsb_h
-#define steganolsb_h
+#ifndef lsbbmp_h
+#define lsbbmp_h
 #include <stdint.h>
 
 

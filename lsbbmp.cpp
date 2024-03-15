@@ -3,7 +3,8 @@
 #include <stdint.h>
 #include <cstring>
 #include <string.h>
-#include "steganolsb.h"
+#include "lsbbmp.h"
+
 #define MAX_MESSAGE_LENGTH 2048
 
 BMPImage *readBMP(const char *filename) {
@@ -194,9 +195,13 @@ int extractinfolen(const BMPImage *img) {
         fprintf(stderr, "Invalid input\n");
         exit(1);
     }
+    
+    
 	unsigned char lsbsem1[8], lsbsem2[8], lsbsem3[8];
 	
     for (int i = 0; i < 1; i+=4) {
+    	
+		
         unsigned char redLSB = img->data[i].red & 1;
         unsigned char blueLSB = img->data[i].blue & 1;
         unsigned char redLSB2 = img->data[i+1].red & 1;
@@ -216,12 +221,9 @@ int extractinfolen(const BMPImage *img) {
 		lsbsem1[7] = blueLSB4;
 		
 
-		for (int q = 0; q < 8; q++) {
-		    combinedValue1 |= lsbsem1[q] << (7 - q);
-		}
 		
         unsigned char redLSB5 = img->data[i+4].red & 1;
-        unsigned char blueLSB5 = img->data[i+4].blue & 1; 
+        unsigned char blueLSB5 = img->data[i+4].blue & 1;
         unsigned char redLSB6 = img->data[i+5].red & 1;
         unsigned char blueLSB6 = img->data[i+5].blue & 1;
         unsigned char redLSB7 = img->data[i+6].red & 1;
@@ -237,14 +239,9 @@ int extractinfolen(const BMPImage *img) {
 		lsbsem2[5] = blueLSB7;
 		lsbsem2[6] = redLSB8;
 		lsbsem2[7] = blueLSB8;
-		
-
-		for (int q = 0; q < 8; q++) {
-		    combinedValue2 |= lsbsem2[q] << (7 - q);
-		}
 	
 	    unsigned char redLSB9 = img->data[i+8].red & 1;
-        unsigned char blueLSB9 = img->data[i+8].blue & 1;  
+        unsigned char blueLSB9 = img->data[i+8].blue & 1;
         unsigned char redLSB10 = img->data[i+9].red & 1;
         unsigned char blueLSB10 = img->data[i+9].blue & 1;
         unsigned char redLSB11 = img->data[i+10].red & 1;
@@ -261,18 +258,20 @@ int extractinfolen(const BMPImage *img) {
 		lsbsem3[6] = redLSB12;
 		lsbsem3[7] = blueLSB12;
 		
+
 		for (int q = 0; q < 8; q++) {
-		    combinedValue3 |= lsbsem3[q] << (7 - q);
+		    combinedValue1 |= lsbsem1[q] << (7 - q);
 		}
 		
+	
+
 		for (int q = 0; q < 8; q++) {
 		    combinedValue2 |= lsbsem2[q] << (7 - q);
 		}
-
+    
         for (int q = 0; q < 8; q++) {
 		    combinedValue3 |= lsbsem3[q] << (7 - q);
 		}
-
 		combinedValue1 = combinedValue1 - '0';
 		combinedValue2 = combinedValue2 - '0';
 		combinedValue3 = combinedValue3 - '0';
@@ -286,14 +285,17 @@ int extractinfolen(const BMPImage *img) {
 		if (combinedValue1 != 0 && combinedValue2 != 0 && combinedValue3 == 0) {
 			combinedValue =  combinedValue1 * 10 + combinedValue2;
 		}
+
         memset(lsbsem1, 0, sizeof(lsbsem1));
         memset(lsbsem2, 0, sizeof(lsbsem2));
         memset(lsbsem3, 0, sizeof(lsbsem3));
+		
     }
     return(combinedValue);
 }
 
-void extractlsb(const BMPImage *img, int len, int panjang) {
+
+void extractlsbinfolen(const BMPImage *img, int len, int panjang) {
 	char* dekripsi = (char* ) malloc (panjang * sizeof(char));
 	char tes;
 
@@ -301,9 +303,9 @@ void extractlsb(const BMPImage *img, int len, int panjang) {
         fprintf(stderr, "Invalid input\n");
         exit(1);
     }
-    char combinedValue[panjang]; // Array karakter untuk menyimpan combinedValue1
+    char combinedValue[panjang]; 
 
-    int index = 0; // Indeks untuk menyimpan nilai ke dalam array combinedValues
+    int index = 0;
     
 
     
@@ -336,14 +338,13 @@ void extractlsb(const BMPImage *img, int len, int panjang) {
 		lsbsem1[7] = blueLSB4;
 		
 
-		// Gabungkan setiap elemen dari lsbsem1 menjadi satu nilai unsigned char
 		for (int q = 0; q < 8; q++) {
 		    combinedValue1 |= lsbsem1[q] << (7 - q);
 		}
 		
 		combinedValue[index++] = combinedValue1;
 		
-		printf("%c", combinedValue1);
+		// printf("%c", combinedValue1);
    	}
    	
    	
