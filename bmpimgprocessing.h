@@ -1,5 +1,3 @@
-// bmp_processor.h
-
 #ifndef bmpimgprocessing_H
 #define bmpimgprocessing_H
 
@@ -32,8 +30,8 @@ void initializeBMPProcessor(BMPProcessor *bmpProcessor);
 int openBMPFile(BMPProcessor *bmpProcessor, const char *filePath);
 void readBMPHeader(BMPProcessor *bmpProcessor);
 void readPixelData(BMPProcessor *bmpProcessor);
-void modifyLSBAndWrite(BMPProcessor *bmpProcessor);
 void closeBMPFiles(BMPProcessor *bmpProcessor);
 int get_LSB(unsigned char byte);
+void WriteTargetFile(BMPProcessor *bmpProcessor);
 #endif 
 

@@ -3,36 +3,8 @@
 #include <stdint.h>
 #include <cstring>
 #include <string.h>
-
-typedef struct {
-    unsigned char red, green, blue;
-} RGBPixel;
-
-typedef struct {
-    int width, height;
-    RGBPixel *data;
-} BMPImage;
-
-#pragma pack(push, 1)
-typedef struct {
-    uint16_t signature;
-    uint32_t fileSize;
-    uint16_t reserved1;
-    uint16_t reserved2;
-    uint32_t dataOffset;
-    uint32_t headerSize;
-    int32_t width;
-    int32_t height;
-    uint16_t planes;
-    uint16_t bitsPerPixel;
-    uint32_t compression;
-    uint32_t dataSize;
-    int32_t hResolution;
-    int32_t vResolution;
-    uint32_t colors;
-    uint32_t importantColors;
-} BMPHeader;
-#pragma pack(pop)
+#include "steganolsb.h"
+#define MAX_MESSAGE_LENGTH 2048
 
 BMPImage *readBMP(const char *filename) {
     FILE *file = fopen(filename, "rb");
@@ -88,6 +60,93 @@ BMPImage *readBMP(const char *filename) {
     return img;
 }
 
+void inputMessage(char *message) {
+    printf("Masukkan pesan yang ingin disembunyikan: ");
+    fgets(message, MAX_MESSAGE_LENGTH, stdin);
+    // Menghapus karakter newline jika ada
+    if ((strlen(message) > 0) && (message[strlen(message) - 1] == '\n')) {
+        message[strlen(message) - 1] = '\0';
+    }
+}
+
+char* messageToBinary(char* s) {
+    if (s == NULL) return NULL; // Handle NULL input
+
+    size_t len = strlen(s);
+    
+    char *binary = (char *)malloc(len * 8 + 1); // Allocate memory for binary string
+    if (binary == NULL) return NULL; // Check for allocation failure
+    binary[0] = '\0';
+    for (size_t i = 0; i < len; ++i) {
+        char ch = s[i];
+        for (int j = 7; j >= 0; --j) {
+            if (ch & (1 << j)) {
+                strcat(binary, "1");
+            } else {
+                strcat(binary, "0");
+            }
+        }
+    }
+    return binary;
+}
+
+void writeMsg(BMPImage *img, const char *binaryMessage) {
+    int len = strlen(binaryMessage);
+    int bitIndex = 0;
+    for (int i = 0; i < img->width * img->height; i++) {
+        for (int bit = 0; bit < 3; bit++) {
+            if (bitIndex < len) {
+                unsigned char *color;
+                switch (bit) {
+                    case 0: color = &img->data[i].red; break;
+                    case 1: color = &img->data[i].green; break;
+                    case 2: color = &img->data[i].blue; break;
+                }
+                *color = (*color & 0xFE) | (binaryMessage[bitIndex++] - '0');
+            }
+        }
+    }
+}
+
+void writeBMP(const char *filename, BMPImage *img) {
+    FILE *file = fopen(filename, "wb");
+    if (!file) {
+        fprintf(stderr, "Unable to open file '%s'\n", filename);
+        exit(1);
+    }
+
+    BMPHeader header = {0};
+    header.signature = 0x4D42; 
+    header.fileSize = sizeof(BMPHeader) + (img->width * sizeof(RGBPixel) + ((4 - (img->width * sizeof(RGBPixel)) % 4) % 4)) * img->height;
+    header.dataOffset = sizeof(BMPHeader);
+    header.headerSize = 40;
+    header.width = img->width;
+    header.height = img->height;
+    header.planes = 1;
+    header.bitsPerPixel = 24;
+    header.compression = 0;
+    header.dataSize = (img->width * sizeof(RGBPixel) + ((4 - (img->width * sizeof(RGBPixel)) % 4) % 4)) * img->height;
+    header.hResolution = 0;
+    header.vResolution = 0;
+    header.colors = 0;
+    header.importantColors = 0;
+
+    fwrite(&header, sizeof(header), 1, file);
+
+    int padding = (4 - (img->width * sizeof(RGBPixel)) % 4) % 4; // Padding bytes per row
+    for (int y = img->height - 1; y >= 0; y--) {
+        for (int x = 0; x < img->width; x++) {
+            fwrite(&img->data[y * img->width + x], sizeof(RGBPixel), 1, file);
+        }
+        // Write padding bytes
+        for (int p = 0; p < padding; p++) {
+            fputc(0, file);
+        }
+    }
+
+    fclose(file);
+}
+
 
 void extractLSB(const BMPImage *img) {
     if (!img) {
@@ -97,7 +156,7 @@ void extractLSB(const BMPImage *img) {
 	unsigned char lsbsem1[8], lsbsem2[8], lsbsem3[8];
 
     int dataIndex = 0;
-    for (int i = 0; i < 20; i += 8) {
+    for (int i = 0; i < 100; i += 8) {
     	unsigned char combinedValue1 = 0;
 		unsigned char combinedValue2 = 0;
 		unsigned char combinedValue3 = 0;
@@ -197,38 +256,5 @@ void extractLSB(const BMPImage *img) {
         memset(lsbsem1, 0, sizeof(lsbsem1));
         memset(lsbsem2, 0, sizeof(lsbsem2));
         memset(lsbsem3, 0, sizeof(lsbsem3));
-        
-        
-        
-
-		
     }
-}
-
-
-
-
-
-
-int main() {
-    BMPImage *image;
-    const char *filename_read = "sampleout.bmp";
-    printf("%s\n", filename_read);
-    // Membaca gambar BMP dari file
-    image = readBMP(filename_read);
-
-    if (!image) {
-        fprintf(stderr, "Error reading BMP file\n");
-        return 1;
-    }
-
-    // Mengambil bit terakhir dari setiap byte dalam komponen warna
-    int dataSize = image->width * image->height;
-    extractLSB(image);
-
-    // Membebaskan memori yang digunakan oleh gambar dan data bit terakhir
-    free(image->data);
-    free(image);
-
-    return 0;
 }

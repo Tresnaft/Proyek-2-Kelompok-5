@@ -44,15 +44,26 @@ void inputMessage(char *message) {
     }
 }
 
-void messageToBinary(const char *message, char *binaryMessage) {
-    int len = strlen(message);
-    for (int i = 0; i < len; i++) {
-        char ch = message[i];
-        for (int j = 7; j >= 0; j--) {
-            binaryMessage[(i * 8) + (7 - j)] = ((ch >> j) & 1) + '0';
+
+char* messageToBinary(char* s) {
+    if (s == NULL) return NULL; // Handle NULL input
+
+    size_t len = strlen(s);
+    
+    char *binary = (char *)malloc(len * 8 + 1); // Allocate memory for binary string
+    if (binary == NULL) return NULL; // Check for allocation failure
+    binary[0] = '\0';
+    for (size_t i = 0; i < len; ++i) {
+        char ch = s[i];
+        for (int j = 7; j >= 0; --j) {
+            if (ch & (1 << j)) {
+                strcat(binary, "1");
+            } else {
+                strcat(binary, "0");
+            }
         }
     }
-    binaryMessage[len * 8] = '\0'; // Null-terminate the binary string
+    return binary;
 }
 
 BMPImage *readBMP(const char *filename) {
@@ -131,6 +142,7 @@ void writeMsg(BMPImage *img, const char *binaryMessage) {
     }
 }
 
+
 void writeBMP(const char *filename, BMPImage *img) {
     FILE *file = fopen(filename, "wb");
     if (!file) {
@@ -170,62 +182,18 @@ void writeBMP(const char *filename, BMPImage *img) {
     fclose(file);
 }
 
-char *extractMsg(BMPImage *img) {
-    int len = (img->width * img->height * 3) / 8; // Panjang pesan dalam byte
-    char *binaryMessage = (char *)malloc(len + 1); // alokasi memori untuk pesan
-    if (!binaryMessage) {
-        fprintf(stderr, "Unable to allocate memory\n");
-        exit(1);
-    }
-
-    int bitIndex = 0;
-    for (int i = 0; i < img->width * img->height; i++) {
-        for (int bit = 0; bit < 3; bit++) {
-            unsigned char *color;
-            switch (bit) {
-                case 0: color = &img->data[i].red; break;
-                case 1: color = &img->data[i].green; break;
-                case 2: color = &img->data[i].blue; break;
-            }
-            binaryMessage[bitIndex++] = ((*color) & 1) + '0';
-        }
-    }
-    binaryMessage[len] = '\0'; // Null-terminate the binary string
-
-    char *message = (char *)malloc(len / 8 + 1); // alokasi memori untuk pesan
-    if (!message) {
-        fprintf(stderr, "Unable to allocate memory\n");
-        exit(1);
-    }
-
-    // Mengonversi biner ke ASCII
-    for (int i = 0; i < len / 8; i++) {
-        char ch = 0;
-        for (int j = 0; j < 8; j++) {
-            ch |= (binaryMessage[i * 8 + j] - '0') << (7 - j);
-        }
-        message[i] = ch;
-    }
-    message[len / 8] = '\0'; // Null-terminate the string
-
-    free(binaryMessage);
-
-    return message;
-}
 
 int main() {
     BMPImage *image;
     const char *filename_read = "sample.bmp";
     const char *filename_write = "sampleout.bmp";
     char message[MAX_MESSAGE_LENGTH];
-    char binaryMessage[MAX_MESSAGE_LENGTH * 8];
+    char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
 
     // Membaca pesan dari pengguna
     inputMessage(message);
-
-    // Mengonversi pesan menjadi representasi biner
-    messageToBinary(message, binaryMessage);
-
+	
+	*binaryMessage = messageToBinary(message);
     // Membaca gambar BMP dari file
     image = readBMP(filename_read);
 
@@ -235,30 +203,16 @@ int main() {
     }
 
     // Menulis pesan ke dalam gambar
-    writeMsg(image, binaryMessage);
+    writeMsg(image, *binaryMessage);
 
     // Menulis gambar dengan pesan ke file
     writeBMP(filename_write, image);
-
-    // Ekstraksi pesan dari gambar yang baru disimpan
-//    char *extracted_message = extractMsg(image);
-//
-//    // Membandingkan pesan asli dengan pesan yang diekstraksi
-//    if (strcmp(message, extracted_message) == 0) {
-//        printf("Pesan berhasil disisipkan dan diekstraksi dengan benar: %s\n", extracted_message);
-//    } else {
-//        printf("Pesan tidak berhasil disisipkan atau diekstraksi dengan benar\n");
-//    }
 
 	printf("berhasil\n");
 
     // Membebaskan memori yang digunakan oleh gambar dan pesan yang diekstraksi
     free(image->data);
     free(image);
-//    free(extracted_message);
 
     return 0;
 }
-
-// Kemungkinan ada kesalahan saat menyisipkan pesan
-// - Sepertinya tidak dari kiri ke kanan
