@@ -36,13 +36,48 @@ typedef struct {
 #pragma pack(pop)
 
 void inputMessage(char *message) {
+    int messageLength;
+    char pesan[MAX_MESSAGE_LENGTH];
+    char str[MAX_MESSAGE_LENGTH]; 
+    int i;
+    
     printf("Masukkan pesan yang ingin disembunyikan: ");
-    fgets(message, MAX_MESSAGE_LENGTH, stdin);
+    fgets(pesan, MAX_MESSAGE_LENGTH, stdin);
+
     // Menghapus karakter newline jika ada
-    if ((strlen(message) > 0) && (message[strlen(message) - 1] == '\n')) {
-        message[strlen(message) - 1] = '\0';
+    if ((strlen(pesan) > 0) && (pesan[strlen(pesan) - 1] == '\n')) {
+        pesan[strlen(pesan) - 1] = '\0';
     }
+
+    messageLength = strlen(pesan) + 1; // Jumlah byte termasuk karakter null terminator
+    
+    sprintf(str, "%d", messageLength); // Menyimpan messageLength sebagai karakter ke dalam str
+    printf("%s\n", str); 
+
+    message[0] = str[0];
+    message[1] = str[1];
+    message[2] = str[2];
+    
+    if (message[1] == 0) {
+    	message[1] = 48;
+	}
+	if (message[2] == 0) {
+    	message[2] = 48;
+	}
+    
+    printf("message 0 : %d\n", message[0]);
+    printf("message 1 : %d\n", message[1]);
+    printf("message 2 : %d\n", message[2]);
+    
+    for (i = 3; i < messageLength + 3; i++) {
+        message[i] = pesan[i - 3];
+        
+    }
+    for (i = 0; i < messageLength + 3; i++) {
+    	printf("%c", message[i]);
+	}
 }
+
 
 
 char* messageToBinary(char* s) {
@@ -124,23 +159,26 @@ BMPImage *readBMP(const char *filename) {
     return img;
 }
 
+
+
+
 void writeMsg(BMPImage *img, const char *binaryMessage) {
     int len = strlen(binaryMessage);
     int bitIndex = 0;
     for (int i = 0; i < img->width * img->height; i++) {
-        for (int bit = 0; bit < 3; bit++) {
+ 	for (int bit = 0; bit < 2; bit++) {
             if (bitIndex < len) {
                 unsigned char *color;
                 switch (bit) {
                     case 0: color = &img->data[i].red; break;
-                    case 1: color = &img->data[i].green; break;
-                    case 2: color = &img->data[i].blue; break;
+                    case 1: color = &img->data[i].blue; break;
                 }
                 *color = (*color & 0xFE) | (binaryMessage[bitIndex++] - '0');
-            }
-        }
-    }
+	    	}
+		}
+	}
 }
+
 
 
 void writeBMP(const char *filename, BMPImage *img) {
@@ -190,11 +228,9 @@ int main() {
     char message[MAX_MESSAGE_LENGTH];
     char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
 
-    // Membaca pesan dari pengguna
     inputMessage(message);
 	
 	*binaryMessage = messageToBinary(message);
-    // Membaca gambar BMP dari file
     image = readBMP(filename_read);
 
     if (!image) {
@@ -202,15 +238,12 @@ int main() {
         return 1;
     }
 
-    // Menulis pesan ke dalam gambar
     writeMsg(image, *binaryMessage);
 
-    // Menulis gambar dengan pesan ke file
     writeBMP(filename_write, image);
 
 	printf("berhasil\n");
 
-    // Membebaskan memori yang digunakan oleh gambar dan pesan yang diekstraksi
     free(image->data);
     free(image);
 
