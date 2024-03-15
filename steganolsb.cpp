@@ -247,11 +247,9 @@ void extractLSB(const BMPImage *img) {
 		    combinedValue3 |= lsbsem3[q] << (7 - q);
 		}
 
-	
 		printf("%c", combinedValue1);
 		printf("%c", combinedValue2);
 		printf("%c", combinedValue3);
-		
 		
         memset(lsbsem1, 0, sizeof(lsbsem1));
         memset(lsbsem2, 0, sizeof(lsbsem2));

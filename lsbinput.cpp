@@ -36,13 +36,50 @@ typedef struct {
 #pragma pack(pop)
 
 void inputMessage(char *message) {
+    int messageLength;
+    char pesan[MAX_MESSAGE_LENGTH];
+    char str[MAX_MESSAGE_LENGTH]; // Perbaiki deklarasi str sebagai array karakter
+    int i;
+    
     printf("Masukkan pesan yang ingin disembunyikan: ");
-    fgets(message, MAX_MESSAGE_LENGTH, stdin);
+    fgets(pesan, MAX_MESSAGE_LENGTH, stdin);
+
     // Menghapus karakter newline jika ada
-    if ((strlen(message) > 0) && (message[strlen(message) - 1] == '\n')) {
-        message[strlen(message) - 1] = '\0';
+    if ((strlen(pesan) > 0) && (pesan[strlen(pesan) - 1] == '\n')) {
+        pesan[strlen(pesan) - 1] = '\0';
     }
+
+    // Menghitung jumlah byte dalam pesan
+    messageLength = strlen(pesan) + 1; // Jumlah byte termasuk karakter null terminator
+    
+    sprintf(str, "%d", messageLength); // Menyimpan messageLength sebagai karakter ke dalam str
+    printf("%s\n", str); // Cetak str sebagai string, bukan sebagai satu karakter
+
+    // Menyalin pesan ke array message dimulai dari indeks ke-1
+    message[0] = str[0];
+    message[1] = str[1];
+    message[2] = str[2];
+    
+    if (message[1] == 0) {
+    	message[1] = 48;
+	}
+	if (message[2] == 0) {
+    	message[2] = 48;
+	}
+    
+    printf("message 0 : %d\n", message[0]);
+    printf("message 1 : %d\n", message[1]);
+    printf("message 2 : %d\n", message[2]);
+    
+    for (i = 3; i < messageLength + 3; i++) {
+        message[i] = pesan[i - 3];
+        
+    }
+    for (i = 0; i < messageLength + 3; i++) {
+    	printf("%c", message[i]);
+	}
 }
+
 
 
 char* messageToBinary(char* s) {
@@ -124,23 +161,42 @@ BMPImage *readBMP(const char *filename) {
     return img;
 }
 
+//void writeMsg(BMPImage *img, const char *binaryMessage) {
+//    int len = strlen(binaryMessage);
+//    int bitIndex = 0;
+//    for (int i = 0; i < img->width * img->height; i++) {
+//        for (int bit = 0; bit < 3; bit++) {
+//            if (bitIndex < len) {
+//                unsigned char *color;
+//                switch (bit) {
+//                    case 0: color = &img->data[i].red; break;
+//                    case 1: color = &img->data[i].green; break;
+//                    case 2: color = &img->data[i].blue; break;
+//                }
+//                *color = (*color & 0xFE) | (binaryMessage[bitIndex++] - '0');
+//            }
+//        }
+//    }
+//}
+
+
 void writeMsg(BMPImage *img, const char *binaryMessage) {
     int len = strlen(binaryMessage);
     int bitIndex = 0;
     for (int i = 0; i < img->width * img->height; i++) {
-        for (int bit = 0; bit < 3; bit++) {
+ 	for (int bit = 0; bit < 2; bit++) {
             if (bitIndex < len) {
                 unsigned char *color;
                 switch (bit) {
                     case 0: color = &img->data[i].red; break;
-                    case 1: color = &img->data[i].green; break;
-                    case 2: color = &img->data[i].blue; break;
+                    case 1: color = &img->data[i].blue; break;
                 }
                 *color = (*color & 0xFE) | (binaryMessage[bitIndex++] - '0');
-            }
-        }
-    }
+	    	}
+		}
+	}
 }
+
 
 
 void writeBMP(const char *filename, BMPImage *img) {
@@ -216,3 +272,60 @@ int main() {
 
     return 0;
 }
+
+
+//int extractinfolen(const BMPImage *img) {
+//	unsigned char combinedValue1 = 0;
+//	unsigned char combinedValue2 = 0;
+//	unsigned char combinedValue3 = 0;
+//	char arraypanjang[3];
+//	int combinedValue;
+//    if (!img) {
+//        fprintf(stderr, "Invalid input\n");
+//        exit(1);
+//    }
+//    
+//    
+//	unsigned char lsbsem1[8], lsbsem2[8], lsbsem3[8];
+//	int j = 0;
+//    for (int i = 0; i < 12; i+=4) {
+//    	
+//		
+//        unsigned char redLSB = img->data[i].red & 1;
+////        unsigned char greenLSB = img->data[i].green & 1;
+//        unsigned char blueLSB = img->data[i].blue & 1;
+//        
+//        unsigned char redLSB2 = img->data[i+1].red & 1;
+////        unsigned char greenLSB2 = img->data[i+1].green & 1;
+//        unsigned char blueLSB2 = img->data[i+1].blue & 1;
+//        
+//        unsigned char redLSB3 = img->data[i+2].red & 1;
+////        unsigned char greenLSB3 = img->data[i+2].green & 1;
+//        unsigned char blueLSB3 = img->data[i+2].blue & 1;
+//        
+//        unsigned char redLSB4 = img->data[i+3].red & 1;
+////        unsigned char greenLSB4 = img->data[i+3].green & 1;
+//		unsigned char blueLSB4 = img->data[i+3].blue & 1;
+//		
+//		lsbsem1[0] = redLSB;
+//		lsbsem1[1] = blueLSB;
+//		lsbsem1[2] = redLSB2;
+//		lsbsem1[3] = blueLSB2;
+//		lsbsem1[4] = redLSB3;
+//		lsbsem1[5] = blueLSB3;
+//		lsbsem1[6] = redLSB4;
+//		lsbsem1[7] = blueLSB4;
+//		
+//
+//		// Gabungkan setiap elemen dari lsbsem1 menjadi satu nilai unsigned char
+//		for (int q = 0; q < 8; q++) {
+//		    combinedValue1 |= lsbsem1[q] << (7 - q);
+//		}
+//		
+//		
+//		combinedValue1 = combinedValue1 - '0';
+//			arraypanjang[j] = combinedValue1;
+//			printf("combine value [%d]: %d\n", j, combinedValue1);
+//			j++;
+//		
+		
