@@ -4,8 +4,6 @@
 #include <string.h>
 #include "jpeglib.h"
 
-#define MESSAGE_TERMINATOR "$t3g0"
-
 typedef struct {
     uint8_t *buffer;
     size_t buffer_size;
@@ -53,7 +51,7 @@ void encode(const char *source_image, const char *dest_image, const char *messag
 
     // Menambahkan terminator pada pesan
     size_t message_length = strlen(message);
-    size_t total_message_length = message_length + strlen(MESSAGE_TERMINATOR);
+    size_t total_message_length = message_length ; 
 
     // Memeriksa apakah pesan dapat disisipkan dalam gambar
     if (total_message_length * 8 > buffer_size) {
@@ -73,7 +71,7 @@ void encode(const char *source_image, const char *dest_image, const char *messag
 
     // Menambahkan pesan
     fwrite(message, 1, message_length, outfile);
-    fwrite(MESSAGE_TERMINATOR, 1, strlen(MESSAGE_TERMINATOR), outfile);
+    fwrite("$t3g0", 1, strlen("$t3g0"), outfile); // Mengganti MESSAGE_TERMINATOR
 
     fclose(outfile);
     close_image(&image);
@@ -125,8 +123,8 @@ int main() {
     printf("--LSB Encryption--\n");
     printf("1: Encode\n");
     printf("2: Decode\n");
-	printf("masukan pilihan : ");
-	
+    printf("masukan pilihan : ");
+    
     char choice;
     scanf("%c", &choice);
 
