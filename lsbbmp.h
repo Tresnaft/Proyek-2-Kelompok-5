@@ -1,8 +1,15 @@
 #ifndef lsbbmp_h
 #define lsbbmp_h
+
+
+#include <stdio.h>
+#include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
+#include "cipher.h"
 
 
+    
 typedef struct {
     unsigned char red, green, blue;
 } RGBPixel;
@@ -33,12 +40,13 @@ typedef struct {
 } BMPHeader;
 #pragma pack(pop)
 
+
 BMPImage *readBMP(const char *filename);
-void inputMessage(char *message);
+void inputMessage(char *message, Enkripsi *En);
 char* messageToBinary(char* s);
 void writeMsg(BMPImage *img, const char *binaryMessage);
 void writeBMP(const char *filename, BMPImage *img);
 int extractinfolen(const BMPImage *img);
-void extractlsb(const BMPImage *img, int len, int panjang)
+void extractlsb(const BMPImage *img, int len, int panjang, Enkripsi *En);
 
 #endif

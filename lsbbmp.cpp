@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
-#include <cstring>
 #include <string.h>
+#define MAX_MESSAGE_LENGTH 2048
 #include "lsbbmp.h"
 
-#define MAX_MESSAGE_LENGTH 2048
 
 BMPImage *readBMP(const char *filename) {
     FILE *file = fopen(filename, "rb");
@@ -61,25 +60,23 @@ BMPImage *readBMP(const char *filename) {
     return img;
 }
 
-void inputMessage(char *message) {
+void inputMessage(char *message, Enkripsi *En) {
     int messageLength;
-    char pesan[MAX_MESSAGE_LENGTH];
+//    char pesan[MAX_MESSAGE_LENGTH];
     char str[MAX_MESSAGE_LENGTH]; // Perbaiki deklarasi str sebagai array karakter
     int i;
-    
-    printf("Masukkan pesan yang ingin disembunyikan: ");
-    fgets(pesan, MAX_MESSAGE_LENGTH, stdin);
-
+	
+	
     // Menghapus karakter newline jika ada
-    if ((strlen(pesan) > 0) && (pesan[strlen(pesan) - 1] == '\n')) {
-        pesan[strlen(pesan) - 1] = '\0';
-    }
+//    if ((strlen(pesan) > 0) && (pesan[strlen(pesan) - 1] == '\n')) {
+//        pesan[strlen(pesan) - 1] = '\0';
+//    }
 
     // Menghitung jumlah byte dalam pesan
-    messageLength = strlen(pesan) + 1; // Jumlah byte termasuk karakter null terminator
+    messageLength = strlen(En->pesanEncrypt); // Jumlah byte termasuk karakter null terminator
     
     sprintf(str, "%d", messageLength); // Menyimpan messageLength sebagai karakter ke dalam str
-    printf("%s\n", str); // Cetak str sebagai string, bukan sebagai satu karakter
+    printf("\nprint str %s\n", str); // Cetak str sebagai string, bukan sebagai satu karakter
 
     // Menyalin pesan ke array message dimulai dari indeks ke-1
     message[0] = str[0];
@@ -98,10 +95,10 @@ void inputMessage(char *message) {
     printf("message 2 : %d\n", message[2]);
     
     for (i = 3; i < messageLength + 3; i++) {
-        message[i] = pesan[i - 3];
+        message[i] = En->pesanEncrypt[i - 3];
         
     }
-    for (i = 0; i < messageLength + 3; i++) {
+    for (i = 0; i < messageLength + 2; i++) {
     	printf("%c", message[i]);
 	}
 }
@@ -295,7 +292,9 @@ int extractinfolen(const BMPImage *img) {
 }
 
 
-void extractlsbinfolen(const BMPImage *img, int len, int panjang) {
+void extractlsb(const BMPImage *img, int len, int panjang, Enkripsi *En) {
+	
+	char combinedValue[panjang];
 	char* dekripsi = (char* ) malloc (panjang * sizeof(char));
 	char tes;
 
@@ -303,7 +302,7 @@ void extractlsbinfolen(const BMPImage *img, int len, int panjang) {
         fprintf(stderr, "Invalid input\n");
         exit(1);
     }
-    char combinedValue[panjang]; 
+    
 
     int index = 0;
     
@@ -342,7 +341,7 @@ void extractlsbinfolen(const BMPImage *img, int len, int panjang) {
 		    combinedValue1 |= lsbsem1[q] << (7 - q);
 		}
 		
-		combinedValue[index++] = combinedValue1;
+		En->pesanEncrypt[index++] = combinedValue1;
 		
 		// printf("%c", combinedValue1);
    	}

@@ -182,7 +182,7 @@ int modulus(int angka){
 }
 
 
-void Decrypt(utama *var, Enkripsi *En, Dekripsi *De){
+void Decrypt(utama *var, Enkripsi *En, Dekripsi *De) {
 	int Z,i,j;
     int inversZ;
     int inv[4],invkey[4],modkey[4];
@@ -190,11 +190,8 @@ void Decrypt(utama *var, Enkripsi *En, Dekripsi *De){
     int det;
     Z=modulus(determinan(var->kuncitonum));
     puts("");
-    printf("Z = %d\n",Z);
     inversZ = Zinv(Z);
-    printf("Z inves %d\n",inversZ);
-    
-    
+      
     invers_matriks(var->kuncitonum,inv);
     for(i=0;i<4;i++){
         invkey[i]=inversZ*inv[i];
@@ -212,63 +209,4 @@ void Decrypt(utama *var, Enkripsi *En, Dekripsi *De){
     for(i=0;i<var->isipesan;i++){
         De->dekripsi[i]=modulus(hasil[i]);
     }
-}
-
-
-
-
-void tampilan(utama *var, Enkripsi *En, Dekripsi *De){
-	/*INPUT PESAN*/
-	printf("Masukkan pesan yang ingin di Enripsi : ");
-	fgets(var->pesan, sizeof(var->pesan), stdin);
-	var->peslen = strlen(var->pesan);
-	if (var->pesan[var->peslen - 1] == '\n') {
-	    var->pesan[var->peslen - 1] = '\0';
-	    var->peslen--;
-	}
-	var->pesan[var->peslen]=var->pesan[var->peslen-1];
-	var->isipesan=var->peslen+1;
-	var->pesantonum[var->peslen];
-	
-	/*INPUT KUNCI*/
-	printf("Masukkan kunci untuk enkripsi (4 karakter) : ");
-	scanf("%s", var->kunci);
-	puts("");
-	/*MENCETAK MATRIKS*/
-	printf("=====Matriks Dari Pesan=====\n");
-	printf("Pesan : ");
-	int i;
-	for(i = 0;i < var->peslen;i++){
-		printf("%c", var->pesan[i]);	
-	}puts("");
-	matriks_pesan(var);
-	cetak_matriks_pesan(var);
-	
-	printf("=====Matriks dari kunci=====\n");
-	printf("Kunci : %s\n", var->kunci);
-	matriks_kunci(var);
-	cetak_matriks_kunci(var);
-	
-	printf("===Matriks dari Pesan Enkripsi===\n");
-	Encrypt(En, var);
-	cetak_matriks_encrypt(var, En);
-	printf("=====Pesan Enkripsi=====");
-	pesan_encrypt(En, var);
-	printf("\nPesan yang sudah di enkripsi : ");
-	cetak_pesan_encrypt(En, var);
-	
-	printf("\n===Matriks dari Pesan Dekripsi===\n");
-	Decrypt(var, En, De);
-	cetak_matriks_decrypt(var, De);
-	pesan_decrypt(De, var);
-	printf("\n=========Pesan Dekripsi==========\n");
-	printf("Pesan : ");
-	//printf("%c", De->pesanDecrypt[0]);
-	cetak_pesan_decrypt(De, var);
-	
-	
-	
-	
-	
-	
 }
