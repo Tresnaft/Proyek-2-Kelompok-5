@@ -1,13 +1,11 @@
 #ifndef lsbbmp_h
 #define lsbbmp_h
 
-
+#include "cipher.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "cipher.h"
-
 
     
 typedef struct {
@@ -18,6 +16,8 @@ typedef struct {
     int width, height;
     RGBPixel *data;
 } BMPImage;
+
+
 
 #pragma pack(push, 1)
 typedef struct {
@@ -41,12 +41,13 @@ typedef struct {
 #pragma pack(pop)
 
 
+
 BMPImage *readBMP(const char *filename);
 void inputMessage(char *message, Enkripsi *En);
 char* messageToBinary(char* s);
 void writeMsg(BMPImage *img, const char *binaryMessage);
 void writeBMP(const char *filename, BMPImage *img);
 int extractinfolen(const BMPImage *img);
-void extractlsb(const BMPImage *img, int len, int panjang, Enkripsi *En);
+void extractlsb(const BMPImage *img, int len, int panjang, char hasilLSB[]);
 
 #endif

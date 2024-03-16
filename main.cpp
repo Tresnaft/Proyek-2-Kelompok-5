@@ -13,6 +13,7 @@ int main() {
 	Dekripsi De[100];
 	char message[MAX_MESSAGE_LENGTH];
 	char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
+	char hasil[MAX_MESSAGE_LENGTH];
 	
 	printf("Masukkan pesan yang ingin di Enripsi : ");
 	fgets(var->pesan, sizeof(var->pesan), stdin);
@@ -43,6 +44,7 @@ int main() {
 	printf("Kunci : %s\n", var->kunci);
 	matriks_kunci(var);
 	cetak_matriks_kunci(var);
+	//system("pause");
 	
 	printf("===Matriks dari Pesan Enkripsi===\n");
 	Encrypt(En, var);
@@ -77,6 +79,14 @@ int main() {
 	printf("berhasil\n");
 	free(image->data);
     free(image);
+    char command[256];
+    char buka[2];
+    snprintf(command, sizeof(command), "photos.exe %s", filename_write);
+    printf("Ingin membuka file foto? ");
+    scanf("%s", buka);
+    if (strcmp(buka, "y" )==0){
+    	system(command);
+	}
     
 	// membaca gambar
     printf("membaca pesan dari file %s\n", filename_read);
@@ -92,13 +102,32 @@ int main() {
 
     // Mengambil bit terakhir dari setiap byte dalam komponen warna
     panjangpesan = extractinfolen(image);
+    printf("%d\n", panjangpesan);
     reallen = panjangpesan;
  
     panjangpesan = panjangpesan * 4 + 8;
-	extractlsb(image, panjangpesan, reallen);
+	extractlsb(image, panjangpesan, reallen, hasil);
+	puts("");
+//	int batas = sizeof(hasil);
+//	printf("%d", batas);
+	int num[2048];
+	matriks_LSB(var, hasil, num, reallen);
+	
+	for(int h = 0; h < reallen; h++){
+		printf("%d ", num[h]);
+	}puts("");
 	
     free(image->data);
     free(image);
+    
+    printf("\n===Matriks dari Pesan Dekripsi===");
+	Decrypt(var, num, De, reallen);
+	printf("Matriks : \n");
+	cetak_matriks_decrypt(var, De);
+	pesan_decrypt(De, var);
+	printf("\n=========Pesan Dekripsi==========\n");
+	printf("Pesan Dekripsi : ");
+	cetak_pesan_decrypt(De, var);
     
 	
 	return 0;

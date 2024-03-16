@@ -14,7 +14,7 @@ void cetak_matriks_encrypt(utama *var, Enkripsi *En){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->peslen - 1; j++){
+			for(j = 0; j < var->peslen; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", En->enkripsi[j]);
 				}else if(i==1 && j%2!=0){
@@ -36,7 +36,7 @@ void cetak_matriks_decrypt(utama *var, Dekripsi *De){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->peslen - 1; j++){
+			for(j = 0; j < var->peslen; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", De->dekripsi[j]);
 				}else if(i==1 && j%2!=0){
@@ -79,6 +79,17 @@ void matriks_pesan(utama *var){
 		for(j = 0;j < 79;j++){
 			if(var->pesan[i]==var->karakter[j]){
 				var->pesantonum[i]=j;
+			}
+		}
+	}
+}
+
+void matriks_LSB(utama *var, char hasilLSB[], int numLSB[], int batas){
+	int i,j;
+	for(i = 0;i<batas;i++){
+		for(j = 0;j < 79;j++){
+			if(hasilLSB[i]==var->karakter[j]){
+				numLSB[i]=j;
 			}
 		}
 	}
@@ -182,11 +193,11 @@ int modulus(int angka){
 }
 
 
-void Decrypt(utama *var, Enkripsi *En, Dekripsi *De) {
+void Decrypt(utama *var, int numLSB[], Dekripsi *De, int batas) {
 	int Z,i,j;
     int inversZ;
     int inv[4],invkey[4],modkey[4];
-    int hasil[var->isipesan];
+    int hasil[batas];
     int det;
     Z=modulus(determinan(var->kuncitonum));
     puts("");
@@ -200,13 +211,13 @@ void Decrypt(utama *var, Enkripsi *En, Dekripsi *De) {
     
     
     j=0;
-    for(i=0;i<var->isipesan;i+=2){
-        hasil[j]=((modkey[0]*En->enkripsi[i])+(modkey[2]*En->enkripsi[i+1]));
-        hasil[j+1]=((modkey[1]*En->enkripsi[i])+(modkey[3]*En->enkripsi[i+1]));
+    for(i=0;i<batas;i+=2){
+        hasil[j]=((modkey[0]*numLSB[i])+(modkey[2]*numLSB[i+1]));
+        hasil[j+1]=((modkey[1]*numLSB[i])+(modkey[3]*numLSB[i+1]));
         j+=2;
     }
     
-    for(i=0;i<var->isipesan;i++){
+    for(i=0;i<batas;i++){
         De->dekripsi[i]=modulus(hasil[i]);
     }
 }

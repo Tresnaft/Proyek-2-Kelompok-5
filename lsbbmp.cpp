@@ -63,7 +63,7 @@ BMPImage *readBMP(const char *filename) {
 void inputMessage(char *message, Enkripsi *En) {
     int messageLength;
 //    char pesan[MAX_MESSAGE_LENGTH];
-    char str[MAX_MESSAGE_LENGTH]; // Perbaiki deklarasi str sebagai array karakter
+    char str[MAX_MESSAGE_LENGTH]; 
     int i;
 	
 	
@@ -73,7 +73,13 @@ void inputMessage(char *message, Enkripsi *En) {
 //    }
 
     // Menghitung jumlah byte dalam pesan
-    messageLength = strlen(En->pesanEncrypt); // Jumlah byte termasuk karakter null terminator
+    messageLength = strlen(En->pesanEncrypt) + 1; // Jumlah byte termasuk karakter null terminator
+    if (messageLength % 10 == 0){
+    	messageLength+=1;
+	}
+	if(messageLength % 10 == 9){
+		messageLength+=2;
+	}
     
     sprintf(str, "%d", messageLength); // Menyimpan messageLength sebagai karakter ke dalam str
     printf("\nprint str %s\n", str); // Cetak str sebagai string, bukan sebagai satu karakter
@@ -292,9 +298,9 @@ int extractinfolen(const BMPImage *img) {
 }
 
 
-void extractlsb(const BMPImage *img, int len, int panjang, Enkripsi *En) {
+void extractlsb(const BMPImage *img, int len, int panjang, char hasilLSB[]) {
 	
-	char combinedValue[panjang];
+	hasilLSB[panjang];
 	char* dekripsi = (char* ) malloc (panjang * sizeof(char));
 	char tes;
 
@@ -341,13 +347,14 @@ void extractlsb(const BMPImage *img, int len, int panjang, Enkripsi *En) {
 		    combinedValue1 |= lsbsem1[q] << (7 - q);
 		}
 		
-		En->pesanEncrypt[index++] = combinedValue1;
+		hasilLSB[index++] = combinedValue1;
 		
 		// printf("%c", combinedValue1);
    	}
    	
    	
 		for (int i = 0; i < panjang - 1; i++) {
-        printf("%c", combinedValue[i]);
+        printf("%c", hasilLSB[i]);
 		}
+		
 }
