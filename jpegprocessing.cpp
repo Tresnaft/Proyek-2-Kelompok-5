@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "image.h"
+#include "jpeglib.h"
 
 #define MESSAGE_TERMINATOR "$t3g0"
 
@@ -125,7 +125,8 @@ int main() {
     printf("--LSB Encryption--\n");
     printf("1: Encode\n");
     printf("2: Decode\n");
-
+	printf("masukan pilihan : ");
+	
     char choice;
     scanf("%c", &choice);
 
@@ -153,4 +154,3 @@ int main() {
 
     return 0;
 }
-
