@@ -9,7 +9,7 @@
 #include <string.h>
 
 
-#define MAX_MESSAGE_LENGTH 2048
+#define 	MAX_MESSAGE_LENGTH 2048
 
 
 typedef struct{
