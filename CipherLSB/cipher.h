@@ -7,20 +7,13 @@
 #include <stdint.h>
 #include <cstring>
 #include <string.h>
+#include "bmpio.h"
 
 
 #define MAX_MESSAGE_LENGTH 2048
 
 
-typedef struct{
-	char pesan[500];
-	char kunci[4];
-	char karakter[79]= " GHIJSXabcdLKMNOPQRef&.%$#ghijklmnopqTUVWr456stuvwxy!<>,zABCDEFYZ1237890_-*@?/";	
-	int kuncitonum[4];
-	int pesantonum[500];
-	int peslen;
-	int isipesan;
-}utama;
+
 
 typedef struct{
 	int enkripsi[500];
@@ -32,8 +25,16 @@ typedef struct{
 	char pesanDecrypt[500];
 }Dekripsi;
 
-//char hasilLSB[2048];
-//int numLSB[2048];
+typedef struct{
+	char pesan[500];
+	char kunci[4];
+	char karakter[79]= " GHIJSXabcdLKMNOPQRef&.%$#ghijklmnopqTUVWr456stuvwxy!<>,zABCDEFYZ1237890_-*@?/";
+	
+	int kuncitonum[4];
+	int pesantonum[500];
+	int peslen;
+	int isipesan;
+}utama;
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var);
 void cetak_matriks_encrypt(utama *var, Enkripsi *En);

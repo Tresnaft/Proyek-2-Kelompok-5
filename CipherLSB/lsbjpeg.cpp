@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
+
 void open_image(const char *filename, ImageData *image) {
     FILE *file = fopen(filename, "rb");
     if (!file) {

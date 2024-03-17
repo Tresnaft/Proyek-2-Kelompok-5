@@ -6,6 +6,7 @@
 #include "lsbbmp.h"
 #include "lsbjpeg.h"
 #include "cipher.h"
+#include "bmpio.h"
 
 void display1 (int *j) {
     printf("=================================================================================================\n");
@@ -19,11 +20,12 @@ void display1 (int *j) {
     //printf("display 1");
     printf("Pilihan : ");
     scanf("%d", j);
-    system("cls");
+    //system("cls");
 }
 
 void display2 (int *j, Enkripsi *En, utama *var) {
-	BMPImage *image;
+	BMPHeader head;
+	BMPImage *bmp;
 	char bacafile[100];
     char hasilfile[100];
     int i = 0;
@@ -86,25 +88,22 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     inputMessage(message, En, var);
 	*binaryMessage = messageToBinary(message);
-	// Membaca gambar BMP dari file
-    image = readBMP(bacafile);
-//    if (!image) {
-//        fprintf(stderr, "Error reading BMP file\n");
-//        exit(0);
-//    }
+	
+    bmp = readBMP(bacafile, &head);
 
-//    Menulis pesan ke dalam gambar
-    writeMsg(image, *binaryMessage);
-//     Menulis gambar dengan pesan ke file
-	writeBMP(hasilfile, image);
+
+    writeMsg(bmp, *binaryMessage);
+
+	writeBMP(hasilfile, bmp, head);
 	printf("berhasil!!\n\n\n");
-	free(image->data);
-	free(image);
+	free(bmp->data);
+	free(bmp);
 }
 
 void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
+	BMPHeader head;
+	BMPImage *bmp;
 	char hasilfile[100];
-	BMPImage *image;
 	int panjangpesan;
     int reallen;
     char hasil[100];
@@ -116,19 +115,11 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("=================================================================================================\n");
     printf("=========================================DEKRIPSI================================================\n");
 	
-	printf("Masukan nama file: "); // pake contoh
+	printf("Masukan nama file: ");
     scanf("%s", hasilfile);
     printf("Masukkan kunci : ");
     scanf("%s", key);
-//    strcat(hasilfile, ".bmp");
-//	do {
-//        printf("Masukkan kunci: ");
-//        scanf("%s", key);
-//
-//        if (strcmp(key, var->kunci) != 0) {
-//            printf("Kunci yang dimasukkan salah. Silakan coba lagi.\n");
-//        }
-//    } while (strcmp(key, var->kunci) != 0);
+
     
     
     printf("%c", key[0]);
@@ -149,17 +140,14 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 		var->kuncitonum[k] = keytonum[k];
 	}
 
-     
-    // Membaca gambar BMP dari file
-	image = readBMP(hasilfile);
+	bmp = readBMP(hasilfile, &head);
 
-    // Mengambil bit terakhir dari setiap byte dalam komponen warna
-    panjangpesan = extractinfolen(image);
-    //printf("%d\n", panjangpesan);
+    panjangpesan = extractinfolen(bmp);
+
     reallen = panjangpesan;
  
     panjangpesan = panjangpesan * 4 + 8;
-	extractlsb(image, panjangpesan, reallen, hasil);
+	extractlsb(bmp, panjangpesan, reallen, hasil);
 	puts("");
 	
 	int num[2048];
@@ -169,8 +157,8 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
         printf("%d ", num[h]);
     }puts("");
 
-    free(image->data);
-    free(image);
+    free(bmp->data);
+    free(bmp);
     
     printf("\n===Matriks dari Pesan Dekripsi===");
     Decrypt(var, num, De, reallen);
@@ -189,12 +177,10 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 }
 
 void display4 (int *j, Enkripsi *En, utama *var) {
-	//BMPImage *image;
 	char bacafile[100];
     char hasilfile[100];
     int i = 0;
-//    char message[MAX_MESSAGE_LENGTH];
-//    char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
+
 
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
@@ -204,11 +190,11 @@ void display4 (int *j, Enkripsi *En, utama *var) {
  
     printf("\nMasukan nama file: ");
     scanf("%s", bacafile);
-//    strcat(bacafile, ".bmp");
 
-    printf("Masukan nama file setelah disisipkan pesan: "); // pake contoh
+
+    printf("Masukan nama file setelah disisipkan pesan: "); 
     scanf("%s", hasilfile);
-//    strcat(hasilfile, ".bmp");
+
  
     while (getchar() != '\n');
     printf("\nMasukan pesan yang ingin di enkripsi: ");
@@ -275,15 +261,7 @@ void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     decode(hasilfile, hasil);
     int batas = strlen(hasil) + 1;
     printf("%d\n", batas);
-//    strcat(hasilfile, ".bmp");
-//	do {
-//        printf("Masukkan kunci: ");
-//        scanf("%s", key);
-//
-//        if (strcmp(key, var->kunci) != 0) {
-//            printf("Kunci yang dimasukkan salah. Silakan coba lagi.\n");
-//        }
-//    } while (strcmp(key, var->kunci) != 0);
+
     
     
     printf("%c", key[0]);
@@ -300,7 +278,7 @@ void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("%d", keytonum[2]);
     printf("%d", keytonum[3]);
     puts("");
-//	
+	
 	printf("\n===Matriks dari Pesan Dekripsi===");
     Decrypt(var, num, De, batas);
 	for(int k = 0; k < 4; k++){

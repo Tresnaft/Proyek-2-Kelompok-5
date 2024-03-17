@@ -3,6 +3,7 @@
 #include "cipher.h"
 #include "lsbbmp.h"
 #include "display.h"
+#include "bmpio.h"
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 

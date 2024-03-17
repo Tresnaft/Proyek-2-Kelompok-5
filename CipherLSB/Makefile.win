@@ -4,8 +4,8 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = main.o lsbbmp.o cipher.o display.o lsbjpeg.o
-LINKOBJ  = main.o lsbbmp.o cipher.o display.o lsbjpeg.o
+OBJ      = main.o lsbbmp.o cipher.o display.o lsbjpeg.o bmpio.o
+LINKOBJ  = main.o lsbbmp.o cipher.o display.o lsbjpeg.o bmpio.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc
 INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include"
 CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/include/c++"
@@ -38,3 +38,6 @@ display.o: display.cpp
 
 lsbjpeg.o: lsbjpeg.cpp
 	$(CPP) -c lsbjpeg.cpp -o lsbjpeg.o $(CXXFLAGS)
+
+bmpio.o: bmpio.cpp
+	$(CPP) -c bmpio.cpp -o bmpio.o $(CXXFLAGS)

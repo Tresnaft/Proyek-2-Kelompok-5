@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "cipher.h"
 #include <cstring>
+#include "bmpio.h"
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 	int i=0;

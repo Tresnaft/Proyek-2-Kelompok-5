@@ -2,6 +2,9 @@
 #define display_h
 #include "lsbbmp.h"
 #include "cipher.h"
+#include "bmpio.h"
+
+
 
 void display1 (int *j);
 void display2 (int *j, Enkripsi *En, utama *var);

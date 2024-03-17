@@ -4,76 +4,22 @@
 #include <string.h>
 #define MAX_MESSAGE_LENGTH 2048
 #include "lsbbmp.h"
+#include "bmpio.h"
 
 
-BMPImage *readBMP(const char *filename) {
-    FILE *file = fopen(filename, "rb");
-    if (!file) {
-        fprintf(stderr, "Unable to open file '%s'\n", filename);
-        exit(1);
-    }
 
-    BMPHeader header;
-    fread(&header, sizeof(header), 1, file);
-
-    if (header.signature != 0x4D42) {
-        fprintf(stderr, "Invalid BMP file format\n");
-        fclose(file);
-        exit(1);
-    }
-
-    if (header.bitsPerPixel != 24) {
-        fprintf(stderr, "Unsupported bits per pixel\n");
-        fclose(file);
-        exit(1);
-    }
-
-    BMPImage *img = (BMPImage *)malloc(sizeof(BMPImage));
-    if (!img) {
-        fprintf(stderr, "Unable to allocate memory\n");
-        fclose(file);
-        exit(1);
-    }
-
-    img->width = header.width;
-    img->height = header.height;
-
-    fseek(file, header.dataOffset, SEEK_SET);
-
-    img->data = (RGBPixel *)malloc(sizeof(RGBPixel) * img->width * img->height);
-    if (!img->data) {
-        fprintf(stderr, "Unable to allocate memory\n");
-        fclose(file);
-        free(img);
-        exit(1);
-    }
-
-    int padding = (4 - (img->width * sizeof(RGBPixel)) % 4) % 4;
-    for (int y = img->height - 1; y >= 0; y--) {
-        for (int x = 0; x < img->width; x++) {
-            fread(&img->data[y * img->width + x], sizeof(RGBPixel), 1, file);
-        }
-        fseek(file, padding, SEEK_CUR);
-    }
-
-    fclose(file);
-    return img;
-}
 
 void inputMessage(char *message, Enkripsi *En, utama *var) {
     int messageLength;
-//    char pesan[MAX_MESSAGE_LENGTH];
-    char str[MAX_MESSAGE_LENGTH]; // Perbaiki deklarasi str sebagai array karakter
+    char str[MAX_MESSAGE_LENGTH];
     int i;
-//	for (i = 0; i < 10; i++) {
-//    	printf("%c", En->pesanEncrypt[i]);
-//	}
+
 	
 	messageLength = var->isipesan;
 	printf("%d", var->isipesan);
 	//strlen(En->pesanEncrypt) + 1;
     // Menghitung jumlah byte dalam pesan
-    //size_t messageLength = sizeof(En->pesanEncrypt) / sizeof(En->pesanEncrypt[0]);
+    //int messageLength = sizeof(En->pesanEncrypt) / sizeof(En->pesanEncrypt[0]);
 	 // Jumlah byte termasuk karakter null terminator
     if (messageLength % 10 == 0){
     	messageLength+=1;
@@ -113,7 +59,7 @@ void inputMessage(char *message, Enkripsi *En, utama *var) {
 char* messageToBinary(char* s) {
     if (s == NULL) return NULL; // Handle NULL input
 
-    size_t len = strlen(s);
+    int len = strlen(s);
     
     char *binary = (char *)malloc(len * 8 + 1); // Allocate memory for binary string
     if (binary == NULL) return NULL; // Check for allocation failure
@@ -146,45 +92,6 @@ void writeMsg(BMPImage *img, const char *binaryMessage) {
 	    	}
 		}
 	}
-}
-
-void writeBMP(const char *filename, BMPImage *img) {
-    FILE *file = fopen(filename, "wb");
-    if (!file) {
-        fprintf(stderr, "Unable to open file '%s'\n", filename);
-        exit(1);
-    }
-
-    BMPHeader header = {0};
-    header.signature = 0x4D42; // BM
-    header.fileSize = sizeof(BMPHeader) + (img->width * sizeof(RGBPixel) + ((4 - (img->width * sizeof(RGBPixel)) % 4) % 4)) * img->height;
-    header.dataOffset = sizeof(BMPHeader);
-    header.headerSize = 40;
-    header.width = img->width;
-    header.height = img->height;
-    header.planes = 1;
-    header.bitsPerPixel = 24;
-    header.compression = 0;
-    header.dataSize = (img->width * sizeof(RGBPixel) + ((4 - (img->width * sizeof(RGBPixel)) % 4) % 4)) * img->height;
-    header.hResolution = 0;
-    header.vResolution = 0;
-    header.colors = 0;
-    header.importantColors = 0;
-
-    fwrite(&header, sizeof(header), 1, file);
-
-    int padding = (4 - (img->width * sizeof(RGBPixel)) % 4) % 4; // Padding bytes per row
-    for (int y = img->height - 1; y >= 0; y--) {
-        for (int x = 0; x < img->width; x++) {
-            fwrite(&img->data[y * img->width + x], sizeof(RGBPixel), 1, file);
-        }
-        // Write padding bytes
-        for (int p = 0; p < padding; p++) {
-            fputc(0, file);
-        }
-    }
-
-    fclose(file);
 }
 
 
@@ -255,9 +162,6 @@ int extractinfolen(const BMPImage *img) {
 
 
 void extractlsb(const BMPImage *img, int len, int panjang, char hasilLSB[]) {
-//	char* dekripsi = (char* ) malloc (panjang * sizeof(char));
-//	char tes;
-
     if (!img) {
         fprintf(stderr, "Invalid input\n");
         exit(1);
