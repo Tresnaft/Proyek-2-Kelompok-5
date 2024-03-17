@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string.h>
 
+
 void open_image(const char *filename, ImageData *image) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
@@ -30,10 +31,10 @@ void close_image(ImageData *image) {
     free(image->buffer);
 }
 
-void encode(const char *source_image, const char *dest_image, const char *message) {
+void encode(const char *source_image, const char *dest_image, utama *var, Enkripsi *En) {
     ImageData image;
     open_image(source_image, &image);
-
+	
     FILE *outfile = fopen(dest_image, "wb");
     if (!outfile) {
         printf("ERROR: Cannot open destination file\n");
@@ -45,7 +46,7 @@ void encode(const char *source_image, const char *dest_image, const char *messag
     size_t buffer_size = image.buffer_size;
 
     // Menambahkan terminator pada pesan
-    size_t message_length = strlen(message);
+    size_t message_length = var->isipesan;
     size_t total_message_length = message_length ; 
 
     // Memeriksa apakah pesan dapat disisipkan dalam gambar
@@ -65,7 +66,7 @@ void encode(const char *source_image, const char *dest_image, const char *messag
     fwrite(&message_length_be, sizeof(uint16_t), 1, outfile); // Panjang pesan
 
     // Menambahkan pesan
-    fwrite(message, 1, message_length, outfile);
+    fwrite(En->pesanEncrypt, 1, message_length, outfile);
     fwrite("$t3g0", 1, strlen("$t3g0"), outfile); // Mengganti MESSAGE_TERMINATOR
 
     fclose(outfile);
@@ -74,7 +75,7 @@ void encode(const char *source_image, const char *dest_image, const char *messag
     printf("Image Encoded Successfully\n");
 }
 
-void decode(const char *image_path) {
+void decode(const char *image_path, char lsbjpg[]) {
     ImageData image;
     open_image(image_path, &image);
 
@@ -89,19 +90,19 @@ void decode(const char *image_path) {
             memcpy(&message_length_be, &buffer[pos + 2], sizeof(uint16_t));
             size_t message_length = message_length_be;
 
-            char *message = (char *)malloc(message_length + 1);
-            if (!message) {
+            
+            if (!lsbjpg) {
                 printf("ERROR: Memory allocation failed\n");
                 close_image(&image);
                 exit(EXIT_FAILURE);
             }
 
-            memcpy(message, &buffer[pos + 4], message_length);
-            message[message_length] = '\0';
+            memcpy(lsbjpg, &buffer[pos + 4], message_length);
+            lsbjpg[message_length] = '\0';
 
-            printf("Hidden Message: %s\n", message);
+            printf("Hidden Message: %s\n", lsbjpg);
 
-            free(message);
+            //free(lsbjpg);
             break;
         }
         pos++;

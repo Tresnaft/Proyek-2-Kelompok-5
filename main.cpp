@@ -1,44 +1,37 @@
+//#include <iostream>
 #include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include "lsbjpeg.h"
+#include "cipher.h"
+#include "lsbbmp.h"
+#include "display.h"
+#include "bmpio.h"
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
 
 int main() {
-    printf("--LSB Encryption--\n");
-    printf("1: Encode\n");
-    printf("2: Decode\n");
-    printf("masukan pilihan : ");
-    
-    char choice;
-    scanf("%c", &choice);
-
-    if (choice == '1') {
-        char src_image[100], dest_image[100], message[1000];
-        printf("Enter Source Image Path: ");
-        scanf("%s", src_image);
-        
-        printf("Enter Message to Hide: ");
-        getchar();
-        fgets(message, sizeof(message), stdin);
-        
-        message[strcspn(message, "\n")] = '\0'; // Remove newline character
-        
-		printf("Enter Destination Image Path: ");
-        scanf("%s", dest_image);
-        
-		printf("Encoding...\n");
-        encode(src_image, dest_image, message);
-        
-    } else if (choice == '2') {
-        char src_image[100];
-        printf("Enter Source Image Path: ");
-        scanf("%s", src_image);
-        printf("Decoding...\n");
-        decode(src_image);
-    } else {
-        printf("ERROR: Invalid option chosen\n");
-    }
-
+    int jawab;
+    int halaman = 0; 
+    Enkripsi En[50];
+    utama var[50];
+    Dekripsi De[50];
+    do{
+    	display1 (&jawab);
+    	switch (jawab) {
+	        case 0:
+	            display1 (&jawab);
+				break;
+	        case 1:
+	            display2 (&jawab, En, var);
+	            break;
+	        case 2:
+	            display3 (&jawab, En, var, De);
+	            break;
+	        case 3:
+	            display4 (&jawab, En, var);
+	            break;
+	        case 4:
+	            display5 (&jawab, En, var, De);
+	            break;
+	    }
+	}while(jawab != 9);   
     return 0;
 }

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "cipher.h"
 #include <cstring>
+#include "bmpio.h"
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 	int i=0;
@@ -32,11 +33,33 @@ void cetak_pesan_decrypt(Dekripsi *De, utama *var){
     }
 }
 
+void cetak_pesan_decryptLSB(Dekripsi *De, int batas){
+	int i=0;
+    while(i<batas){
+        printf("%c",De->pesanDecrypt[i]);
+        i++;
+    }
+}
+
 void cetak_matriks_decrypt(utama *var, Dekripsi *De){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
 			for(j = 0; j < var->peslen; j++){
+				if(i==0 && j%2==0){
+					printf("%d\t", De->dekripsi[j]);
+				}else if(i==1 && j%2!=0){
+					printf("%d\t", De->dekripsi[j]);
+				}
+			}printf("\n");
+		}
+}
+
+void cetak_matriks_decryptLSB(int batas, Dekripsi *De){
+	int i,j;
+	//if(batas%2==0){
+		for(i = 0;i < 3; i++){
+			for(j = 0; j < batas-2; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", De->dekripsi[j]);
 				}else if(i==1 && j%2!=0){
@@ -71,6 +94,17 @@ void pesan_decrypt(Dekripsi *De, utama *var){
 	}
 }
 
+void pesan_decryptLSB(Dekripsi *De, int batas, utama *var){
+	int i = 0, j;
+	while(i < batas-2){
+		for(j = 0;j <= 79;j++){
+			if(De->dekripsi[i]==j){
+				De->pesanDecrypt[i]=var->karakter[j];
+			}
+		}
+		i++;
+	}
+}
 
 
 void matriks_pesan(utama *var){
@@ -101,6 +135,17 @@ void matriks_kunci(utama *var){
 		for(j = 0;j < 79;j++){
 			if(var->kunci[i]==var->karakter[j]){
 				var->kuncitonum[i]=j;
+			}
+		}
+	}
+}
+
+void matriks_key_LSB(char key[], int keytonum[], utama *var){
+	int i,j;
+	for(i = 0;i < 4;i++){
+		for(j = 0;j < 79;j++){
+			if(key[i]==var->karakter[j]){
+				keytonum[i]=j;
 			}
 		}
 	}
