@@ -4,13 +4,13 @@
 #include <ctype.h>
 #include "ws.h"
 
-void init_stegano(WhitespaceSteganography ws_stegano) {
+void init_stegano() {
     strcpy(ws_stegano.delimiter, "\n\t\t\t");
     strcpy(ws_stegano.character_set[0], " ");
     strcpy(ws_stegano.character_set[1], "\t");
 }
 
-char *encrypt(char *text, char *msg, WhitespaceSteganography ws_stegano) {
+char *encrypt(char *text, char *msg) {
     int msg_len = strlen(msg);
     int text_len = strlen(text);
     int code_len = msg_len * 8;
@@ -37,7 +37,7 @@ char *encrypt(char *text, char *msg, WhitespaceSteganography ws_stegano) {
     return text;
 }
 
-char *decrypt(char *text, WhitespaceSteganography ws_stegano) {
+char *decrypt(char *text) {
     char *delimiter_pos = strchr(text, ws_stegano.delimiter[0]);
     if (delimiter_pos ==NULL) {
         fprintf(stderr, "Delimiter not found\n");

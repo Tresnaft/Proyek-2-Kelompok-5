@@ -10,8 +10,8 @@ typedef struct {
     char character_set[2][2];
 } WhitespaceSteganography;
 
-void init_stegano(WhitespaceSteganography ws_stegano);
-char *encrypt(char *text, char *msg, WhitespaceSteganography ws_stegano);
-char *decrypt(char *text, WhitespaceSteganography ws_stegano);
+void init_stegano();
+char *encrypt(char *text, char *msg);
+char *decrypt(char *text);
 
 #endif

@@ -274,7 +274,7 @@ void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 
 void display6 (int *j){
 	WhitespaceSteganography ws_stegano;
-    init_stegano();
+    init_stegano(ws_stegano);
 
     char text[100];
     char msg[100];
@@ -290,9 +290,9 @@ void display6 (int *j){
     fgets(msg, sizeof(msg), stdin);
     msg[strcspn(msg, "\n")] = '\0';
 
-    char *encrypted_text = encrypt(text, msg);
+    char *encrypted_text = encrypt(text, msg, ws_stegano);
     printf("Cover text: %s\n", encrypted_text);
 
-    char *decrypted_msg = decrypt(encrypted_text);
+    char *decrypted_msg = decrypt(encrypted_text, ws_stegano);
     printf("Hidden message: %s\n", decrypted_msg);
 }
