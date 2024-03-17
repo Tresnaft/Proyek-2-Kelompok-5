@@ -12,9 +12,6 @@
 
 #define MAX_MESSAGE_LENGTH 2048
 
-
-
-
 typedef struct{
 	int enkripsi[500];
 	char pesanEncrypt[500];
@@ -35,6 +32,9 @@ typedef struct{
 	int peslen;
 	int isipesan;
 }utama;
+
+
+
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var);
 void cetak_matriks_encrypt(utama *var, Enkripsi *En);

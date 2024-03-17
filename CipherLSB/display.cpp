@@ -11,10 +11,33 @@
 void display1 (int *j) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
+    printf("| 1. Enkripsi                                                                                   |\n");
+    printf("| 2. Dekripsi                                                                                   |\n");
+    printf("| 9. Keluar                                                                                     |\n");
+    printf("=================================================================================================\n");
+    //printf("display 1");
+    printf("Pilihan : ");
+    scanf("%d", j);
+    //system("cls");
+}
+void displayencrypt (int *j) {
+    printf("=================================================================================================\n");
+    printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi BMP                                                                               |\n");
-    printf("| 2. Dekripsi BMP                                                                               |\n");
-    printf("| 3. Enkripsi JPEG                                                                              |\n");
-    printf("| 4. Dekripsi JPEG                                                                              |\n");
+    printf("| 2. Enkripsi JPEG                                                                              |\n");
+    printf("| 9. Keluar                                                                                     |\n");
+    printf("=================================================================================================\n");
+    //printf("display 1");
+    printf("Pilihan : ");
+    scanf("%d", j);
+    //system("cls");
+}
+
+void displaydecrypt (int *j) {
+    printf("=================================================================================================\n");
+    printf("| Pilih opsi dibawah ini:                                                                       |\n");
+    printf("| 1. Dekripsi BMP                                                                               |\n");
+    printf("| 2. Dekripsi JPEG                                                                              |\n");
     printf("| 9. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     //printf("display 1");
@@ -36,7 +59,7 @@ void display2 (int *j, Enkripsi *En, utama *var) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 0. Kembali                                                                                    |\n");
     printf("=================================================================================================\n");
-    printf("=========================================ENKRIPSI================================================\n");
+    printf("=======================================ENKRIPSI BMP===============================================\n");
  
     printf("\nMasukan nama file: ");
     scanf("%s", bacafile);
@@ -113,7 +136,7 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 0. Kembali                                                                                    |\n");
     printf("=================================================================================================\n");
-    printf("=========================================DEKRIPSI================================================\n");
+    printf("=========================================DEKRIPSI BMP============================================\n");
 	
 	printf("Masukan nama file: ");
     scanf("%s", hasilfile);
@@ -163,9 +186,9 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("\n===Matriks dari Pesan Dekripsi===");
     Decrypt(var, num, De, reallen);
     
-    for(int l = 0; l < reallen; l++){
-        printf("%d ", De->dekripsi[l]);
-	}
+//    for(int l = 0; l < reallen; l++){
+//        printf("%d ", De->dekripsi[l]);
+//	}
     
     printf("Matriks : \n");
     cetak_matriks_decryptLSB(reallen, De);
@@ -186,7 +209,7 @@ void display4 (int *j, Enkripsi *En, utama *var) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 0. Kembali                                                                                    |\n");
     printf("=================================================================================================\n");
-    printf("=========================================ENKRIPSI================================================\n");
+    printf("=======================================ENKRIPSI JPEG=============================================\n");
  
     printf("\nMasukan nama file: ");
     scanf("%s", bacafile);
@@ -225,7 +248,6 @@ void display4 (int *j, Enkripsi *En, utama *var) {
 	printf("Kunci : %s\n", var->kunci);
 	matriks_kunci(var);
 	cetak_matriks_kunci(var);
-	//system("pause");
 	
 	printf("===Matriks dari Pesan Enkripsi===\n");
 	Encrypt(En, var);
@@ -252,7 +274,7 @@ void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 0. Kembali                                                                                    |\n");
     printf("=================================================================================================\n");
-    printf("=========================================DEKRIPSI================================================\n");
+    printf("=======================================DEKRIPSI JPEG=============================================\n");
 	
 	printf("Masukan nama file: "); // pake contoh
     scanf("%s", hasilfile);

@@ -20,17 +20,33 @@ int main() {
 	            display1 (&jawab);
 				break;
 	        case 1:
-	            display2 (&jawab, En, var);
+	        	displayencrypt(&jawab);
+	        	switch(jawab){
+	        		case 0:
+	        			display1(&jawab);
+	        			break;
+	        		case 1:
+	        			display2 (&jawab, En, var);
+	            		break;
+	            	case 2:
+	            		display4 (&jawab, En, var);
+	            		break;
+				}
 	            break;
-	        case 2:
-	            display3 (&jawab, En, var, De);
-	            break;
-	        case 3:
-	            display4 (&jawab, En, var);
-	            break;
-	        case 4:
-	            display5 (&jawab, En, var, De);
-	            break;
+			case 2 :
+				displaydecrypt(&jawab);
+				switch (jawab){
+					case 0:
+	        			display1(&jawab);
+	        			break;
+	        		case 1:
+	        			display3 (&jawab, En, var, De);
+	            		break;
+	            	case 2:
+	            		display5 (&jawab, En, var, De);
+	            		break;
+				}
+				break;
 	    }
 	}while(jawab != 9);   
     return 0;
