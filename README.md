@@ -1,11 +1,10 @@
 # Instalasi
-
-# Konfigurasi
+  Clone repository, compile source code pada folder CipherLSBNew2
 
 # Struktur Program
-Program ini berisi beberapa ADT
-1. cipher.h dan cipher.c adalah source code untuk enkripsi menggunakan Hill Cipher.
-2. bmpimgprocessing.h dan bmpimgprocessing.c adalah source code untuk processing img bertipe bmp.
+Program ini akan menampilkan menu, yang dapat dinavigasi sesuai dengan input pengguna.
+Jika enkripsi, maka program akan meminta input dari pengguna tentang nama file sumber, file tujuan, pesan yang akan dienkripsi, dan key enkripsi.
+Jika dekripsi, maka program akan meminta input dari pengguna tentang nama file sumber.
 
 # Daftar Fitur Aplikasi
 1. Enkripsi teks menggunakan Hill Cipher.
