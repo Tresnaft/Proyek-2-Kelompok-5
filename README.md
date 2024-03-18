@@ -1,11 +1,10 @@
 # Instalasi
-
-# Konfigurasi
+  Clone repository, compile source code pada folder CipherLSBNew2
 
 # Struktur Program
-Program ini berisi beberapa ADT
-1. cipher.h dan cipher.c adalah source code untuk enkripsi menggunakan Hill Cipher.
-2. bmpimgprocessing.h dan bmpimgprocessing.c adalah source code untuk processing img bertipe bmp.
+Program ini akan menampilkan menu, yang dapat dinavigasi sesuai dengan input pengguna.
+Jika enkripsi, maka program akan meminta input dari pengguna tentang nama file sumber, file tujuan, pesan yang akan dienkripsi, dan key enkripsi.
+Jika dekripsi, maka program akan meminta input dari pengguna tentang nama file sumber.
 
 # Daftar Fitur Aplikasi
 1. Enkripsi teks menggunakan Hill Cipher.
@@ -17,15 +16,16 @@ Program ini berisi beberapa ADT
 Aplikasi ini dibuat oleh Kelompok 5 kelas 1B-D3 Jurusan Teknik Komputer dan Informatika
 Politeknik Negeri Bandung 
 
-No.  Nama                          | NIM |          Github Username |
-1. Firgianathyas Siti Fadillah  |(231511000)|         fnathyas
-2. Hanif Ahmad Naufal           |(231511000)|         ramenyeon
-3. Muhammad Azzam Izzudin       |(231511000)|         mazzazzu
-4. Nur Akmal                    |(231511000)|         AkmallNr
-5. Tresnardi Fathu Rhamdan      |(231511062)|         Tresnaft
-6. Zidan Tri Satria Mukti       |(231511000)|         ZidanTSM22
+No.  Nama                          | NIM |          Github Username |      Jobdesk
+1. Firgianathyas Siti Fadillah  |(231511000)|         fnathyas        | Whitespace Steganography
+2. Hanif Ahmad Naufal           |(231511000)|         ramenyeon       | Least Significant Bit 
+3. Muhammad Azzam Izzudin       |(231511000)|         mazzazzu        | JPEG file
+4. Nur Akmal                    |(231511000)|         AkmallNr        | Hill Cipher
+5. Tresnardi Fathu Rhamdan      |(231511062)|         Tresnaft        | BMP file
+6. Zidan Tri Satria Mukti       |(231511000)|         ZidanTSM22      | PNG file
 
 Manajer : Sofy Fitriani, S.S.T., M.Kom NIP:199106142019032022
+# Rencana
 
 # Referensi
 https://engineering.purdue.edu/ece264/17au/hw/HW15
