@@ -30,3 +30,4 @@ Manajer : Sofy Fitriani, S.S.T., M.Kom NIP:199106142019032022
 # Referensi
 https://engineering.purdue.edu/ece264/17au/hw/HW15
 https://abhijitnathwani.github.io/blog/2017/12/19/Introduction-to-Image-Processing-using-C
+https://www.codeproject.com/Questions/1209078/How-do-i-impement-image-steganography-in-C-using-L
