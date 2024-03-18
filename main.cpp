@@ -8,6 +8,6 @@ int main() {
 	utama var[50];
 	Enkripsi En[50];
 	Dekripsi De[50];
-	tampilan(var);
+	tampilan(var, En, De);
 	return 0;
 }

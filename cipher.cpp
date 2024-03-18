@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "cipher.h"
 #include <cstring>
+//#include <cstdlib>
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 	int i=0;
@@ -190,9 +191,9 @@ void Decrypt(utama *var, Enkripsi *En, Dekripsi *De){
     int det;
     Z=modulus(determinan(var->kuncitonum));
     puts("");
-    printf("Z = %d\n",Z);
+    //printf("Z = %d\n",Z);
     inversZ = Zinv(Z);
-    printf("Z inves %d\n",inversZ);
+    //printf("Z inves %d\n",inversZ);
     
     
     invers_matriks(var->kuncitonum,inv);
@@ -241,13 +242,16 @@ void tampilan(utama *var, Enkripsi *En, Dekripsi *De){
 	for(i = 0;i < var->peslen;i++){
 		printf("%c", var->pesan[i]);	
 	}puts("");
+	printf("Matriks : \n");
 	matriks_pesan(var);
 	cetak_matriks_pesan(var);
-	
 	printf("=====Matriks dari kunci=====\n");
 	printf("Kunci : %s\n", var->kunci);
+	printf("Matriks : \n");
 	matriks_kunci(var);
 	cetak_matriks_kunci(var);
+	puts("================================================================");
+	//system("pause");
 	
 	printf("===Matriks dari Pesan Enkripsi===\n");
 	Encrypt(En, var);
@@ -256,19 +260,18 @@ void tampilan(utama *var, Enkripsi *En, Dekripsi *De){
 	pesan_encrypt(En, var);
 	printf("\nPesan yang sudah di enkripsi : ");
 	cetak_pesan_encrypt(En, var);
+	puts("");
+	puts("");
+	puts("================================================================");
+	//system("pause");
 	
-	printf("\n===Matriks dari Pesan Dekripsi===\n");
+	printf("\n===Matriks dari Pesan Dekripsi===");
 	Decrypt(var, En, De);
+	printf("Matriks : \n");
 	cetak_matriks_decrypt(var, De);
 	pesan_decrypt(De, var);
 	printf("\n=========Pesan Dekripsi==========\n");
-	printf("Pesan : ");
-	//printf("%c", De->pesanDecrypt[0]);
+	printf("Pesan Dekripsi : ");
 	cetak_pesan_decrypt(De, var);
-	
-	
-	
-	
-	
-	
+	//puts("");
 }
