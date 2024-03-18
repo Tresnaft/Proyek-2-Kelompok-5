@@ -26,6 +26,7 @@ No.  Nama                          | NIM |          Github Username |
 6. Zidan Tri Satria Mukti       |(231511000)|         ZidanTSM22
 
 Manajer : Sofy Fitriani, S.S.T., M.Kom NIP:199106142019032022
+# Rencana
 
 # Referensi
 https://engineering.purdue.edu/ece264/17au/hw/HW15
