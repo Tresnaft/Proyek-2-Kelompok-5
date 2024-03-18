@@ -8,6 +8,11 @@
 #include "cipher.h"
 #include "bmpio.h"
 
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF) {}
+}
+
 void display1 (int *j) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
@@ -24,7 +29,7 @@ void displayencrypt (int *j) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi BMP                                                                               |\n");
-    printf("| 2. Enkripsi JPEG 																				|\n");
+    printf("| 2. Enkripsi JPEG                                                                              |\n");
 	printf("| 3. Whitespace Steganography                                                                   |\n");    
     printf("| 9. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
@@ -272,22 +277,25 @@ void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     puts("");
 }
 
-void display6 (int *j){
-	WhitespaceSteganography ws_stegano;
+void display6(int *j) {
+    WhitespaceSteganography ws_stegano;
     init_stegano(ws_stegano);
 
     char text[100];
     char msg[100];
-    
+
     printf("|=================================================================================================|\n");
     printf("|====================================WHITESPACE STEGANOGRAPHY=====================================|\n");
     printf("|=================================================================================================|\n");
-	printf("Masukkan cover message: ");
+    printf("Masukkan cover message: ");
     fgets(text, sizeof(text), stdin);
-    text[strcspn(text, "\n")] = '\0';
+    clearInputBuffer();
 
     printf("Masukkan secret message: ");
     fgets(msg, sizeof(msg), stdin);
+    clearInputBuffer();
+
+    text[strcspn(text, "\n")] = '\0';
     msg[strcspn(msg, "\n")] = '\0';
 
     char *encrypted_text = encrypt(text, msg, ws_stegano);
