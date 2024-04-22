@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "cipher.h"
 #include <cstring>
-//#include <cstdlib>
+#include "bmpio.h"
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 	int i=0;
@@ -15,7 +15,7 @@ void cetak_matriks_encrypt(utama *var, Enkripsi *En){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->peslen - 1; j++){
+			for(j = 0; j < var->peslen; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", En->enkripsi[j]);
 				}else if(i==1 && j%2!=0){
@@ -33,11 +33,33 @@ void cetak_pesan_decrypt(Dekripsi *De, utama *var){
     }
 }
 
+void cetak_pesan_decryptLSB(Dekripsi *De, int batas){
+	int i=0;
+    while(i<batas-1){
+        printf("%c",De->pesanDecrypt[i]);
+        i++;
+    }
+}
+
 void cetak_matriks_decrypt(utama *var, Dekripsi *De){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->peslen - 1; j++){
+			for(j = 0; j < var->peslen; j++){
+				if(i==0 && j%2==0){
+					printf("%d\t", De->dekripsi[j]);
+				}else if(i==1 && j%2!=0){
+					printf("%d\t", De->dekripsi[j]);
+				}
+			}printf("\n");
+		}
+}
+
+void cetak_matriks_decryptLSB(int batas, Dekripsi *De){
+	int i,j;
+	//if(batas%2==0){
+		for(i = 0;i < 3; i++){
+			for(j = 0; j < batas-2; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", De->dekripsi[j]);
 				}else if(i==1 && j%2!=0){
@@ -72,6 +94,17 @@ void pesan_decrypt(Dekripsi *De, utama *var){
 	}
 }
 
+void pesan_decryptLSB(Dekripsi *De, int batas, utama *var){
+	int i = 0, j;
+	while(i < batas-1){
+		for(j = 0;j <= 79;j++){
+			if(De->dekripsi[i]==j){
+				De->pesanDecrypt[i]=var->karakter[j];
+			}
+		}
+		i++;
+	}
+}
 
 
 void matriks_pesan(utama *var){
@@ -85,12 +118,34 @@ void matriks_pesan(utama *var){
 	}
 }
 
+void matriks_LSB(utama *var, char hasilLSB[], int numLSB[], int batas){
+	int i,j;
+	for(i = 0;i<batas;i++){
+		for(j = 0;j < 79;j++){
+			if(hasilLSB[i]==var->karakter[j]){
+				numLSB[i]=j;
+			}
+		}
+	}
+}
+
 void matriks_kunci(utama *var){
 	int i,j;
 	for(i = 0;i < 4;i++){
 		for(j = 0;j < 79;j++){
 			if(var->kunci[i]==var->karakter[j]){
 				var->kuncitonum[i]=j;
+			}
+		}
+	}
+}
+
+void matriks_key_LSB(char key[], int keytonum[], utama *var){
+	int i,j;
+	for(i = 0;i < 4;i++){
+		for(j = 0;j < 79;j++){
+			if(key[i]==var->karakter[j]){
+				keytonum[i]=j;
 			}
 		}
 	}
@@ -183,19 +238,16 @@ int modulus(int angka){
 }
 
 
-void Decrypt(utama *var, Enkripsi *En, Dekripsi *De){
+void Decrypt(utama *var, int numLSB[], Dekripsi *De, int batas) {
 	int Z,i,j;
     int inversZ;
     int inv[4],invkey[4],modkey[4];
-    int hasil[var->isipesan];
+    int hasil[batas];
     int det;
     Z=modulus(determinan(var->kuncitonum));
     puts("");
-    //printf("Z = %d\n",Z);
     inversZ = Zinv(Z);
-    //printf("Z inves %d\n",inversZ);
-    
-    
+      
     invers_matriks(var->kuncitonum,inv);
     for(i=0;i<4;i++){
         invkey[i]=inversZ*inv[i];
@@ -204,74 +256,13 @@ void Decrypt(utama *var, Enkripsi *En, Dekripsi *De){
     
     
     j=0;
-    for(i=0;i<var->isipesan;i+=2){
-        hasil[j]=((modkey[0]*En->enkripsi[i])+(modkey[2]*En->enkripsi[i+1]));
-        hasil[j+1]=((modkey[1]*En->enkripsi[i])+(modkey[3]*En->enkripsi[i+1]));
+    for(i=0;i<batas;i+=2){
+        hasil[j]=((modkey[0]*numLSB[i])+(modkey[2]*numLSB[i+1]));
+        hasil[j+1]=((modkey[1]*numLSB[i])+(modkey[3]*numLSB[i+1]));
         j+=2;
     }
     
-    for(i=0;i<var->isipesan;i++){
+    for(i=0;i<batas;i++){
         De->dekripsi[i]=modulus(hasil[i]);
     }
-}
-
-
-
-
-void tampilan(utama *var, Enkripsi *En, Dekripsi *De){
-	/*INPUT PESAN*/
-	printf("Masukkan pesan yang ingin di Enripsi : ");
-	fgets(var->pesan, sizeof(var->pesan), stdin);
-	var->peslen = strlen(var->pesan);
-	if (var->pesan[var->peslen - 1] == '\n') {
-	    var->pesan[var->peslen - 1] = '\0';
-	    var->peslen--;
-	}
-	var->pesan[var->peslen]=var->pesan[var->peslen-1];
-	var->isipesan=var->peslen+1;
-	var->pesantonum[var->peslen];
-	
-	/*INPUT KUNCI*/
-	printf("Masukkan kunci untuk enkripsi (4 karakter) : ");
-	scanf("%s", var->kunci);
-	puts("");
-	/*MENCETAK MATRIKS*/
-	printf("=====Matriks Dari Pesan=====\n");
-	printf("Pesan : ");
-	int i;
-	for(i = 0;i < var->peslen;i++){
-		printf("%c", var->pesan[i]);	
-	}puts("");
-	printf("Matriks : \n");
-	matriks_pesan(var);
-	cetak_matriks_pesan(var);
-	printf("=====Matriks dari kunci=====\n");
-	printf("Kunci : %s\n", var->kunci);
-	printf("Matriks : \n");
-	matriks_kunci(var);
-	cetak_matriks_kunci(var);
-	puts("================================================================");
-	//system("pause");
-	
-	printf("===Matriks dari Pesan Enkripsi===\n");
-	Encrypt(En, var);
-	cetak_matriks_encrypt(var, En);
-	printf("=====Pesan Enkripsi=====");
-	pesan_encrypt(En, var);
-	printf("\nPesan yang sudah di enkripsi : ");
-	cetak_pesan_encrypt(En, var);
-	puts("");
-	puts("");
-	puts("================================================================");
-	//system("pause");
-	
-	printf("\n===Matriks dari Pesan Dekripsi===");
-	Decrypt(var, En, De);
-	printf("Matriks : \n");
-	cetak_matriks_decrypt(var, De);
-	pesan_decrypt(De, var);
-	printf("\n=========Pesan Dekripsi==========\n");
-	printf("Pesan Dekripsi : ");
-	cetak_pesan_decrypt(De, var);
-	//puts("");
 }

@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
+#include "cipher.h"
+#include "lsbbmp.h"
 #include "bmpio.h"
 
 BMPImage *readBMP(const char *filename, BMPHeader *header) {

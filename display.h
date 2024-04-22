@@ -25,6 +25,7 @@ typedef struct{
 	int peslen;
 	int isipesan;
 }utama;
+
 void display1 (int *j);
 void display2 (int *j, Enkripsi *En, utama *var);
 void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De);

@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "cipher.h"
+#include "lsbbmp.h"
+#include "display.h"
+
  
 typedef struct {
     unsigned char red, green, blue;
@@ -13,6 +17,7 @@ typedef struct {
     int width, height;
     RGBPixel *data;
 } BMPImage;
+
 
 #pragma pack(push, 1)
 typedef struct {
