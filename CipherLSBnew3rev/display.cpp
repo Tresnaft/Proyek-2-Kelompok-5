@@ -302,28 +302,26 @@ void display6(int *j) {
     WhitespaceSteganography ws_stegano;
     init_stegano(ws_stegano);
 
-    char covertext[100];
-    char secretmessage[100];
+    char text[100];
+    char msg[100];
 
     printf("|=================================================================================================|\n");
     printf("|====================================WHITESPACE STEGANOGRAPHY=====================================|\n");
     printf("|=================================================================================================|\n");
     printf("Masukkan cover message: ");
-    fgets(covertext, sizeof(covertext), stdin);
-    covertext[strcspn(covertext, "\n")] = '\0';
+    fgets(text, sizeof(text), stdin);
     clearInputBuffer();
-	printf("Cover message: %s \n", covertext);
 
     printf("Masukkan secret message: ");
-    fgets(secretmessage, sizeof(secretmessage), stdin);
-    secretmessage[strcspn(secretmessage, "\n")] = '\0';
+    fgets(msg, sizeof(msg), stdin);
     clearInputBuffer();
-
-	printf("Secret message: %s \n", secretmessage);
-
-    char *encrypted_text = encrypt(covertext, secretmessage, ws_stegano);
-    printf("Cover text: %s\n", encrypted_text);
-
-    char *decrypted_msg = decrypt(encrypted_text, ws_stegano);
-    printf("Hidden message: %s\n", decrypted_msg);
+	printf("PE");
+    text[strcspn(text, "\n")] = '\0';
+    msg[strcspn(msg, "\n")] = '\0';
+//
+//    char *encrypted_text = encrypt(text, msg, ws_stegano);
+//    printf("Cover text: %s\n", encrypted_text);
+//
+//    char *decrypted_msg = decrypt(encrypted_text, ws_stegano);
+//    printf("Hidden message: %s\n", decrypted_msg);
 }

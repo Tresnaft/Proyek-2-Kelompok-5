@@ -49,7 +49,6 @@ void inputMessage(char *message, Enkripsi *En, utama *var) {
     
     for (i = 3; i < messageLength + 3; i++) {
         message[i] = En->pesanEncrypt[i - 3];
-        
     }
 //    for (i = 0; i < messageLength + 1; i++) {
 //    	printf("%c", message[i]);

@@ -61,7 +61,7 @@ void display2 (int *j, Enkripsi *En, utama *var) {
     
     char message[MAX_MESSAGE_LENGTH];
     char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
-
+	
     printf("|=================================================================================================|\n");
     printf("|=======================================ENKRIPSI BMP==============================================|\n");
     printf("|=================================================================================================|\n");
@@ -79,20 +79,20 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	if (var->pesan[var->peslen - 1] == '\n') {
 	      var->pesan[var->peslen - 1] = '\0';
 	      var->peslen--;
-	  }
+	}
 	var->pesan[var->peslen]=var->pesan[var->peslen-1];
 	var->isipesan=var->peslen+1;
 	var->pesantonum[var->peslen];
 	int lenkun;
-	do{
+	do {
 	    printf("Masukan kunci (4 karakter): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);
-		if (lenkun > 4){
+		if (lenkun > 4) {
 			printf("Panjang kunci maksimal 4 karakter !!\n");
 		}	
-	}while (lenkun != 4);
+	} while (lenkun != 4);
 
 		
 	/*MENCETAK MATRIKS*/
@@ -101,7 +101,8 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 
 	for(i = 0;i < var->peslen;i++){
 	 	printf("%c", var->pesan[i]);	
-	} puts("");
+	} 
+	puts("");
 	matriks_pesan(var);
 	cetak_matriks_pesan(var);
 	
