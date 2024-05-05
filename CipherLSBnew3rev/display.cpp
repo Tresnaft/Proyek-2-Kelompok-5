@@ -112,15 +112,7 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	      var->pesan[var->peslen - 1] = '\0';
 	      var->peslen--;
 	  }
-<<<<<<< HEAD
 	var->isipesan=var->peslen;
-=======
-	if (var->peslen % 2 == 1){
-		var->pesan[var->peslen]=' ';
-		var->peslen = var->peslen+1;
-	}
-	var->isipesan=var->peslen+1;
->>>>>>> 7caa1bcf82bc9617f90a0f8850890fdb60f95130
 	var->pesantonum[var->peslen];
 	
 	int lenkun;
