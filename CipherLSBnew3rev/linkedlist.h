@@ -15,7 +15,7 @@ address createNode ();
 void mengisiNode (address P, infotype value);
 void insertGenap (address *head, infotype arr[]);
 void insertAkhir (infotype arr[], address* head, address* tail);
-void linkedtoarr(char array[], infotype arr[], address* head, address* tail);
+void linkedtoarr(char array[], address* head, address* tail);
 
 
 #endif

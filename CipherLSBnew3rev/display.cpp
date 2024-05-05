@@ -7,6 +7,7 @@
 #include "lsbjpeg.h"
 #include "cipher.h"
 #include "bmpio.h"
+#include "linkedlist.h"
 
 void clearInputBuffer() {
     int c;
@@ -55,8 +56,12 @@ void displaydecrypt (int *j) {
 void display2 (int *j, Enkripsi *En, utama *var) {
 	BMPHeader head;
 	BMPImage *bmp;
+	address first = NULL;
+	address last = NULL;
 	char bacafile[100];
     char hasilfile[100];
+    char psn[500];
+    int psnlen;
     int i = 0;
     
     char message[MAX_MESSAGE_LENGTH];
@@ -74,17 +79,42 @@ void display2 (int *j, Enkripsi *En, utama *var) {
  
     while (getchar() != '\n');
     printf("\nMasukan pesan yang ingin di enkripsi: ");
-    fgets(var->pesan, sizeof(var->pesan), stdin);
-	var->peslen = strlen(var->pesan);
+    scanf("%[^\n]s", psn);
+	var->peslen = strlen(psn);
+	
+	if(var->peslen%2 == 1){
+    	psn[var->peslen] = ' ';
+		var->peslen = var->peslen+1; 	
+	}
+	
+	for (int i = 0; i < var->peslen; i++) {
+		if (psn[i] =='\0') {
+			psn[i] = ' ';
+		}
+	}
+
+	insertAkhir(psn, &first, &last);
+	printf("\n");
+	insertGenap(&first, psn);
+	
+	printf("Bentuk Linked List : ");
+	address awal = first;
+	while (awal != NULL) {
+		printf("| %c | -> ", awal->info);
+		awal = awal->next;
+	}
+	linkedtoarr(var->pesan, &first, &last);
+	puts("");
+	printf("%s", var->pesan);
+	
+	
 	if (var->pesan[var->peslen - 1] == '\n') {
 	      var->pesan[var->peslen - 1] = '\0';
 	      var->peslen--;
 	  }
-	if (var->peslen % 2 == 1){
-		var->pesan[var->peslen]=' ';
-	}
-	var->isipesan=var->peslen+1;
+	var->isipesan=var->peslen;
 	var->pesantonum[var->peslen];
+	
 	int lenkun;
 	do{
 	    printf("Masukan kunci (4 karakter): ");
@@ -166,13 +196,22 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 
     reallen = panjangpesan;
  
-    panjangpesan = panjangpesan * 4 + 8;
+    panjangpesan = (panjangpesan * 4 + 8)+1;
 	extractlsb(bmp, panjangpesan, reallen, hasil);
 	puts("");
+	printf("Hasil : %s\n", hasil);
 	
 	int num[2048];
+	
     matriks_LSB(var, hasil, num, reallen);
-
+//    if(reallen%2==1){
+//		num[reallen] = 0;
+//	}
+    for(int i = 0;i<reallen;i++){
+    	printf("Numkey : %d\n", num[i]);	
+	}
+	
+	//printf("length = %d", length);
     free(bmp->data);
     free(bmp);
     

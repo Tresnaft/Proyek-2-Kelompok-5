@@ -59,7 +59,7 @@ void insertAkhir (infotype arr[], address* head, address* tail) {
 }
 
 
-void linkedtoarr(char array[], infotype arr[], address* head, address* tail){
+void linkedtoarr(char array[], address* head, address* tail){
 	address awal = *head;
 	int i = 0;
 	while (awal != NULL) {
