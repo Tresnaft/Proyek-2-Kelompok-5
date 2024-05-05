@@ -96,6 +96,7 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	insertAkhir(psn, &first, &last);
 	printf("\n");
 	insertGenap(&first, psn);
+	reverseLinkedList(&first, &last);
 	
 	printf("Bentuk Linked List : ");
 	address awal = first;
@@ -103,15 +104,16 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 		printf("| %c | -> ", awal->info);
 		awal = awal->next;
 	}
+	//printf("| %c |", last->next->info);
 	linkedtoarr(var->pesan, &first, &last);
 	puts("");
-	printf("%s", var->pesan);
+	//printf("%s", var->pesan);
 	
 	
-	if (var->pesan[var->peslen - 1] == '\n') {
-	      var->pesan[var->peslen - 1] = '\0';
-	      var->peslen--;
-	  }
+//	if (var->pesan[var->peslen - 1] == '\n') {
+//	      var->pesan[var->peslen - 1] = '\0';
+//	      var->peslen--;
+//	}
 	var->isipesan=var->peslen;
 	var->pesantonum[var->peslen];
 	

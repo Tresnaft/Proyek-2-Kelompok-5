@@ -58,6 +58,28 @@ void insertAkhir (infotype arr[], address* head, address* tail) {
 	}
 }
 
+void reverseLinkedList(address *head, address *tail) {
+    address prevNode = NULL;
+    address currentNode = *head;
+    address nextNode = NULL;
+
+    *tail = *head; // Menjadikan tail sama dengan head karena setelah proses reverse head akan menjadi tail
+
+    while (currentNode != NULL) {
+        // Simpan node berikutnya sebelum diubah
+        nextNode = currentNode->next;
+        // Ubah pointer next dari node saat ini untuk menunjuk ke node sebelumnya
+        currentNode->next = prevNode;
+        // Pindahkan pointer prevNode ke currentNode
+        prevNode = currentNode;
+        // Pindahkan pointer currentNode ke nextNode
+        currentNode = nextNode;
+    }
+
+    // Ubah head untuk menunjuk ke node terakhir, yang sebelumnya adalah tail
+    *head = prevNode;
+}
+
 
 void linkedtoarr(char array[], address* head, address* tail){
 	address awal = *head;

@@ -35,7 +35,6 @@ typedef struct{
 }utama;
 
 
-
 void cetak_pesan_encrypt(Enkripsi *En, utama *var);
 void cetak_matriks_encrypt(utama *var, Enkripsi *En);
 void cetak_pesan_decrypt(Dekripsi *De, utama *var);

@@ -5,7 +5,7 @@
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 	int i=0;
-    while(i<var->isipesan-1){
+    while(i<var->isipesan){
         printf("%c",En->pesanEncrypt[i]);
         i++;
     }
@@ -27,7 +27,7 @@ void cetak_matriks_encrypt(utama *var, Enkripsi *En){
 
 void cetak_pesan_decrypt(Dekripsi *De, utama *var){
 	int i=0;
-    while(i<var->isipesan-1){
+    while(i<var->isipesan){
         printf("%c",De->pesanDecrypt[i]);
         i++;
     }
@@ -35,7 +35,7 @@ void cetak_pesan_decrypt(Dekripsi *De, utama *var){
 
 void cetak_pesan_decryptLSB(Dekripsi *De, int batas){
 	int i=0;
-    while(i<batas-1){
+    while(i<batas){
         printf("%c",De->pesanDecrypt[i]);
         i++;
     }
@@ -59,7 +59,7 @@ void cetak_matriks_decryptLSB(int batas, Dekripsi *De){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
-			for(j = 0; j < batas-2; j++){
+			for(j = 0; j < batas; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", De->dekripsi[j]);
 				}else if(i==1 && j%2!=0){
@@ -96,7 +96,7 @@ void pesan_decrypt(Dekripsi *De, utama *var){
 
 void pesan_decryptLSB(Dekripsi *De, int batas, utama *var){
 	int i = 0, j;
-	while(i < batas-1){
+	while(i < batas){
 		for(j = 0;j <= 79;j++){
 			if(De->dekripsi[i]==j){
 				De->pesanDecrypt[i]=var->karakter[j];
@@ -155,7 +155,7 @@ void cetak_matriks_pesan(utama *var){
 	int i,j;
 	//if(batas%2==0){
 		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->isipesan - 1; j++){
+			for(j = 0; j < var->isipesan; j++){
 				if(i==0 && j%2==0){
 					printf("%d\t", var->pesantonum[j]);
 				}else if(i==1 && j%2!=0){
