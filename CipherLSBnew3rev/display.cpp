@@ -82,6 +82,7 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	  }
 	if (var->peslen % 2 == 1){
 		var->pesan[var->peslen]=' ';
+		var->peslen = var->peslen+1;
 	}
 	var->isipesan=var->peslen+1;
 	var->pesantonum[var->peslen];
