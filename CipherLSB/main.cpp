@@ -1,11 +1,9 @@
-//#include <iostream>
 #include <stdio.h>
 #include "cip.h"
 #include "lsbbmp.h"
 #include "display.h"
 #include "bmpio.h"
 #include "ws.h"
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 
 int main() {

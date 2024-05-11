@@ -82,18 +82,13 @@ void enkripsiBMP (int *j, Enkripsi *En, utama *var) {
 			psn[i]=var->huruf[0];
 		}
 	}	
-	
-//	for (int i = 0; i < var->peslen; i++) {
-//		if (psn[i] =='\0') {
-//			psn[i] = ' ';
-//		}
-//	}
 
+	// Mengacak pesan
 	insertAkhir(psn, &first, &last);
 	printf("\n");
 	insertGenap(&first, psn);
 	linkedtoarr(var->pesan, &first, &last);
-	printf("ini pesan sebelum reverse %s", var->pesan);
+	printf("ini pesan sebelum reverse %s \n", var->pesan);
 	reverseLinkedList(&first, &last);
 	
 	printf("Bentuk Linked List : ");
@@ -102,16 +97,9 @@ void enkripsiBMP (int *j, Enkripsi *En, utama *var) {
 		printf("| %c | -> ", awal->info);
 		awal = awal->next;
 	}
-	//printf("| %c |", last->next->info);
 	linkedtoarr(var->pesan, &first, &last);
 	puts("");
-	//printf("%s", var->pesan);
 	
-	
-//	if (var->pesan[var->peslen - 1] == '\n') {
-//	      var->pesan[var->peslen - 1] = '\0';
-//	      var->peslen--;
-//	}
 	var->isipesan=var->peslen;
 	var->pesantonum[var->peslen];
 	
@@ -166,16 +154,18 @@ void enkripsiBMP (int *j, Enkripsi *En, utama *var) {
 	free(bmp->data);
 	free(bmp);
 	
-	printf("isi first %c", first->info);
-	printf("isi last %c", last->info);
-	printf("sebelum del");
+	// printf("isi first %c", first->info);
+	// printf("isi last %c", last->info);
+	// printf("sebelum del");
+
 	deleteNode(&first, &last);
-	printf("Bentuk Linked List : ");
-	if(first == NULL){
-		printf("Linked LIst Kosong");
-	} else {
-		printf("isi first %c", last->info);
-	}
+
+	// printf("Bentuk Linked List : ");
+	// if(first == NULL){
+	// 	printf("Linked LIst Kosong");
+	// } else {
+	// 	printf("isi first %c", last->info);
+	// }
 }
 
 void dekripsiBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
@@ -214,19 +204,15 @@ void dekripsiBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     panjangpesan = (panjangpesan * 4 + 8)+1;
 	extractlsb(bmp, panjangpesan, reallen, hasil);
 	puts("");
-	//printf("Hasil : %s\n", hasil);
 	
 	int num[2048];
 	
     matriks_LSB(var, hasil, num, reallen);
-//    if(reallen%2==1){
-//		num[reallen] = 0;
-//	}
+
     for(int i = 0;i<reallen;i++){
     	printf("Numkey : %d\n", num[i]);	
 	}
 	
-	//printf("length = %d", length);
     free(bmp->data);
     free(bmp);
     
@@ -237,15 +223,10 @@ void dekripsiBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("Matriks : \n");
     cetak_matriks_decryptLSB(reallen, De);
     pesan_decryptLSB(De, reallen, var);
-//    insertAkhir(De->pesanDecrypt, &first, &last);
-//	printf("\n");
-//	insertGenap(&first, De->pesanDecrypt);
-//	reverseLinkedList(&first, &last);
-//	linkedtoarr(De->pesanDecrypt, &first, &last);
-//	printf("ini pesan dekrip %s", De->pesanDecrypt);
+
     printf("\n=========Pesan Dekripsi==========\n");
     printf("Pesan Hasil Ekstrak  : ");
-    //cetak_pesan_decryptLSB(De, reallen);
+
     puts("");
     printAkhir (De);
     
@@ -255,6 +236,7 @@ void enkripsiJPEG (int *j, Enkripsi *En, utama *var) {
 	char bacafile[100];
     char hasilfile[100];
     int i = 0;
+	address first = NULL, last = NULL;
 
 
     printf("|=================================================================================================|\n");
@@ -277,14 +259,32 @@ void enkripsiJPEG (int *j, Enkripsi *En, utama *var) {
 	      var->pesan[var->peslen - 1] = '\0';
 	      var->peslen--;
 	  }
+	  
 	if (var->peslen % 2 == 1){
 		var->pesan[var->peslen]=' ';
+	}
+	
+	for(i = 0;i<var->peslen;i++){
+		if(var->pesan[i]==' '){
+			var->pesan[i]=var->huruf[0];
+		}
 	}
 	
 	var->isipesan=var->peslen+1;
 	var->pesantonum[var->peslen];
 	
-    int lenkun;
+	// Mengacak pesan
+	 insertAkhir(var->pesan, &first, &last);
+	 printf("\n");
+	 insertGenap(&first, var->pesan);
+//	 linkedtoarr(var->pesan, &first, &last);
+//	 printf("ini pesan sebelum reverse %s \n", var->pesan);
+	 reverseLinkedList(&first, &last);
+	 linkedtoarr(var->pesan, &first, &last);
+	 printf("ini pesan setelah reverse %s \n", var->pesan);
+	 
+    
+	int lenkun;
 	do{
 	    printf("Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
@@ -317,6 +317,8 @@ void enkripsiJPEG (int *j, Enkripsi *En, utama *var) {
 	printf("\nPesan yang sudah di enkripsi : ");
 	cetak_pesan_encrypt(En, var);
     puts("");
+
+
 	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     
 	printf("Encoding...\n");
@@ -356,7 +358,8 @@ void dekripsiJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     pesan_decryptLSB(De, batas, var);
     printf("\n=========Pesan Dekripsi==========\n");
     printf("Pesan Dekripsi : ");
-    cetak_pesan_decryptLSB(De, batas);
+//    cetak_pesan_decryptLSB(De, batas);
+	printAkhir(De);
     puts("");
 }
 

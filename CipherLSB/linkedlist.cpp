@@ -101,11 +101,12 @@ void linkedtoarr(char array[], address* head, address* tail){
 	int i = 0;
 	while (awal != NULL) {
 		array[i] = awal->info;
-		awal = awal->next;
+		awal = awal->next;	
 		i++;
 	}
 	array[i] = '\0';
 }
+
 
 void printAkhir (Dekripsi *De) {
 	int panjang = strlen(De->pesanDecrypt);
@@ -121,6 +122,7 @@ void printAkhir (Dekripsi *De) {
 			kebalik[i] = ' ';
 		} 
 	}
+	printf("\n");
 	
 	printf("Plain Text :  ");
 	for (int i = 0; i <= panjang-1; i+=2) {
@@ -130,7 +132,7 @@ void printAkhir (Dekripsi *De) {
 	for (int i = 1; i <= panjang; i+=2) {
 		printf("%c", kebalik[i]); 
 	}
-	
+	printf("\n");
 }
 
 //void proseslinkedlist(){
