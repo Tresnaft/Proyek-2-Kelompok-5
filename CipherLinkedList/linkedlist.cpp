@@ -80,6 +80,21 @@ void reverseLinkedList(address *head, address *tail) {
     *head = prevNode;
 }
 
+void deleteNode (address *head, address *tail) {
+	address pdel;
+	address ptemp;
+	ptemp = *head;
+	while (ptemp != *tail) {
+		pdel = ptemp;
+		ptemp = ptemp->next;
+		free(pdel);
+	}
+	ptemp->next = NULL;
+	*head = NULL;
+	*tail = NULL;
+	free (*tail);
+	free (*head);
+}
 
 void linkedtoarr(char array[], address* head, address* tail){
 	address awal = *head;
@@ -90,6 +105,32 @@ void linkedtoarr(char array[], address* head, address* tail){
 		i++;
 	}
 	array[i] = '\0';
+}
+
+void printAkhir (Dekripsi *De) {
+	int panjang = strlen(De->pesanDecrypt);
+//	printf("masuk print akhir");
+	char kebalik[panjang];
+    for (int i = 0; i < panjang; i++) {
+        kebalik[i] = De->pesanDecrypt[panjang - i - 1];
+    	printf("%c", kebalik[i]);
+	}
+	
+	for (int i = 0; i <= panjang; i++) {
+		if (kebalik[i] == '~') {
+			kebalik[i] = ' ';
+		} 
+	}
+	
+	printf("Plain Text :  ");
+	for (int i = 0; i <= panjang-1; i+=2) {
+		printf("%c", kebalik[i]); 
+	}
+	
+	for (int i = 1; i <= panjang; i+=2) {
+		printf("%c", kebalik[i]); 
+	}
+	
 }
 
 //void proseslinkedlist(){

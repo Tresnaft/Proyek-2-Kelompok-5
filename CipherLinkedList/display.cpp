@@ -101,6 +101,8 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	insertAkhir(psn, &first, &last);
 	printf("\n");
 	insertGenap(&first, psn);
+	linkedtoarr(var->pesan, &first, &last);
+	printf("ini pesan sebelum reverse %s", var->pesan);
 	reverseLinkedList(&first, &last);
 	
 	printf("Bentuk Linked List : ");
@@ -155,11 +157,6 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	cetak_matriks_encrypt(var, En);
 	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
-	for(i = 0;i<var->peslen;i++){
-		if(En->pesanEncrypt[i]==' '){
-			En->pesanEncrypt[i]='~';
-		}
-	}
 	printf("ini%cspasi", var->huruf[0]);
 	printf("\nPesan yang sudah di enkripsi : ");
 	cetak_pesan_encrypt(En, var);
@@ -177,11 +174,24 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	printf("berhasil!!\n");
 	free(bmp->data);
 	free(bmp);
+	
+	printf("isi first %c", first->info);
+	printf("isi last %c", last->info);
+	printf("sebelum del");
+	deleteNode(&first, &last);
+	printf("Bentuk Linked List : ");
+	if(first == NULL){
+		printf("Linked LIst Kosong");
+	} else {
+		printf("isi first %c", last->info);
+	}
 }
 
 void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 	BMPHeader head;
 	BMPImage *bmp;
+	address first = NULL;
+	address last = NULL;
 	char hasilfile[100];
 	int panjangpesan;
     int reallen;
@@ -236,10 +246,18 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     printf("Matriks : \n");
     cetak_matriks_decryptLSB(reallen, De);
     pesan_decryptLSB(De, reallen, var);
+    insertAkhir(De->pesanDecrypt, &first, &last);
+	printf("\n");
+	insertGenap(&first, De->pesanDecrypt);
+	reverseLinkedList(&first, &last);
+//	linkedtoarr(De->pesanDecrypt, &first, &last);
+//	printf("ini pesan dekrip %s", De->pesanDecrypt);
     printf("\n=========Pesan Dekripsi==========\n");
-    printf("Pesan Dekripsi : ");
-    cetak_pesan_decryptLSB(De, reallen);
+    printf("Pesan Hasil Ekstrak  : ");
+    //cetak_pesan_decryptLSB(De, reallen);
     puts("");
+    printAkhir (De);
+    
 }
 
 void display4 (int *j, Enkripsi *En, utama *var) {
