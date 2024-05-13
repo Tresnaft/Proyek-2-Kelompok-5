@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#include "lsbbmp.h"
+
 #include "cip.h"
 
 typedef struct {

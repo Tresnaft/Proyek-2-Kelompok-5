@@ -14,7 +14,7 @@ void clearInputBuffer() {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-void display1 (int *j) {
+void displayMenu (int *j) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi                                                                                   |\n");
@@ -53,7 +53,7 @@ void displaydecrypt (int *j) {
     //system("cls");
 }
 
-void display2 (int *j, Enkripsi *En, utama *var) {
+void encryptBMP (int *j, Enkripsi *En, utama *var) {
 	BMPHeader head;
 	BMPImage *bmp;
 	address first = NULL;
@@ -167,7 +167,7 @@ void display2 (int *j, Enkripsi *En, utama *var) {
 	free(bmp);
 }
 
-void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
+void decryptBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 	BMPHeader head;
 	BMPImage *bmp;
 	char hasilfile[100];
@@ -230,7 +230,7 @@ void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     puts("");
 }
 
-void display4 (int *j, Enkripsi *En, utama *var) {
+void encryptJPEG (int *j, Enkripsi *En, utama *var) {
 	char bacafile[100];
     char hasilfile[100];
     int i = 0;
@@ -302,7 +302,7 @@ void display4 (int *j, Enkripsi *En, utama *var) {
     encode(bacafile, hasilfile, var, En);
 }
 
-void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
+void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
 	char hasilfile[100];
 	char *hasil = (char *)malloc(MAX_MESSAGE_LENGTH + 1);
 	
@@ -339,7 +339,7 @@ void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     puts("");
 }
 
-void display6(int *j) {
+void whitespace(int *j) {
     WhitespaceSteganography ws_stegano;
     init_stegano(ws_stegano);
 

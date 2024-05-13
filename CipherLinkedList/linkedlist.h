@@ -5,6 +5,7 @@
 #include <cstring>
 #include <stdio.h>
 #include "cip.h"
+
 typedef char infotype;
 typedef struct node* address;
 typedef struct node {

@@ -7,12 +7,12 @@
 
 
 
-void display1 (int *j);
-void display2 (int *j, Enkripsi *En, utama *var);
-void display3 (int *j, Enkripsi *En, utama *var, Dekripsi *De);
-void display4 (int *j, Enkripsi *En, utama *var);
-void display5 (int *j, Enkripsi *En, utama *var, Dekripsi *De);
-void display6 (int *j);
+void displayMenu (int *j);
+void encryptBMP (int *j, Enkripsi *En, utama *var);
+void decryptBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De);
+void encryptJPEG (int *j, Enkripsi *En, utama *var);
+void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De);
+void whitespace (int *j);
 void displayencrypt (int *j);
 void displaydecrypt (int *j);
 void mustintdisplay(int *hasil);

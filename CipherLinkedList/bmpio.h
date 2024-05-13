@@ -4,10 +4,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "cip.h"
-#include "lsbbmp.h"
-#include "display.h"
-
+#include <string.h>
  
 typedef struct {
     unsigned char red, green, blue;
