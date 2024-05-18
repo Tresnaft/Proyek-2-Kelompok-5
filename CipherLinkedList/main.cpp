@@ -34,8 +34,12 @@ int main() {
 	            	case 4:
 	            		whitespace (&jawab);
 	            		break;
+					case 9:
+						break;
+					case 0:
+						exit(0);
 	            	default:
-	            		printf("Masukkan angka 1 atau 2\n\n");
+	            		printf("Masukkan angka yang tepat. \n\n");
 				}
 	            break;
 			case 2 :
@@ -47,15 +51,19 @@ int main() {
 	            	case 2:
 	            		decryptJPEG (&jawab, En, var, De);
 	            		break;
+					case 9:
+						break;
+					case 0:
+						exit(0);
 	            	default:
-	            		printf("Masukkan angka 1 atau 2\n\n");
+	            		printf("Masukkan angka yang tepat. \n\n");
 				}
 				break;
-			case 9 :
-				exit(1);
+			case 0 :
+				exit(0);
 			default:
-	            printf("Masukkan angka 1 atau 2\n\n");
+	            printf("Masukkan angka yang tepat. \n\n");
 	    }
-	}while(jawab != 9);   
+	}while(1);   
     return 0;
 }

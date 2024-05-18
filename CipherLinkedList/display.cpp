@@ -11,7 +11,7 @@ void displayMenu (int *j) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi                                                                                   |\n");
     printf("| 2. Dekripsi                                                                                   |\n");
-    printf("| 9. Keluar                                                                                     |\n");
+    printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
     scanf("%d", j);
@@ -24,8 +24,9 @@ void displayencrypt (int *j) {
     printf("| 1. Enkripsi BMP                                                                               |\n");
     printf("| 2. Enkripsi JPEG                                                                              |\n");
 	printf("| 3. Enkripsi PNG                                                                               |\n");
-//	printf("| 4. Whitespace Steganography                                                                   |\n");    
-    printf("| 9. Keluar                                                                                     |\n");
+//	printf("| 4. Whitespace Steganography                                                                   |\n"); 
+    printf("| 9. Kembali                                                                                    |\n");  
+    printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
     scanf("%d", j);
@@ -38,7 +39,7 @@ void displaydecrypt (int *j) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Dekripsi BMP                                                                               |\n");
     printf("| 2. Dekripsi JPEG                                                                              |\n");
-    printf("| 3. Dekripsi PNG                                                                              |\n");
+    printf("| 3. Dekripsi PNG                                                                               |\n");
     printf("| 9. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
