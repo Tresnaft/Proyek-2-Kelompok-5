@@ -1,6 +1,7 @@
 #ifndef display_h
 #define display_h
 
+#include "lsbpng.h"
 #include "lsbbmp.h"
 #include "cip.h"
 #include "bmpio.h"
@@ -17,5 +18,6 @@ void whitespace (int *j);
 void displayencrypt (int *j);
 void displaydecrypt (int *j);
 void mustintdisplay(int *hasil);
+void encryptPNG(int *j);
 
 #endif

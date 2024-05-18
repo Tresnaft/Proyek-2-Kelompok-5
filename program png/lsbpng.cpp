@@ -1,10 +1,7 @@
 #include "lsbpng.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
-ImageData *loadImage(char *filename) {
-    ImageData *img_data = (ImageData *)malloc(sizeof(ImageData));
+PNGImageData *loadImage(char *filename) {
+    PNGImageData *img_data = (PNGImageData *)malloc(sizeof(PNGImageData));
     if (!img_data) {
         printf("Memory allocation failed.\n");
         return NULL;
@@ -21,14 +18,14 @@ ImageData *loadImage(char *filename) {
     return img_data;
 }
 
-void freeImageData(ImageData *img_data) {
+void freeImageData(PNGImageData *img_data) {
     stbi_image_free(img_data->image);
     free(img_data);
 }
 
-void encode(char *src_image, char *dest_image, char *message) {
+void encodePNG(char *src_image, char *dest_image, char *message) {
     // Load the source image
-    ImageData *img_data = loadImage(src_image);
+    PNGImageData *img_data = loadImage(src_image);
     if (img_data == NULL)
         return;
 
@@ -65,9 +62,9 @@ void encode(char *src_image, char *dest_image, char *message) {
 
 }
 
-void decode(char *src_image) {
+void decodePNG(char *src_image) {
         // Load the source image
-    ImageData *img_data = loadImage(src_image);
+    PNGImageData *img_data = loadImage(src_image);
     if (img_data == NULL)
         return;
 

@@ -1,5 +1,6 @@
 #ifndef LSB_IMAGE_H
 #define LSB_IMAGE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -14,12 +15,12 @@ typedef struct {
     int width;
     int height;
     int channels;
-} ImageData;
+} PNGImageData;
 
-ImageData *loadImage(char *filename);
-void freeImageData(ImageData *img_data);
-void encode(char *src_image, char *dest_image, char *message);
-void decode(char *src_image);
+PNGImageData *loadImage(char *filename);
+void freeImageData(PNGImageData *img_data);
+void encodePNG(char *src_image, char *dest_image, char *message);
+void decodePNG(char *src_image);
 
 #endif
 

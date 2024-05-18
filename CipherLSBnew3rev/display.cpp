@@ -299,7 +299,7 @@ void encryptJPEG (int *j, Enkripsi *En, utama *var) {
 	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     
 	printf("Encoding...\n");
-    encode(bacafile, hasilfile, var, En);
+    encodeJPEG(bacafile, hasilfile, var, En);
 }
 
 void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
@@ -316,7 +316,7 @@ void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     scanf("%s", hasilfile);
     printf("Masukkan kunci : ");
     scanf("%s", key);
-    decode(hasilfile, hasil);
+    decodeJPEG(hasilfile, hasil);
     int batas = strlen(hasil);
 
     

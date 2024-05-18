@@ -5,7 +5,7 @@
 #include <string.h>
 
 
-void open_image(const char *filename, ImageData *image) {
+void open_image(const char *filename, JPEGImageData *image) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
         printf("ERROR: Cannot open source image\n");
@@ -27,12 +27,12 @@ void open_image(const char *filename, ImageData *image) {
     fclose(file);
 }
 
-void close_image(ImageData *image) {
+void close_image(JPEGImageData *image) {
     free(image->buffer);
 }
 
-void encode(const char *source_image, const char *dest_image, utama *var, Enkripsi *En) {
-    ImageData image;
+void encodeJPEG(const char *source_image, const char *dest_image, utama *var, Enkripsi *En) {
+    JPEGImageData image;
     open_image(source_image, &image);
 	
     FILE *outfile = fopen(dest_image, "wb");
@@ -75,8 +75,8 @@ void encode(const char *source_image, const char *dest_image, utama *var, Enkrip
     printf("Image Encoded Successfully\n");
 }
 
-void decode(const char *image_path, char lsbjpg[]) {
-    ImageData image;
+void decodeJPEG(const char *image_path, char lsbjpg[]) {
+    JPEGImageData image;
     open_image(image_path, &image);
 
     uint8_t *buffer = image.buffer;

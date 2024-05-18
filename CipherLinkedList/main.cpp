@@ -5,6 +5,8 @@
 #include "display.h"
 #include "bmpio.h"
 #include "ws.h"
+#include "lsbpng.h"
+#include "lsbjpeg.h"
 /* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 
@@ -26,7 +28,10 @@ int main() {
 	            	case 2:
 	            		encryptJPEG (&jawab, En, var);
 	            		break;
-	            	case 3:
+					case 3:
+						encryptPNG (&jawab);
+						break;
+	            	case 4:
 	            		whitespace (&jawab);
 	            		break;
 	            	default:

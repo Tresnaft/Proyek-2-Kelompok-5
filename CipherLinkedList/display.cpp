@@ -1,13 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
 #include "display.h"
-#include "lsbbmp.h"
-#include "lsbjpeg.h"
-#include "cip.h"
-#include "bmpio.h"
-#include "linkedlist.h"
+
 
 void clearInputBuffer() {
     int c;
@@ -31,7 +23,8 @@ void displayencrypt (int *j) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi BMP                                                                               |\n");
     printf("| 2. Enkripsi JPEG                                                                              |\n");
-//	printf("| 3. Whitespace Steganography                                                                   |\n");    
+	printf("| 3. Enkripsi PNG                                                                               |\n");
+//	printf("| 4. Whitespace Steganography                                                                   |\n");    
     printf("| 9. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
@@ -45,6 +38,7 @@ void displaydecrypt (int *j) {
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Dekripsi BMP                                                                               |\n");
     printf("| 2. Dekripsi JPEG                                                                              |\n");
+    printf("| 3. Dekripsi PNG                                                                              |\n");
     printf("| 9. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
@@ -329,7 +323,7 @@ void encryptJPEG (int *j, Enkripsi *En, utama *var) {
 	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     
 	printf("Encoding...\n");
-    encode(bacafile, hasilfile, var, En);
+    encodeJPEG(bacafile, hasilfile, var, En);
 }
 
 void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
@@ -346,7 +340,7 @@ void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     scanf("%s", hasilfile);
     printf("Masukkan kunci : ");
     scanf("%s", key);
-    decode(hasilfile, hasil);
+    decodeJPEG(hasilfile, hasil);
     int batas = strlen(hasil);
 
     
@@ -395,4 +389,36 @@ void whitespace(int *j) {
 //
 //    char *decrypted_msg = decrypt(encrypted_text, ws_stegano);
 //    printf("Hidden message: %s\n", decrypted_msg);
+}
+
+void encryptPNG(int *j){
+	printf("--LSB Encryption--\n");
+    printf("1: Encode\n");
+    printf("2: Decode\n");
+    printf("Enter your choice: ");
+    
+    char choice;
+    scanf(" %c", &choice); // Notice the space before %c to consume any leading whitespace
+
+    if (choice == '1') {
+        char src_image[100], dest_image[100], message[1000];
+        printf("Enter Source Image Path: ");
+        scanf("%s", src_image);
+        printf("Enter Message to Hide: ");
+        getchar(); // Clear newline from buffer
+        fgets(message, sizeof(message), stdin);
+        message[strcspn(message, "\n")] = '\0'; // Remove newline character
+        printf("Enter Destination Image Path: ");
+        scanf("%s", dest_image);
+        printf("Encoding...\n");
+        encodePNG(src_image, dest_image, message);
+    } else if (choice == '2') {
+        char src_image[100];
+        printf("Enter Source Image Path: ");
+        scanf("%s", src_image);
+        printf("Decoding...\n");
+        decodePNG(src_image);
+    } else {
+        printf("ERROR: Invalid option chosen\n");
+    }
 }

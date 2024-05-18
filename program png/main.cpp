@@ -22,13 +22,13 @@ int main() {
         printf("Enter Destination Image Path: ");
         scanf("%s", dest_image);
         printf("Encoding...\n");
-        encode(src_image, dest_image, message);
+        encodePNG(src_image, dest_image, message);
     } else if (choice == '2') {
         char src_image[100];
         printf("Enter Source Image Path: ");
         scanf("%s", src_image);
         printf("Decoding...\n");
-        decode(src_image);
+        decodePNG(src_image);
     } else {
         printf("ERROR: Invalid option chosen\n");
     }
