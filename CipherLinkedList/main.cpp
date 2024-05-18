@@ -23,16 +23,16 @@ int main() {
 	        	displayencrypt(&jawab);
 	        	switch(jawab){
 	        		case 1:
-	        			encryptBMP (&jawab, En, var);
+	        			encryptBMP (En, var);
 	            		break;
 	            	case 2:
-	            		encryptJPEG (&jawab, En, var);
+	            		encryptJPEG (En, var);
 	            		break;
 					case 3:
-						encryptPNG (&jawab);
+						encryptPNG ();
 						break;
 	            	case 4:
-	            		whitespace (&jawab);
+	            		whitespace ();
 	            		break;
 					case 9:
 						break;
@@ -46,11 +46,13 @@ int main() {
 				displaydecrypt(&jawab);
 				switch (jawab){
 	        		case 1:
-	        			decryptBMP (&jawab, En, var, De);
+	        			decryptBMP (En, var, De);
 	            		break;
 	            	case 2:
-	            		decryptJPEG (&jawab, En, var, De);
+	            		decryptJPEG (En, var, De);
 	            		break;
+					case 3:
+						decryptPNG();
 					case 9:
 						break;
 					case 0:

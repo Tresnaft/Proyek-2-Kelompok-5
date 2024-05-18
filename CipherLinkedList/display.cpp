@@ -48,7 +48,7 @@ void displaydecrypt (int *j) {
     //system("cls");
 }
 
-void encryptBMP (int *j, Enkripsi *En, utama *var) {
+void encryptBMP (Enkripsi *En, utama *var) {
 	BMPHeader head;
 	BMPImage *bmp;
 	address first = NULL;
@@ -182,7 +182,7 @@ void encryptBMP (int *j, Enkripsi *En, utama *var) {
 	}
 }
 
-void decryptBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
+void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
 	BMPHeader head;
 	BMPImage *bmp;
 	address first = NULL;
@@ -255,7 +255,7 @@ void decryptBMP (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     
 }
 
-void encryptJPEG (int *j, Enkripsi *En, utama *var) {
+void encryptJPEG (Enkripsi *En, utama *var) {
 	char bacafile[100];
     char hasilfile[100];
     int i = 0;
@@ -327,7 +327,7 @@ void encryptJPEG (int *j, Enkripsi *En, utama *var) {
     encodeJPEG(bacafile, hasilfile, var, En);
 }
 
-void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
+void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
 	char hasilfile[100];
 	char *hasil = (char *)malloc(MAX_MESSAGE_LENGTH + 1);
 	
@@ -364,7 +364,7 @@ void decryptJPEG (int *j, Enkripsi *En, utama *var, Dekripsi *De) {
     puts("");
 }
 
-void whitespace(int *j) {
+void whitespace() {
     WhitespaceSteganography ws_stegano;
     init_stegano(ws_stegano);
 
@@ -392,34 +392,40 @@ void whitespace(int *j) {
 //    printf("Hidden message: %s\n", decrypted_msg);
 }
 
-void encryptPNG(int *j){
-	printf("--LSB Encryption--\n");
-    printf("1: Encode\n");
-    printf("2: Decode\n");
-    printf("Enter your choice: ");
-    
-    char choice;
-    scanf(" %c", &choice); // Notice the space before %c to consume any leading whitespace
+void encryptPNG(){
+	printf("|=================================================================================================|\n");
+    printf("|=========================================ENKRIPSI PNG============================================|\n");
+    printf("|=================================================================================================|\n");
 
-    if (choice == '1') {
-        char src_image[100], dest_image[100], message[1000];
-        printf("Enter Source Image Path: ");
-        scanf("%s", src_image);
-        printf("Enter Message to Hide: ");
-        getchar(); // Clear newline from buffer
-        fgets(message, sizeof(message), stdin);
-        message[strcspn(message, "\n")] = '\0'; // Remove newline character
-        printf("Enter Destination Image Path: ");
-        scanf("%s", dest_image);
-        printf("Encoding...\n");
-        encodePNG(src_image, dest_image, message);
-    } else if (choice == '2') {
-        char src_image[100];
-        printf("Enter Source Image Path: ");
-        scanf("%s", src_image);
-        printf("Decoding...\n");
-        decodePNG(src_image);
-    } else {
-        printf("ERROR: Invalid option chosen\n");
-    }
+	char src_image[100], dest_image[100], message[1000];
+
+	printf("Enter Source Image Path: ");
+	scanf("%s", src_image);
+
+	printf("Enter Message to Hide: ");
+	getchar(); // Clear newline from buffer
+	fgets(message, sizeof(message), stdin);
+
+	message[strcspn(message, "\n")] = '\0'; // Remove newline character
+
+	printf("Enter Destination Image Path: ");
+	scanf("%s", dest_image);
+
+	printf("Encoding...\n");
+
+	encodePNG(src_image, dest_image, message);
+}
+
+void decryptPNG(){
+	printf("|=================================================================================================|\n");
+    printf("|=========================================DEKRIPSI PNG============================================|\n");
+    printf("|=================================================================================================|\n");
+
+	char src_image[100];
+
+	printf("Enter Source Image Path: ");
+	scanf("%s", src_image);
+
+	printf("Decoding...\n");
+	decodePNG(src_image);
 }
