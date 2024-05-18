@@ -68,7 +68,7 @@ void encodePNG(char *src_image, char *dest_image, char *message) {
 }
 
 
-void decodePNG(char *src_image) {
+void decodePNG(char *src_image, char *message) {
         // Load the source image
     PNGImageData *img_data = loadImage(src_image);
     if (img_data == NULL)
@@ -95,6 +95,7 @@ void decodePNG(char *src_image) {
         printf("No Hidden Message Found\n");
     }
 
+    strcpy(message, decoded_message);
     // Free memory used by the image
     freeImageData(img_data);
 

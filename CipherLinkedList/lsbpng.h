@@ -17,7 +17,7 @@ typedef struct {
 PNGImageData *loadImage(char *filename);
 void freeImageData(PNGImageData *img_data);
 void encodePNG(char *src_image, char *dest_image, char *message);
-void decodePNG(char *src_image);
+void decodePNG(char *src_image, char *message);
 
 #endif
 

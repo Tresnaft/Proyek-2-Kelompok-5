@@ -29,7 +29,7 @@ int main() {
 	            		encryptJPEG (En, var);
 	            		break;
 					case 3:
-						encryptPNG ();
+						encryptPNG (En, var);
 						break;
 	            	case 4:
 	            		whitespace ();
@@ -52,7 +52,7 @@ int main() {
 	            		decryptJPEG (En, var, De);
 	            		break;
 					case 3:
-						decryptPNG();
+						decryptPNG(De, var);
 					case 9:
 						break;
 					case 0:

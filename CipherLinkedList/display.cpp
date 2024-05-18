@@ -392,40 +392,114 @@ void whitespace() {
 //    printf("Hidden message: %s\n", decrypted_msg);
 }
 
-void encryptPNG(){
+void encryptPNG(Enkripsi *En, utama *var){
 	printf("|=================================================================================================|\n");
     printf("|=========================================ENKRIPSI PNG============================================|\n");
     printf("|=================================================================================================|\n");
 
 	char src_image[100], dest_image[100], message[1000];
+	int i;
 
 	printf("Enter Source Image Path: ");
 	scanf("%s", src_image);
 
 	printf("Enter Message to Hide: ");
 	getchar(); // Clear newline from buffer
-	fgets(message, sizeof(message), stdin);
+	// fgets(message, sizeof(message), stdin);
 
-	message[strcspn(message, "\n")] = '\0'; // Remove newline character
+	// HILL CIPHER
+	fgets(var->pesan, sizeof(var->pesan), stdin);
+	var->peslen = strlen(var->pesan);
+	if (var->pesan[var->peslen - 1] == '\n') {
+	      var->pesan[var->peslen - 1] = '\0';
+	      var->peslen--;
+	  }
+	if (var->peslen % 2 == 1){
+		var->pesan[var->peslen]=' ';
+	}
+	
+	var->isipesan=var->peslen+1;
+	var->pesantonum[var->peslen];
+	
+    int lenkun;
+	do{
+	    printf("Masukan kunci (4 huruf): ");
+	    scanf("%s", var->kunci);
+		puts("");
+		lenkun = strlen(var->kunci);
+		if (lenkun > 4){
+			printf("Panjang kunci maksimal 4 huruf !!\n");
+		}	
+	}while (lenkun != 4);
+	/*MENCETAK MATRIKS*/
+	printf("=====Matriks Dari Pesan=====\n");
+	printf("Pesan : ");
+
+	for(i = 0;i < var->peslen;i++){
+	 	printf("%c", var->pesan[i]);	
+	} puts("");
+	matriks_pesan(var);
+	cetak_matriks_pesan(var);
+	
+	printf("=====Matriks dari kunci=====\n");
+	printf("Kunci : %s\n", var->kunci);
+	matriks_kunci(var);
+	cetak_matriks_kunci(var);
+	
+	printf("===Matriks dari Pesan Enkripsi===\n");
+	Encrypt(En, var);
+	cetak_matriks_encrypt(var, En);
+	printf("=====Pesan Enkripsi=====");
+	pesan_encrypt(En, var);
+	printf("\nPesan yang sudah di enkripsi : ");
+	cetak_pesan_encrypt(En, var);
+    puts("");
+
+	En->pesanEncrypt[strcspn(En->pesanEncrypt, "\n")] = '\0'; // Remove newline character
 
 	printf("Enter Destination Image Path: ");
 	scanf("%s", dest_image);
 
 	printf("Encoding...\n");
 
-	encodePNG(src_image, dest_image, message);
+	encodePNG(src_image, dest_image, En->pesanEncrypt);
 }
 
-void decryptPNG(){
+void decryptPNG(Dekripsi *De, utama *var){
 	printf("|=================================================================================================|\n");
     printf("|=========================================DEKRIPSI PNG============================================|\n");
     printf("|=================================================================================================|\n");
 
-	char src_image[100];
+	char src_image[100], key[5], hasil[500];
+	int keytonum[4];
+	int num[2048];
+
 
 	printf("Enter Source Image Path: ");
 	scanf("%s", src_image);
 
 	printf("Decoding...\n");
-	decodePNG(src_image);
+	decodePNG(src_image, hasil);
+
+	printf("Masukkan kunci : ");
+    scanf("%s", key);
+    matriks_key_LSB(key, keytonum, var);
+	
+	for(int k = 0; k < 4; k++){
+		var->kuncitonum[k] = keytonum[k];
+	}
+
+	
+    matriks_LSB(var, hasil, num, strlen(hasil));
+
+    printf("\n===Matriks dari Pesan Dekripsi===");
+    Decrypt(var, num, De, strlen(hasil));
+
+    
+    printf("Matriks : \n");
+    cetak_matriks_decryptLSB(strlen(hasil), De);
+    pesan_decryptLSB(De, strlen(hasil), var);
+	cetak_pesan_decryptLSB(De, strlen(hasil));
+
+	printf("\n");
 }

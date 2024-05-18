@@ -18,7 +18,7 @@ void whitespace ();
 void displayencrypt (int *j);
 void displaydecrypt (int *j);
 void mustintdisplay(int *hasil);
-void encryptPNG();
-void decryptPNG();
+void encryptPNG(Enkripsi *En, utama *var);
+void decryptPNG(Dekripsi *De, utama *var);
 
 #endif
