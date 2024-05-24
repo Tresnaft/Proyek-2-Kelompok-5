@@ -36,9 +36,6 @@ int main() {
 							encryptPNG(En, var);
 							main();
 							break;
-		            	case 4:
-		            		//whitespace ();
-		            		break;
 						case 9:
 							main();
 							break;
@@ -71,11 +68,8 @@ int main() {
 		            	default:
 		            		printf("Masukkan input yang sesuai. \n\n");
 					}
-			
 				} while (true);
 				break;
-			case 3:
-				
 			case 0 :
 				printf("Terima Kasih...");	
 				exit(0);

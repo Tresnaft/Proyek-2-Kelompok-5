@@ -1,17 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "linkedlist.h"
+#include "cip.h"
 
-// Definisi tipe data
-typedef char infotype;
-typedef struct node* address;
-typedef struct node {
-    infotype info;
-    address next;
-    address prev;
-} SLL;
-
-// Fungsi untuk membuat node baru
 address createNode() {
     address P;
     P = (address) malloc(sizeof(SLL));
@@ -65,9 +54,8 @@ void reverseList(address* headRef) {
 }
 
 // Fungsi untuk menyisipkan node di akhir linked list
-void insertAkhir(infotype arr[], address* head, address* tail) {
+void insertAkhir(infotype arr[], address* head, address* tail, int len) {
     address pnew;
-    int len = strlen(arr);
     for (int i = 0; i < len; i++) {
         pnew = createNode();
         if (pnew == NULL) {
@@ -138,6 +126,7 @@ void insertGenap(address* head, address* tail, infotype arrnew[]) {
     address trav = *head;
     int len = strlen(arrnew);
     int half_len = len / 2;
+    
 
     for (int i = 0; i < half_len; i++) {
         pnew = createNode();
@@ -156,6 +145,7 @@ void insertGenap(address* head, address* tail, infotype arrnew[]) {
     }
     *tail = trav->prev;
     (*tail)->next = *head;
+}
 
 void linkedtoarr(char array[], address* head, address* tail){
 	address awal = *head;
@@ -168,53 +158,44 @@ void linkedtoarr(char array[], address* head, address* tail){
     } while (temp != *head);
     array[i] = '\0';
 }
-int main() {
-    // Membuat linked list untuk pengujian
-    address head = NULL;
-    address tail = NULL;
 
-    infotype arr[] = {'H', 'A', 'N', 'I', 'F', 'A', 'H', 'M', 'A', 'D'};
-    infotype arrnew[10];
-    int len = strlen(arr);
-    int setlen = len/2;
-    insertAkhir(arr, &head, &tail);
-
-
-	printf("===================ENKRIPSI===================\n\n");
-    printf("Linked list :\n");
-    printList(head);
-    
-    for(int i = 0;i < 2;i++){
-    	moveWord(&head, &tail, len);
-	    printf("Linked list setelah di balik :\n");
-	    printList(head);
+void dekripLL(utama *var, char psn[], address head, address tail){
+	insertAkhir(psn, &head, &tail, var->peslen);
+//	printf("Bentuk Linked List : ");
+	printList(head);
+	for(int i = 0; i < 3; i++){
+    	moveWord(&head, &tail, var->peslen);
+//	    printf("Linked list setelah di balik :\n");
+//	    printList(head);
 	    
-	    moveEvenToTail(&head, &tail, len);
-	    printf("Linked list setelah di balik lagi :\n");
-	    printList(head);
+	    moveEvenToTail(&head, &tail, var->peslen);
+//	    printf("Linked list setelah di balik lagi :\n");
+//	    printList(head);
 	
 	    reverseList(&head);
-	    printf("Linked list setelah di-reverse:\n");
-	    printList(head);
+//	    printf("Linked list setelah di-reverse:\n");
+//	    printList(head);
 	}
-    puts("");
-    puts("");
-    
-    printf("===================DEKRIPSI===================\n\n");
-    
-    for(int i = 0;i<2;i++){
-        reverseList(&head);
-	    linkedtoarr(arrnew, &head, &tail);
-	    printf("Linked list setelah di-reverse:\n");
-	    printList(head);
-	    
-	    insertGenap (&head, &tail, arrnew);
-	    printf("Linked list setelah dibagi 2 insert genap:\n");
-	    printList(head);
-	    
-	    moveWord(&head, &tail, len);
-	    printf("Linked list setelah di balik :\n");
-	    printList(head);
+	linkedtoarr(var->pesan, &head, &tail);
+}
+
+void enkripLL(Dekripsi *De, address head, address tail, int reallen){
+	insertAkhir(De->pesanDecrypt, &head, &tail, reallen);
+//	printf("Bentuk Linked List : ");
+//	printList(head);
+	for(int i = 0; i < 3; i++){
+	        reverseList(&head);
+		    linkedtoarr(De->pesanDecrypt, &head, &tail);
+//		    printf("Linked list setelah di-reverse:\n");
+//		    printList(head);
+		    
+		    insertGenap (&head, &tail, De->pesanDecrypt);
+//		    printf("Linked list setelah dibagi 2 insert genap:\n");
+//		    printList(head);
+		    
+		    moveWord(&head, &tail, reallen);
+//		    printf("Linked list setelah di balik :\n");
+//		    printList(head);
 	}
-    return 0;
+	linkedtoarr(De->pesanDecrypt, &head, &tail);
 }

@@ -7,14 +7,13 @@ void clearInputBuffer() {
 }
 
 void intInput (int *j, bool *valid) {
+	*j = -1;
 	*valid = false;
 	do {
 	    if (scanf("%d", j) == true) {
         	*valid = true;
 	    } else {
-//	        printf("Input tidak valid. Mohon masukkan input yang sesuai!\n");
-//            printf("Pilihan: ");
-			fflush(stdin);
+			clearInputBuffer();
 		}
 	} while (!valid);
 }
@@ -28,11 +27,8 @@ void displayMenu (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("Pilihan : ");
     intInput(j, valid);
-//    scanf("%d", j);
-//    intInput(valid, j);
-    
-//    printf("=================================================================================================\n");
-    //system("cls");
+    printf("=================================================================================================\n");
+    system("cls");
 }
 void displayencrypt (int *j, bool *valid) {
     printf("=================================================================================================\n");
@@ -40,14 +36,13 @@ void displayencrypt (int *j, bool *valid) {
     printf("| 1. Enkripsi BMP                                                                               |\n");
     printf("| 2. Enkripsi JPEG                                                                              |\n");
 	printf("| 3. Enkripsi PNG                                                                               |\n");
-//	printf("| 4. Whitespace Steganography                                                                   |\n"); 
     printf("| 9. Kembali                                                                                    |\n");  
     printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
     intInput(j, valid);
     printf("=================================================================================================\n");
-    //system("cls");
+    system("cls");
 }
 
 void displaydecrypt (int *j, bool *valid) {
@@ -56,12 +51,13 @@ void displaydecrypt (int *j, bool *valid) {
     printf("| 1. Dekripsi BMP                                                                               |\n");
     printf("| 2. Dekripsi JPEG                                                                              |\n");
     printf("| 3. Dekripsi PNG                                                                               |\n");
-    printf("| 9. Keluar                                                                                     |\n");
+    printf("| 9. Kembali                                                                                    |\n");  
+    printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
     intInput(j, valid);
     printf("=================================================================================================\n");
-    //system("cls");
+    system("cls");
 }
 
 void encryptBMP (Enkripsi *En, utama *var) {
@@ -85,7 +81,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
     printf("\nMasukan nama file: ");
     scanf("%s", bacafile);
 
-    printf("Masukan nama file setelah disisipkan pesan: ");
+    printf("Masukan nama file setelah disisipkan pesan: "); 
     scanf("%s", hasilfile);
  
     while (getchar() != '\n');
@@ -131,45 +127,44 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	}while (lenkun != 4);
 
 		
-	/*MENCETAK MATRIKS*/
-	printf("=====Matriks Dari Pesan=====\n");
+//	
+//	printf("=====Matriks Dari Pesan=====\n");
 //	printf("ini%cspasi\n", var->huruf[0]);
-	printf("Pesan : ");
+//	printf("Pesan : ");
 
-	for(i = 0;i < var->peslen;i++){
-	 	printf("%c", var->pesan[i]);	
-	} puts("");
+//	for(i = 0;i < var->peslen;i++){
+//	 	printf("%c", var->pesan[i]);	
+//	} puts("");
+
 	matriks_pesan(var);
-	cetak_matriks_pesan(var);
+//	cetak_matriks_pesan(var);
 	
-	printf("=====Matriks dari kunci=====\n");
-	printf("Kunci : %s\n", var->kunci);
+//	printf("=====Matriks dari kunci=====\n");
+//	printf("Kunci : %s\n", var->kunci);
+
 	matriks_kunci(var);
-	cetak_matriks_kunci(var);
 	
-	printf("===Matriks dari Pesan Enkripsi===\n");
+//	cetak_matriks_kunci(var);
+	
+//	printf("===Matriks dari Pesan Enkripsi===\n");
+
 	Encrypt(En, var);
-	cetak_matriks_encrypt(var, En);
-	printf("=====Pesan Enkripsi=====");
+	
+//	cetak_matriks_encrypt(var, En);
+//	printf("=====Pesan Enkripsi=====");
+
 	pesan_encrypt(En, var);
 
-//	printf("\nini%cspasi", var->huruf[0]);
-	printf("\nPesan yang sudah di enkripsi : \n");
-//	printf("ini indeks ke 78 \n",var->huruf[78]);
+	printf("\nPesan yang sudah di enkripsi : ");
 	i = 0;
 	while(i<var->isipesan){
-//        printf("ini pesan ke i %d\n",En->enkripsi[i]);
+        printf("%c",En->pesanEncrypt[i]);
         i++;
     }
+	
     puts("");
-	i = 0;
-	while(i<var->isipesan){
-//        printf("ini pesan ke i %c\n",En->pesanEncrypt[i]);
-        i++;
-    }
-	//cetak_pesan_encrypt(En, var);
-    puts("");
-	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
+//	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
+
     inputMessage(message, En, var);
 	*binaryMessage = messageToBinary(message);
 	
@@ -182,6 +177,9 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	printf("berhasil!!\n");
 	free(bmp->data);
 	free(bmp);
+	system("pause");
+    system("cls");
+    
 }
 
 void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
@@ -210,55 +208,49 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
 	for(int k = 0; k < 4; k++){
 		var->kuncitonum[k] = keytonum[k];
 	}
-//	printf("Udah masuk matriks key ");
+
 	bmp = readBMP(hasilfile, &head);
 
     panjangpesan = extractinfolen(bmp);
 
     reallen = panjangpesan;
-// 	printf("Udah ekstrak panjang pesan ");
+
     panjangpesan = (panjangpesan * 4 + 8)+1;
+	printf("Pesan Hasil Ekstrak LSB : ");
 	extractlsb(bmp, panjangpesan, reallen, hasil);
-//	printf("Udah ekstrak lsb nya ");
 	puts("");
-	
 	
 	int num[2048];
 	
     matriks_LSB(var, hasil, num, reallen);
-
-//	printf("isi reallen : %d", reallen);
-
-    for(int i = 0;i<reallen-1;i++){
-    	printf("Numkey : %d\n", num[i]);	
-	}	
-	
 	
     free(bmp->data);
     free(bmp);
     
-    printf("\n===Matriks dari Pesan Dekripsi===");
+//    printf("\n===Matriks dari Pesan Dekripsi===");
     Decrypt(var, num, De, reallen);
 
     
-    printf("Matriks : \n");
-    cetak_matriks_decryptLSB(reallen, De);
-    pesan_decryptLSB(De, reallen, var);
-    int lende = strlen(De->pesanDecrypt);
-    printf("Panjang pesan : %d", lende);
+//    printf("Matriks : \n");
+//    cetak_matriks_decryptLSB(reallen, De);
 
+    pesan_decryptLSB(De, reallen, var);
+    
 	enkripLL(De, first, tail, reallen);
-	printf("\n=========Pesan Dekripsi==========\n");
-    printf("Pesan Hasil Ekstrak  : ");
+	
+//	printf("\n=========Pesan Dekripsi==========\n");
+    printf("Pesan Hasil Dekripsi  : ");
     for(int k = 0; k < reallen; k++){
-    	for(int i = 0;i<var->peslen;i++){
-			if(De->pesanDecrypt[i]=='~'){
-				De->pesanDecrypt[i]=' ';
+		if(De->pesanDecrypt[k]=='~'){
+			De->pesanDecrypt[k]=' ';
 			}
-		}
 		printf("%c", De->pesanDecrypt[k]);
 	}
     puts(" ");
+    printf("\n");
+    system("pause");
+    puts("");
+    system("cls");
 }
 
 void encryptJPEG (Enkripsi *En, utama *var) {
@@ -311,33 +303,37 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 			printf("Panjang kunci maksimal 4 huruf !!\n");
 		}	
 	}while (lenkun != 4);
-	/*MENCETAK MATRIKS*/
-	printf("=====Matriks Dari Pesan=====\n");
-	printf("Pesan : ");
-
-	for(i = 0;i < var->peslen;i++){
-	 	printf("%c", var->pesan[i]);	
-	} puts("");
+	
+//	printf("=====Matriks Dari Pesan=====\n");
+//	printf("Pesan : ");
+//
+//	for(i = 0;i < var->peslen;i++){
+//	 	printf("%c", var->pesan[i]);	
+//	} puts("");
 	matriks_pesan(var);
-	cetak_matriks_pesan(var);
+//	cetak_matriks_pesan(var);
 	
-	printf("=====Matriks dari kunci=====\n");
-	printf("Kunci : %s\n", var->kunci);
+//	printf("=====Matriks dari kunci=====\n");
+//	printf("Kunci : %s\n", var->kunci);
 	matriks_kunci(var);
-	cetak_matriks_kunci(var);
+//	cetak_matriks_kunci(var);
 	
-	printf("===Matriks dari Pesan Enkripsi===\n");
+//	printf("===Matriks dari Pesan Enkripsi===\n");
 	Encrypt(En, var);
-	cetak_matriks_encrypt(var, En);
-	printf("=====Pesan Enkripsi=====");
+//	cetak_matriks_encrypt(var, En);
+//	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
 	printf("\nPesan yang sudah di enkripsi : ");
 	cetak_pesan_encrypt(En, var);
     puts("");
-	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
+//	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     
-	printf("Encoding...\n");
+//	printf("Encoding...\n");
     encodeJPEG(bacafile, hasilfile, var, En);
+	printf("berhasil!!\n");
+    puts("");
+    system("pause");
+    system("cls");
 }
 
 void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
@@ -356,35 +352,38 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
     scanf("%s", hasilfile);
     printf("Masukkan kunci : ");
     scanf("%s", key);
-    decodeJPEG(hasilfile, hasil);
-    int batas = strlen(hasil);
-
-    
-    int num[2048];
-    matriks_LSB(var, hasil, num, batas);
-
+    matriks_key_LSB(key, keytonum, var);
 	
-	printf("\n===Matriks dari Pesan Dekripsi===");
-    Decrypt(var, num, De, batas);
 	for(int k = 0; k < 4; k++){
 		var->kuncitonum[k] = keytonum[k];
 	}
-   
-    printf("Matriks : \n");
-    cetak_matriks_decryptLSB(batas, De);
+    decodeJPEG(hasilfile, hasil);
+    int batas = strlen(hasil);
+
+    int num[2048];
+    matriks_LSB(var, hasil, num, batas);
+	
+//	printf("\n===Matriks dari Pesan Dekripsi===");
+    Decrypt(var, num, De, batas);
+	
+//    printf("Matriks : \n");
+//    cetak_matriks_decryptLSB(batas, De);
     pesan_decryptLSB(De, batas, var);
-    printf("\n=========Pesan Dekripsi==========\n");
+//    printf("\n=========Pesan Dekripsi==========\n");
     enkripLL(De, first, tail, batas);
     printf("Pesan Dekripsi : ");
-    for(int k = 0; k < batas; k++){
-    	for(int i = 0;i<var->peslen;i++){
-			if(De->pesanDecrypt[i]=='~'){
-				De->pesanDecrypt[i]=' ';
+    
+	for(int k = 0; k < batas; k++){
+		if(De->pesanDecrypt[k]=='~'){
+			De->pesanDecrypt[k]=' ';
 			}
-		}
 		printf("%c", De->pesanDecrypt[k]);
 	}
     puts("");
+    printf("\n");
+    system("pause");
+    puts("");
+    system("cls");
 }
 
 void encryptPNG(Enkripsi *En, utama *var){
@@ -397,18 +396,18 @@ void encryptPNG(Enkripsi *En, utama *var){
 	address first = NULL;
 	address tail = NULL;
 
-	printf("Enter Source Image Path: ");
+	printf("Masukan nama file: ");
 	scanf("%s", src_image);
 
-	printf("Enter Message to Hide: ");
+	printf("Masukan nama file setelah disisipkan pesan: ");
+	scanf("%s", dest_image);
+	
+	printf("\nMasukan pesan yang ingin di enkripsi: ");
 	scanf("%[^\n]s", psn);
 	getchar(); 
     scanf("%[^\n]s", psn);
 	var->peslen = strlen(psn);
-//	if (var->pesan[var->peslen - 1] == '\n') {
-//	      var->pesan[var->peslen - 1] = '\0';
-//	      var->peslen--;
-//	  }
+
 	if(var->peslen%2 == 1){
     	psn[var->peslen] = var->huruf[0];
 		var->peslen = var->peslen+1; 	
@@ -433,39 +432,39 @@ void encryptPNG(Enkripsi *En, utama *var){
 			printf("Panjang kunci maksimal 4 huruf !!\n");
 		}	
 	}while (lenkun != 4);
-	/*MENCETAK MATRIKS*/
-	printf("=====Matriks Dari Pesan=====\n");
-	printf("Pesan : ");
+	
+//	printf("=====Matriks Dari Pesan=====\n");
+//	printf("Pesan : ");
 
 	for(i = 0;i < var->peslen;i++){
 	 	printf("%c", var->pesan[i]);	
 	} puts("");
 	matriks_pesan(var);
-	cetak_matriks_pesan(var);
+//	cetak_matriks_pesan(var);
 	
-	printf("=====Matriks dari kunci=====\n");
-	printf("Kunci : %s\n", var->kunci);
+//	printf("=====Matriks dari kunci=====\n");
+//	printf("Kunci : %s\n", var->kunci);
 	matriks_kunci(var);
-	cetak_matriks_kunci(var);
-	
-	printf("===Matriks dari Pesan Enkripsi===\n");
+//	cetak_matriks_kunci(var);
+//	
+//	printf("===Matriks dari Pesan Enkripsi===\n");
 	Encrypt(En, var);
-	cetak_matriks_encrypt(var, En);
-	printf("=====Pesan Enkripsi=====");
+//	cetak_matriks_encrypt(var, En);
+//	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
-	printf("\nPesan yang sudah di enkripsi : ");
-	
-	cetak_pesan_encrypt(En, var);
+//	printf("\nPesan yang sudah di enkripsi : ");
+//	
+//	cetak_pesan_encrypt(En, var);
     puts("");
 
-	//En->pesanEncrypt[strcspn(En->pesanEncrypt, "\n")] = '\0'; // Remove newline character
 
-	printf("Enter Destination Image Path: ");
-	scanf("%s", dest_image);
-
-	printf("Encoding...\n");
+//	printf("Encoding...\n");
 
 	encodePNG(src_image, dest_image, En->pesanEncrypt);
+	printf("berhasil!!\n");
+    puts("");
+    system("pause");
+    system("cls");
 }
 
 void decryptPNG(Dekripsi *De, utama *var){
@@ -480,43 +479,44 @@ void decryptPNG(Dekripsi *De, utama *var){
 	int num[2048];
 
 
-	printf("Enter Source Image Path: ");
+	printf("Masukan nama file: ");
 	scanf("%s", src_image);
-
-	printf("Decoding...\n");
-	decodePNG(src_image, hasil);
-	int len = strlen(hasil);
 
 	printf("Masukkan kunci : ");
     scanf("%s", key);
+	
+	decodePNG(src_image, hasil);
+	int len = strlen(hasil);
+
     matriks_key_LSB(key, keytonum, var);
 	
 	for(int k = 0; k < 4; k++){
 		var->kuncitonum[k] = keytonum[k];
 	}
 
-	
     matriks_LSB(var, hasil, num, len);
 
-    printf("\n===Matriks dari Pesan Dekripsi===");
+//    printf("\n===Matriks dari Pesan Dekripsi===");
     Decrypt(var, num, De, len);
 
     
-    printf("Matriks : \n");
-    cetak_matriks_decryptLSB(len, De);
+//    printf("Matriks : \n");
+//    cetak_matriks_decryptLSB(len, De);
     pesan_decryptLSB(De, len, var);
-    printf("\n=========Pesan Dekripsi==========\n");
+//    printf("\n=========Pesan Dekripsi==========\n");
     enkripLL(De, first, tail, len);
     printf("Pesan Dekripsi : ");
+    
     for(int k = 0; k < len; k++){
-    	for(int i = 0;i<var->peslen;i++){
-			if(De->pesanDecrypt[i]=='~'){
-				De->pesanDecrypt[i]=' ';
+		if(De->pesanDecrypt[k]=='~'){
+			De->pesanDecrypt[k]=' ';
 			}
-		}
 		printf("%c", De->pesanDecrypt[k]);
 	}
-	//cetak_pesan_decryptLSB(De, strlen(hasil));
-
 	printf("\n");
+	printf("\n");
+	system("pause");
+    puts("");
+    system("cls");
+	
 }

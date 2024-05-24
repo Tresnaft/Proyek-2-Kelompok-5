@@ -1,11 +1,13 @@
-#include <stdio.h>
-#include "cipher.h"
-#include <cstring>
-#include "bmpio.h"
+#include "cip.h"
 
 void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 	int i=0;
     while(i<var->isipesan){
+    	for(i = 0;i<var->peslen;i++){
+			if(En->pesanEncrypt[i]==' '){
+				En->pesanEncrypt[i]=var->spasi[0];
+			}
+		}
         printf("%c",En->pesanEncrypt[i]);
         i++;
     }
@@ -71,15 +73,15 @@ void cetak_matriks_decryptLSB(int batas, Dekripsi *De){
 
 
 void pesan_encrypt(Enkripsi *En, utama *var){
-	int i = 0, j;
-	while(i < var->isipesan){
+	int i, j;
+	for(i = 0;i<var->isipesan;i++){
 		for(j = 0;j <= 79;j++){
 			if(En->enkripsi[i]==j){
-				En->pesanEncrypt[i]=var->karakter[j];
+				En->pesanEncrypt[i]=var->huruf[j];
 			}
 		}
-		i++;
 	}
+
 }
 
 void pesan_decrypt(Dekripsi *De, utama *var){
@@ -87,7 +89,7 @@ void pesan_decrypt(Dekripsi *De, utama *var){
 	while(i < var->isipesan){
 		for(j = 0;j <= 79;j++){
 			if(De->dekripsi[i]==j){
-				De->pesanDecrypt[i]=var->karakter[j];
+				De->pesanDecrypt[i]=var->huruf[j];
 			}
 		}
 		i++;
@@ -99,7 +101,7 @@ void pesan_decryptLSB(Dekripsi *De, int batas, utama *var){
 	while(i < batas){
 		for(j = 0;j <= 79;j++){
 			if(De->dekripsi[i]==j){
-				De->pesanDecrypt[i]=var->karakter[j];
+				De->pesanDecrypt[i]=var->huruf[j];
 			}
 		}
 		i++;
@@ -111,7 +113,7 @@ void matriks_pesan(utama *var){
 	int i,j;
 	for(i = 0;i<var->isipesan;i++){
 		for(j = 0;j < 79;j++){
-			if(var->pesan[i]==var->karakter[j]){
+			if(var->pesan[i]==var->huruf[j]){
 				var->pesantonum[i]=j;
 			}
 		}
@@ -122,7 +124,7 @@ void matriks_LSB(utama *var, char hasilLSB[], int numLSB[], int batas){
 	int i,j;
 	for(i = 0;i<batas;i++){
 		for(j = 0;j < 79;j++){
-			if(hasilLSB[i]==var->karakter[j]){
+			if(hasilLSB[i]==var->huruf[j]){
 				numLSB[i]=j;
 			}
 		}
@@ -133,7 +135,7 @@ void matriks_kunci(utama *var){
 	int i,j;
 	for(i = 0;i < 4;i++){
 		for(j = 0;j < 79;j++){
-			if(var->kunci[i]==var->karakter[j]){
+			if(var->kunci[i]==var->huruf[j]){
 				var->kuncitonum[i]=j;
 			}
 		}
@@ -144,7 +146,7 @@ void matriks_key_LSB(char key[], int keytonum[], utama *var){
 	int i,j;
 	for(i = 0;i < 4;i++){
 		for(j = 0;j < 79;j++){
-			if(key[i]==var->karakter[j]){
+			if(key[i]==var->huruf[j]){
 				keytonum[i]=j;
 			}
 		}
