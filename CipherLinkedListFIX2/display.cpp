@@ -6,7 +6,20 @@ void clearInputBuffer() {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-void displayMenu (int *j) {
+void intInput (int *j, bool *valid) {
+	*valid = false;
+	do {
+	    if (scanf("%d", j) == true) {
+        	*valid = true;
+	    } else {
+//	        printf("Input tidak valid. Mohon masukkan input yang sesuai!\n");
+//            printf("Pilihan: ");
+			fflush(stdin);
+		}
+	} while (!valid);
+}
+
+void displayMenu (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi                                                                                   |\n");
@@ -14,11 +27,14 @@ void displayMenu (int *j) {
     printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
-    scanf("%d", j);
-    printf("=================================================================================================\n");
+    intInput(j, valid);
+//    scanf("%d", j);
+//    intInput(valid, j);
+    
+//    printf("=================================================================================================\n");
     //system("cls");
 }
-void displayencrypt (int *j) {
+void displayencrypt (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi BMP                                                                               |\n");
@@ -29,12 +45,12 @@ void displayencrypt (int *j) {
     printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
-    scanf("%d", j);
+    intInput(j, valid);
     printf("=================================================================================================\n");
     //system("cls");
 }
 
-void displaydecrypt (int *j) {
+void displaydecrypt (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Dekripsi BMP                                                                               |\n");
@@ -43,7 +59,7 @@ void displaydecrypt (int *j) {
     printf("| 9. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
-    scanf("%d", j);
+    intInput(j, valid);
     printf("=================================================================================================\n");
     //system("cls");
 }

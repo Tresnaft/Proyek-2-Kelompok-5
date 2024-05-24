@@ -11,16 +11,18 @@
 
 
 int main() {
-    int jawab;
+	int jawab;
     int halaman = 0; 
+    bool valid = false;
     Enkripsi En[50];
     utama var[50];
     Dekripsi De[50];
     do{
-    	displayMenu(&jawab);
+    	displayMenu(&jawab, &valid);
     	switch (jawab) {
 	        case 1:
-	        	displayencrypt(&jawab);
+	        	displayencrypt(&jawab, &valid);
+	        	
 	        	switch(jawab){
 	        		case 1:
 	        			encryptBMP(En, var);
@@ -39,11 +41,11 @@ int main() {
 					case 0:
 						exit(0);
 	            	default:
-	            		printf("Masukkan angka yang tepat. \n\n");
+	            		printf("Masukkan input yang sesuai. \n\n");
 				}
 	            break;
 			case 2 :
-				displaydecrypt(&jawab);
+				displaydecrypt(&jawab, &valid);
 				switch (jawab){
 	        		case 1:
 	        			decryptBMP(En, var, De);
@@ -58,14 +60,14 @@ int main() {
 					case 0:
 						exit(0);
 	            	default:
-	            		printf("Masukkan angka yang tepat. \n\n");
+	            		printf("Masukkan input yang sesuai. \n\n");
 				}
 				break;
 			case 0 :
 				exit(0);
 			default:
-	            printf("Masukkan angka yang tepat. \n\n");
+	            printf("Masukkan input yang seseuai. \n\n");
 	    }
-	}while(1);   
+	} while(1);   
     return 0;
 }

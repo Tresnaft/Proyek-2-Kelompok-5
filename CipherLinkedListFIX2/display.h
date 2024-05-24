@@ -9,14 +9,16 @@
 #include "lsbjpeg.h"
 #include "linkedlist.h"
 
-void displayMenu (int *j);
+void clearInputBuffer();
+void intInput (int *j, bool *valid);
+void displayMenu (int *j, bool *valid);
 void encryptBMP(Enkripsi *En, utama *var);
 void decryptBMP(Enkripsi *En, utama *var, Dekripsi *De);
 void encryptJPEG(Enkripsi *En, utama *var);
 void decryptJPEG(Enkripsi *En, utama *var, Dekripsi *De);
 //void whitespace ();
-void displayencrypt(int *j);
-void displaydecrypt(int *j);
+void displayencrypt(int *j, bool *valid);
+void displaydecrypt(int *j, bool *valid);
 void mustintdisplay(int *hasil);
 void encryptPNG(Enkripsi *En, utama *var);
 void decryptPNG(Dekripsi *De, utama *var);
