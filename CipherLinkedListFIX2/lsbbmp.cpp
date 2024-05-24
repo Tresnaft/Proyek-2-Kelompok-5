@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
-#define MAX_MESSAGE_LENGTH 2048
+#define MAX_MESSAGE_LENGTH 500
 #include "lsbbmp.h"
 #include "bmpio.h"
 
@@ -14,25 +14,9 @@ void inputMessage(char *message, Enkripsi *En, utama *var) {
 
     
     messageLength = var->isipesan;
-//    printf("%d", var->isipesan);
-    //strlen(En->pesanEncrypt) + 1;
-    // Menghitung jumlah byte dalam pesan
-    //int messageLength = sizeof(En->pesanEncrypt) / sizeof(En->pesanEncrypt[0]);
-     // Jumlah byte termasuk karakter null terminator
-//    if (messageLength % 10 == 0){
-//        messageLength+=2;
-//    }
-//    if(messageLength % 10 == 9){
-//        messageLength+=3;
-//    }
-//    if(messageLength == 11){
-//        messageLength+=1;
-//    }
-    
-    sprintf(str, "%d", messageLength); // Menyimpan messageLength sebagai karakter ke dalam str
-//    printf("\nprint str %s\n", str); // Cetak str sebagai string, bukan sebagai satu karakter
 
-    // Menyalin pesan ke array message dimulai dari indeks ke-1
+    sprintf(str, "%d", messageLength); 
+
     message[0] = str[0];
     message[1] = str[1];
     message[2] = str[2];
@@ -43,18 +27,12 @@ void inputMessage(char *message, Enkripsi *En, utama *var) {
     if (message[2] == 0) {
         message[2] = 48;
     }
-    
-//    printf("message 0 : %d\n", message[0]);
-//    printf("message 1 : %d\n", message[1]);
-//    printf("message 2 : %d\n", message[2]);
-    
+        
     for (i = 3; i < messageLength + 3; i++) {
         message[i] = En->pesanEncrypt[i - 3];
         
     }
-//    for (i = 0; i < messageLength + 1; i++) {
-//        printf("%c", message[i]);
-//    }
+
     for (i = 3; i <messageLength + 3; i++) {
         if (message[i] == '\0') {
             message[i] = var->huruf[0];
@@ -135,7 +113,6 @@ int extractreallen(const BMPImage *img) {
 		
 		combinedValue = combinedValue - '0';
 		panjangAsli = combinedValue;
-		printf("isi panjang asli %d", panjangAsli);	
     return(panjangAsli);
 }
 
