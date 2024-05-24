@@ -5,7 +5,6 @@
 #include "lsbbmp.h"
 #include "cip.h"
 #include "bmpio.h"
-#include "ws.h"
 #include "lsbjpeg.h"
 #include "linkedlist.h"
 

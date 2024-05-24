@@ -15,16 +15,15 @@ void cetak_pesan_encrypt(Enkripsi *En, utama *var){
 
 void cetak_matriks_encrypt(utama *var, Enkripsi *En){
 	int i,j;
-	//if(batas%2==0){
-		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->peslen; j++){
-				if(i==0 && j%2==0){
-					printf("%d\t", En->enkripsi[j]);
-				}else if(i==1 && j%2!=0){
-					printf("%d\t", En->enkripsi[j]);
-				}
-			}printf("\n");
-		}
+	for(i = 0;i < 3; i++){
+		for(j = 0; j < var->peslen; j++){
+			if(i==0 && j%2==0){
+				printf("%d\t", En->enkripsi[j]);
+			}else if(i==1 && j%2!=0){
+				printf("%d\t", En->enkripsi[j]);
+			}
+		}printf("\n");
+	}
 }
 
 void cetak_pesan_decrypt(Dekripsi *De, utama *var){
@@ -45,30 +44,28 @@ void cetak_pesan_decryptLSB(Dekripsi *De, int batas){
 
 void cetak_matriks_decrypt(utama *var, Dekripsi *De){
 	int i,j;
-	//if(batas%2==0){
-		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->peslen; j++){
-				if(i==0 && j%2==0){
-					printf("%d\t", De->dekripsi[j]);
-				}else if(i==1 && j%2!=0){
-					printf("%d\t", De->dekripsi[j]);
-				}
-			}printf("\n");
-		}
+	for(i = 0;i < 3; i++){
+		for(j = 0; j < var->peslen; j++){
+			if(i==0 && j%2==0){
+				printf("%d\t", De->dekripsi[j]);
+			}else if(i==1 && j%2!=0){
+				printf("%d\t", De->dekripsi[j]);
+			}
+		}printf("\n");
+	}
 }
 
 void cetak_matriks_decryptLSB(int batas, Dekripsi *De){
 	int i,j;
-	//if(batas%2==0){
-		for(i = 0;i < 3; i++){
-			for(j = 0; j < batas; j++){
-				if(i==0 && j%2==0){
-					printf("%d\t", De->dekripsi[j]);
-				}else if(i==1 && j%2!=0){
-					printf("%d\t", De->dekripsi[j]);
-				}
-			}printf("\n");
-		}
+	for(i = 0;i < 3; i++){
+		for(j = 0; j < batas; j++){
+			if(i==0 && j%2==0){
+				printf("%d\t", De->dekripsi[j]);
+			}else if(i==1 && j%2!=0){
+				printf("%d\t", De->dekripsi[j]);
+			}
+		}printf("\n");
+	}
 }
 
 
@@ -155,30 +152,28 @@ void matriks_key_LSB(char key[], int keytonum[], utama *var){
 
 void cetak_matriks_pesan(utama *var){
 	int i,j;
-	//if(batas%2==0){
-		for(i = 0;i < 3; i++){
-			for(j = 0; j < var->isipesan; j++){
-				if(i==0 && j%2==0){
-					printf("%d\t", var->pesantonum[j]);
-				}else if(i==1 && j%2!=0){
-					printf("%d\t", var->pesantonum[j]);
-				}
-			}printf("\n");
-		}
+	for(i = 0;i < 3; i++){
+		for(j = 0; j < var->isipesan; j++){
+			if(i==0 && j%2==0){
+				printf("%d\t", var->pesantonum[j]);
+			}else if(i==1 && j%2!=0){
+				printf("%d\t", var->pesantonum[j]);
+			}
+		}printf("\n");
+	}
 }
 
 void cetak_matriks_kunci(utama *var){
 	int i,j;
-	//if(batas%2==0){
-		for(i = 0;i < 3; i++){
-			for(j = 0; j < 4; j++){
-				if(i==0 && j%2==0){
-					printf("%d\t", var->kuncitonum[j]);
-				}else if(i==1 && j%2!=0){
-					printf("%d\t", var->kuncitonum[j]);
-				}
-			}printf("\n");
-		}
+	for(i = 0;i < 3; i++){
+		for(j = 0; j < 4; j++){
+			if(i==0 && j%2==0){
+				printf("%d\t", var->kuncitonum[j]);
+			}else if(i==1 && j%2!=0){
+				printf("%d\t", var->kuncitonum[j]);
+			}
+		}printf("\n");
+	}
 }
 
 void Encrypt(Enkripsi *En, utama *var){

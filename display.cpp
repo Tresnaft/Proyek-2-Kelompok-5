@@ -19,26 +19,26 @@ void intInput (int *j, bool *valid) {
 }
 
 void displayMenu (int *j, bool *valid) {
-    printf("=================================================================================================\n");
-    printf("| Pilih opsi dibawah ini:                                                                       |\n");
-    printf("| 1. Enkripsi                                                                                   |\n");
-    printf("| 2. Dekripsi                                                                                   |\n");
-    printf("| 0. Keluar                                                                                     |\n");
-    printf("=================================================================================================\n");
+    printf("+=================================================================================================+\n");
+    printf("| Pilih opsi dibawah ini:                                                                         |\n");
+    printf("| [1]. Enkripsi                                                                                   |\n");
+    printf("| [2]. Dekripsi                                                                                   |\n");
+    printf("| [0]. Keluar                                                                                     |\n");
+    printf("+=================================================================================================+\n");
     printf("Pilihan : ");
     intInput(j, valid);
     printf("=================================================================================================\n");
     system("cls");
 }
 void displayencrypt (int *j, bool *valid) {
-    printf("=================================================================================================\n");
-    printf("| Pilih opsi dibawah ini:                                                                       |\n");
-    printf("| 1. Enkripsi BMP                                                                               |\n");
-    printf("| 2. Enkripsi JPEG                                                                              |\n");
-	printf("| 3. Enkripsi PNG                                                                               |\n");
-    printf("| 9. Kembali                                                                                    |\n");  
-    printf("| 0. Keluar                                                                                     |\n");
-    printf("=================================================================================================\n");
+    printf("+=================================================================================================+\n");
+    printf("| Pilih opsi dibawah ini:                                                                         |\n");
+    printf("| [1]. Enkripsi BMP                                                                               |\n");
+    printf("| [2]. Enkripsi JPEG                                                                              |\n");
+	printf("| [3]. Enkripsi PNG                                                                               |\n");
+    printf("| [4]. Kembali                                                                                    |\n");  
+    printf("| [0]. Keluar                                                                                     |\n");
+    printf("+=================================================================================================+\n");
     printf("Pilihan : ");
     intInput(j, valid);
     printf("=================================================================================================\n");
@@ -46,14 +46,14 @@ void displayencrypt (int *j, bool *valid) {
 }
 
 void displaydecrypt (int *j, bool *valid) {
-    printf("=================================================================================================\n");
-    printf("| Pilih opsi dibawah ini:                                                                       |\n");
-    printf("| 1. Dekripsi BMP                                                                               |\n");
-    printf("| 2. Dekripsi JPEG                                                                              |\n");
-    printf("| 3. Dekripsi PNG                                                                               |\n");
-    printf("| 9. Kembali                                                                                    |\n");  
-    printf("| 0. Keluar                                                                                     |\n");
-    printf("=================================================================================================\n");
+    printf("+=================================================================================================+\n");
+    printf("| Pilih opsi dibawah ini:                                                                         |\n");
+    printf("| [1]. Dekripsi BMP                                                                               |\n");
+    printf("| [2]. Dekripsi JPEG                                                                              |\n");
+    printf("| [3]. Dekripsi PNG                                                                               |\n");
+    printf("| [9]. Kembali                                                                                    |\n");  
+    printf("| [0]. Keluar                                                                                     |\n");
+    printf("+=================================================================================================+\n");
     printf("Pilihan : ");
     intInput(j, valid);
     printf("=================================================================================================\n");
