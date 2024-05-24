@@ -6,7 +6,19 @@ void clearInputBuffer() {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-void displayMenu (int *j) {
+void intInput (int *j, bool *valid) {
+	*j = -1;
+	*valid = false;
+	do {
+	    if (scanf("%d", j) == true) {
+        	*valid = true;
+	    } else {
+			clearInputBuffer();
+		}
+	} while (!valid);
+}
+
+void displayMenu (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi                                                                                   |\n");
@@ -15,11 +27,11 @@ void displayMenu (int *j) {
     printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
-    scanf("%d", j);
+    intInput(j, valid);
     printf("=================================================================================================\n");
     system("cls");
 }
-void displayencrypt (int *j) {
+void displayencrypt (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Enkripsi BMP                                                                               |\n");
@@ -29,12 +41,12 @@ void displayencrypt (int *j) {
     printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
-    scanf("%d", j);
+    intInput(j, valid);
     printf("=================================================================================================\n");
     system("cls");
 }
 
-void displaydecrypt (int *j) {
+void displaydecrypt (int *j, bool *valid) {
     printf("=================================================================================================\n");
     printf("| Pilih opsi dibawah ini:                                                                       |\n");
     printf("| 1. Dekripsi BMP                                                                               |\n");
@@ -44,7 +56,7 @@ void displaydecrypt (int *j) {
     printf("| 0. Keluar                                                                                     |\n");
     printf("=================================================================================================\n");
     printf("Pilihan : ");
-    scanf("%d", j);
+    intInput(j, valid);
     printf("=================================================================================================\n");
     system("cls");
 }
@@ -98,9 +110,9 @@ void encryptBMP (Enkripsi *En, utama *var) {
 			psn[i]=var->huruf[0];
 		}
 	}	
-	printf("\n");
+
 	dekripLL(var, psn, first, tail);
-	printf("\n");
+
 	var->isipesan=var->peslen;
 	var->pesantonum[var->peslen];
 	
@@ -118,6 +130,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 		
 	
 	printf("=====Matriks Dari Pesan=====\n");
+	printf("ini%cspasi\n", var->huruf[0]);
 	printf("Pesan : ");
 
 	for(i = 0;i < var->peslen;i++){
@@ -158,10 +171,6 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	printf("berhasil!!\n");
 	free(bmp->data);
 	free(bmp);
-	printf("\n");
-    system("pause");
-    puts("");
-    system("cls");
 }
 
 void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
@@ -211,16 +220,11 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
     
     printf("\n===Matriks dari Pesan Dekripsi===");
     Decrypt(var, num, De, reallen);
+
     
     printf("Matriks : \n");
     cetak_matriks_decryptLSB(reallen, De);
     pesan_decryptLSB(De, reallen, var);
-	printf("Pesan Hasil Dekripsi Hill Cipher : ");
-    for(int k = 0; k < reallen; k++){
-		printf("%c", De->pesanDecrypt[k]);
-	}
-    puts("");
-    puts("");
     
 	enkripLL(De, first, tail, reallen);
 	printf("\n=========Pesan Dekripsi==========\n");
@@ -273,9 +277,7 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 			psn[i]=var->huruf[0];
 		}
 	}
-	printf("\n");
 	dekripLL(var, psn, first, tail);
-	printf("\n");
 	
 	var->isipesan=var->peslen;
 	var->pesantonum[var->peslen];
@@ -317,10 +319,6 @@ void encryptJPEG (Enkripsi *En, utama *var) {
     
 	printf("Encoding...\n");
     encodeJPEG(bacafile, hasilfile, var, En);
-    printf("\n");
-    system("pause");
-    puts("");
-    system("cls");
 }
 
 void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
@@ -356,12 +354,6 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
     printf("Matriks : \n");
     cetak_matriks_decryptLSB(batas, De);
     pesan_decryptLSB(De, batas, var);
-	printf("Pesan Hasil Dekripsi Hill Cipher : ");
-    for(int k = 0; k < batas; k++){
-		printf("%c", De->pesanDecrypt[k]);
-	}
-    puts("");
-    puts("");
     printf("\n=========Pesan Dekripsi==========\n");
     enkripLL(De, first, tail, batas);
     printf("Pesan Dekripsi : ");
@@ -407,9 +399,8 @@ void encryptPNG(Enkripsi *En, utama *var){
 			psn[i]=var->huruf[0];
 		}
 	}
-	printf("\n");
 	dekripLL(var, psn, first, tail);
-	printf("\n");
+	
 	var->isipesan=var->peslen;
 	var->pesantonum[var->peslen];
 	
@@ -454,10 +445,6 @@ void encryptPNG(Enkripsi *En, utama *var){
 	printf("Encoding...\n");
 
 	encodePNG(src_image, dest_image, En->pesanEncrypt);
-	printf("\n");
-    system("pause");
-    puts("");
-    system("cls");
 }
 
 void decryptPNG(Dekripsi *De, utama *var){
@@ -496,12 +483,6 @@ void decryptPNG(Dekripsi *De, utama *var){
     printf("Matriks : \n");
     cetak_matriks_decryptLSB(len, De);
     pesan_decryptLSB(De, len, var);
-    printf("Pesan Hasil Dekripsi Hill Cipher : ");
-    for(int k = 0; k < len; k++){
-		printf("%c", De->pesanDecrypt[k]);
-	}
-    puts("");
-    puts("");
     printf("\n=========Pesan Dekripsi==========\n");
     enkripLL(De, first, tail, len);
     printf("Pesan Dekripsi : ");

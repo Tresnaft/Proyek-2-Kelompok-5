@@ -163,7 +163,7 @@ void dekripLL(utama *var, char psn[], address head, address tail){
 	insertAkhir(psn, &head, &tail, var->peslen);
 	printf("Bentuk Linked List : ");
 	printList(head);
-	for(int i = 0;i < 3;i++){
+	for(int i = 0; i < 3; i++){
     	moveWord(&head, &tail, var->peslen);
 	    printf("Linked list setelah di balik :\n");
 	    printList(head);
@@ -183,7 +183,7 @@ void enkripLL(Dekripsi *De, address head, address tail, int reallen){
 	insertAkhir(De->pesanDecrypt, &head, &tail, reallen);
 	printf("Bentuk Linked List : ");
 	printList(head);
-	for(int i = 0;i < 3;i++){
+	for(int i = 0; i < 3; i++){
 	        reverseList(&head);
 		    linkedtoarr(De->pesanDecrypt, &head, &tail);
 		    printf("Linked list setelah di-reverse:\n");

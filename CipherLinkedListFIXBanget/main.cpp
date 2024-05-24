@@ -12,17 +12,18 @@
 
 int main() {
     int jawab;
+    bool valid = false;
     int halaman = 0; 
     Enkripsi En[50];
     utama var[50];
     Dekripsi De[50];
     do{
-    	displayMenu(&jawab);
+		displayMenu(&jawab, &valid);    	
 		switch (jawab) {
 	        case 1:
-	        	//do {
-		        	displayencrypt(&jawab);
-		        	switch(jawab){
+	        	do {
+	        	displayencrypt(&jawab, &valid);
+		        	switch (jawab) {
 		        		case 1:
 		        			encryptBMP(En, var);
 		        			main();
@@ -45,40 +46,42 @@ int main() {
 							printf("Terima Kasih...");
 							exit(0);
 		            	default:
-		            		printf("Masukkan angka yang tepat. \n\n");
+		            		printf("Masukkan input yang sesuai. \n\n");
 					}	
-				//}while (jawab != 0);
+				} while (true);
 	            break;
 			case 2 :
-				displaydecrypt(&jawab);
-				switch (jawab){
-	        		case 1:
-	        			decryptBMP(En, var, De);
-	            		break;
-	            	case 2:
-	            		decryptJPEG(En, var, De);
-	            		break;
-					case 3:
-						decryptPNG(De, var);
-					case 9:
-						main();
-						break;
-					case 0:
-						printf("Terima Kasih...");
-						exit(0);
-	            	default:
-	            		printf("Masukkan angka yang tepat. \n\n");
-				}
+				do {
+					displaydecrypt(&jawab, &valid);
+					switch (jawab) {
+		        		case 1:
+		        			decryptBMP(En, var, De);
+		            		break;
+		            	case 2:
+		            		decryptJPEG(En, var, De);
+		            		break;
+						case 3:
+							decryptPNG(De, var);
+						case 9:
+							main();
+							break;
+						case 0:
+							printf("Terima Kasih...");
+							exit(0);
+		            	default:
+		            		printf("Masukkan input yang sesuai. \n\n");
+					}
+			
+				} while (true);
 				break;
 			case 3:
-			//	main_ws();
-				break;
+				
 			case 0 :
 				printf("Terima Kasih...");	
 				exit(0);
 			default:
-	            printf("Masukkan angka yang tepat. \n\n");
+	            printf("Masukkan input yang sesuai. \n\n");
 	    }
-	}while(1);   
+	} while(true);   
     return 0;
 }
