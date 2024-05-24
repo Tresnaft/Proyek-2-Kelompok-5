@@ -69,7 +69,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
     printf("\nMasukan nama file: ");
     scanf("%s", bacafile);
 
-    printf("Masukan nama file setelah disisipkan pesan: "); // pake contoh
+    printf("Masukan nama file setelah disisipkan pesan: ");
     scanf("%s", hasilfile);
  
     while (getchar() != '\n');
@@ -117,7 +117,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 		
 	/*MENCETAK MATRIKS*/
 	printf("=====Matriks Dari Pesan=====\n");
-	printf("ini%cspasi\n", var->huruf[0]);
+//	printf("ini%cspasi\n", var->huruf[0]);
 	printf("Pesan : ");
 
 	for(i = 0;i < var->peslen;i++){
@@ -137,18 +137,18 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
 
-	printf("\nini%cspasi", var->huruf[0]);
+//	printf("\nini%cspasi", var->huruf[0]);
 	printf("\nPesan yang sudah di enkripsi : \n");
-	printf("ini indeks ke 78 \n",var->huruf[78]);
+//	printf("ini indeks ke 78 \n",var->huruf[78]);
 	i = 0;
 	while(i<var->isipesan){
-        printf("ini pesan ke i %d\n",En->enkripsi[i]);
+//        printf("ini pesan ke i %d\n",En->enkripsi[i]);
         i++;
     }
     puts("");
 	i = 0;
 	while(i<var->isipesan){
-        printf("ini pesan ke i %c\n",En->pesanEncrypt[i]);
+//        printf("ini pesan ke i %c\n",En->pesanEncrypt[i]);
         i++;
     }
 	//cetak_pesan_encrypt(En, var);
@@ -211,7 +211,7 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
 	
     matriks_LSB(var, hasil, num, reallen);
 
-	printf("isi reallen : %d", reallen);
+//	printf("isi reallen : %d", reallen);
 
     for(int i = 0;i<reallen-1;i++){
     	printf("Numkey : %d\n", num[i]);	
@@ -270,10 +270,7 @@ void encryptJPEG (Enkripsi *En, utama *var) {
     printf("\nMasukan pesan yang ingin di enkripsi: ");
     scanf("%[^\n]s", psn);
 	var->peslen = strlen(psn);
-//	if (var->pesan[var->peslen - 1] == '\n') {
-//	      var->pesan[var->peslen - 1] = '\0';
-//	      var->peslen--;
-//	  }
+
 	if(var->peslen%2 == 1){
     	psn[var->peslen] = var->huruf[0];
 		var->peslen = var->peslen+1; 	
@@ -339,7 +336,7 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
     printf("|=======================================DEKRIPSI JPEG=============================================|\n");
     printf("|=================================================================================================|\n");
 	
-	printf("Masukan nama file: "); // pake contoh
+	printf("Masukan nama file: "); 
     scanf("%s", hasilfile);
     printf("Masukkan kunci : ");
     scanf("%s", key);

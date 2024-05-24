@@ -10,7 +10,7 @@ address createNode() {
 void mengisiNode(address P, infotype value) {
     P->info = value;
     P->next = NULL;
-    P->prev = NULL; // Menginisialisasi pointer prev menjadi NULL
+    P->prev = NULL;
 }
 
 // Fungsi untuk menampilkan linked list
@@ -162,37 +162,37 @@ void linkedtoarr(char array[], address* head, address* tail){
 void dekripLL(utama *var, char psn[], address head, address tail){
 	insertAkhir(psn, &head, &tail, var->peslen);
 	printList(head);
-	for(int i = 0;i < 2;i++){
+	for(int i = 0; i < 3; i++){
     	moveWord(&head, &tail, var->peslen);
-	    printf("Linked list setelah di balik :\n");
-	    printList(head);
+//	    printf("Linked list setelah di balik :\n");
+//	    printList(head);
 	    
 	    moveEvenToTail(&head, &tail, var->peslen);
-	    printf("Linked list setelah di balik lagi :\n");
-	    printList(head);
+//	    printf("Linked list setelah di balik lagi :\n");
+//	    printList(head);
 	
 	    reverseList(&head);
-	    printf("Linked list setelah di-reverse:\n");
-	    printList(head);
+//	    printf("Linked list setelah di-reverse:\n");
+//	    printList(head);
 	}
 	linkedtoarr(var->pesan, &head, &tail);
 }
 
 void enkripLL(Dekripsi *De, address head, address tail, int reallen){
 	insertAkhir(De->pesanDecrypt, &head, &tail, reallen);
-	for(int i = 0;i<2;i++){
+	for(int i = 0; i < 3; i++){
 	        reverseList(&head);
 		    linkedtoarr(De->pesanDecrypt, &head, &tail);
-		    printf("Linked list setelah di-reverse:\n");
-		    printList(head);
+//		    printf("Linked list setelah di-reverse:\n");
+//		    printList(head);
 		    
 		    insertGenap (&head, &tail, De->pesanDecrypt);
-		    printf("Linked list setelah dibagi 2 insert genap:\n");
-		    printList(head);
+//		    printf("Linked list setelah dibagi 2 insert genap:\n");
+//		    printList(head);
 		    
 		    moveWord(&head, &tail, reallen);
-		    printf("Linked list setelah di balik :\n");
-		    printList(head);
+//		    printf("Linked list setelah di balik :\n");
+//		    printList(head);
 	}
 	linkedtoarr(De->pesanDecrypt, &head, &tail);
 }

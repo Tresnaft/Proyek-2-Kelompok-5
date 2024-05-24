@@ -7,7 +7,6 @@ BMPImage *readBMP(const char *filename, BMPHeader *header) {
         exit(1);
     }
 
-//    fread(header, sizeof(header), 1, file);
 	fread(&(header->signature), sizeof(header->signature), 1, file);
     fread(&(header->fileSize), sizeof(header->fileSize), 1, file);
     fread(&(header->reserved1), sizeof(header->reserved1), 1, file);
@@ -76,8 +75,7 @@ void writeBMP(const char *filename, BMPImage *img, BMPHeader header) {
         exit(1);
     }
 
-//    BMPHeader header = {0};
-    header.signature = 0x4D42; // BM
+    header.signature = 0x4D42;
     header.fileSize = sizeof(BMPHeader) + (img->width * sizeof(RGBPixel) + ((4 - (img->width * sizeof(RGBPixel)) % 4) % 4)) * img->height;
     header.dataOffset = sizeof(BMPHeader);
     header.headerSize = 40;
@@ -92,31 +90,14 @@ void writeBMP(const char *filename, BMPImage *img, BMPHeader header) {
     header.colors = 0;
     header.importantColors = 0;
     
-    
-//	printf("Signature: 0x%X\n", header.signature);
-//	printf("File Size: %u bytes\n", header.fileSize);
-//	printf("Reserved 1: %u\n", header.reserved1);
-//	printf("Reserved 2: %u\n", header.reserved2);
-//	printf("Data Offset: %u bytes\n", header.dataOffset);
-//	printf("Header Size: %u bytes\n", header.headerSize);
-//	printf("Width: %d pixels\n", header.width);
-//	printf("Height: %d pixels\n", header.height);
-//	printf("Planes: %u\n", header.planes);
-//	printf("Bits per Pixel: %u\n", header.bitsPerPixel);
-//	printf("Compression: %u\n", header.compression);
-//	printf("Data Size: %u bytes\n", header.dataSize);
-//	printf("Horizontal Resolution: %d pixels per meter\n", header.hResolution);
-//	printf("Vertical Resolution: %d pixels per meter\n", header.vResolution);
-//	printf("Colors: %u\n", header.colors);
-//	printf("Important Colors: %u\n", header.importantColors);
     fwrite(&header, sizeof(header), 1, file);
 
-    int padding = (4 - (img->width * sizeof(RGBPixel)) % 4) % 4; // Padding bytes per row
+    int padding = (4 - (img->width * sizeof(RGBPixel)) % 4) % 4;
     for (int y = img->height - 1; y >= 0; y--) {
         for (int x = 0; x < img->width; x++) {
             fwrite(&img->data[y * img->width + x], sizeof(RGBPixel), 1, file);
         }
-        // Write padding bytes
+
         for (int p = 0; p < padding; p++) {
             fputc(0, file);
         }
