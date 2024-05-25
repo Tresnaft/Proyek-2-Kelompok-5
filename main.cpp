@@ -37,10 +37,16 @@ int main() {
 							main();
 							break;
 						case 0:
-							printf("|\n|Terima kasih sudah menggunakan program kami! ^_^\n|\n");
+							printf("+=================================================================================================+\n");
+							printf("|                                                                                                 |\n");
+							printf("|                        Terima kasih sudah menggunakan program kami! ^_^                         |\n");
+							printf("|                                                                                                 |\n");
+							printf("+=================================================================================================+\n");
 							exit(0);
 		            	default:
-		            		printf("| [INFO] Masukkan input yang sesuai! \n|");
+
+						    printf("+=================================================================================================+\n");
+		            		printf("| [INFO] Masukkan input yang sesuai!                                                              |\n");
 					}	
 				} while (true);
 	            break;
@@ -50,32 +56,40 @@ int main() {
 					switch (jawab) {
 		        		case 1:
 		        			decryptBMP(En, var, De);
-		        			main();
 		            		break;
 		            	case 2:
 		            		decryptJPEG(En, var, De);
-		            		main();
 		            		break;
 						case 3:
 							decryptPNG(De, var);
-							main();
 						case 4:
 							main();
 							break;
 						case 0:
-							printf("|\n|Terima kasih sudah menggunakan program kami! ^_^\n|\n");
+							printf("+=================================================================================================+\n");
+							printf("|                                                                                                 |\n");
+							printf("|                        Terima kasih sudah menggunakan program kami! ^_^                         |\n");
+							printf("|                                                                                                 |\n");
+							printf("+=================================================================================================+\n");
 							exit(0);
 		            	default:
-		            		printf("| [INFO] Masukkan input yang sesuai! \n|");
+						    printf("+=================================================================================================+\n");
+		            		printf("| [INFO] Masukkan input yang sesuai!                                                              |\n");
 					}
 				} while (true);
 				break;
 			case 0 :
-				printf("|\n|Terima kasih sudah menggunakan program kami! ^_^\n|\n");
+				printf("+=================================================================================================+\n");
+				printf("|                                                                                                 |\n");
+				printf("|                        Terima kasih sudah menggunakan program kami! ^_^                         |\n");
+				printf("|                                                                                                 |\n");
+				printf("+=================================================================================================+\n");
 				exit(0);
 			default:
-	            printf("| [INFO] Masukkan input yang sesuai! \n|");
+				printf("+=================================================================================================+\n");
+	    		printf("| [INFO] Masukkan input yang sesuai!                                                              |\n");
 	    }
 	} while(true);   
     return 0;
 }
+
