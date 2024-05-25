@@ -68,7 +68,7 @@ void encodeJPEG(const char *source_image, const char *dest_image, utama *var, En
     fclose(outfile);
     close_image(&image);
 
-    printf("Image Encoded Successfully\n");
+//    printf("Image Encoded Successfully\n");
 }
 
 void decodeJPEG(const char *image_path, char lsbjpg[]) {
@@ -96,7 +96,7 @@ void decodeJPEG(const char *image_path, char lsbjpg[]) {
             memcpy(lsbjpg, &buffer[pos + 4], message_length);
             lsbjpg[message_length] = '\0';
 
-            printf("Hidden Message: %s\n", lsbjpg);
+            printf("| Pesan Hasil Ekstrak LSB: %s\n", lsbjpg);
 
             //free(lsbjpg);
             break;

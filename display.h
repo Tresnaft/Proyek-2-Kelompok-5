@@ -10,6 +10,7 @@
 
 void clearInputBuffer();
 void intInput (int *j, bool *valid);
+void handleFileBMP (char *bacafile[]);
 void displayMenu (int *j, bool *valid);
 void encryptBMP(Enkripsi *En, utama *var);
 void decryptBMP(Enkripsi *En, utama *var, Dekripsi *De);

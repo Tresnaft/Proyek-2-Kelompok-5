@@ -6,6 +6,7 @@ void clearInputBuffer() {
     while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
+
 void intInput (int *j, bool *valid) {
 	*j = -1;
 	*valid = false;
@@ -25,9 +26,9 @@ void displayMenu (int *j, bool *valid) {
     printf("| [2]. Dekripsi                                                                                   |\n");
     printf("| [0]. Keluar                                                                                     |\n");
     printf("+=================================================================================================+\n");
-    printf("Pilihan : ");
+    printf("| Pilihan : ");
     intInput(j, valid);
-    printf("=================================================================================================\n");
+    printf("+=================================================================================================+\n");
     system("cls");
 }
 void displayencrypt (int *j, bool *valid) {
@@ -39,9 +40,9 @@ void displayencrypt (int *j, bool *valid) {
     printf("| [4]. Kembali                                                                                    |\n");  
     printf("| [0]. Keluar                                                                                     |\n");
     printf("+=================================================================================================+\n");
-    printf("Pilihan : ");
+    printf("| Pilihan : ");
     intInput(j, valid);
-    printf("=================================================================================================\n");
+    printf("+=================================================================================================+\n");
     system("cls");
 }
 
@@ -54,7 +55,7 @@ void displaydecrypt (int *j, bool *valid) {
     printf("| [9]. Kembali                                                                                    |\n");  
     printf("| [0]. Keluar                                                                                     |\n");
     printf("+=================================================================================================+\n");
-    printf("Pilihan : ");
+    printf("| Pilihan : ");
     intInput(j, valid);
     printf("=================================================================================================\n");
     system("cls");
@@ -74,19 +75,57 @@ void encryptBMP (Enkripsi *En, utama *var) {
     char message[MAX_MESSAGE_LENGTH];
     char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
 
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n");
     printf("|=======================================ENKRIPSI BMP==============================================|\n");
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n|");
  
-    printf("\nMasukan nama file: ");
-    scanf("%s", bacafile);
 
-    printf("Masukan nama file setelah disisipkan pesan: "); 
-    scanf("%s", hasilfile);
- 
-    while (getchar() != '\n');
-    printf("\nMasukan pesan yang ingin di enkripsi: ");
-    scanf("%[^\n]s", psn);
+    
+	bool valid = false;
+	while (!valid) {
+		printf("\n| Masukan nama file: ");
+    	scanf("%s", bacafile);
+		strcat(bacafile, ".bmp");
+    	FILE *cekAda = fopen(bacafile, "r");
+	    if (cekAda) {
+	    	valid = true;
+	        fclose(cekAda);
+	    } else {
+	        printf("| *File '%s' tidak ada! Masukan nama file yang sesuai!\n", bacafile);
+	    }
+    }
+    
+    valid = false;
+    while (!valid) {
+	    printf("| Masukan nama file setelah disisipkan pesan: "); 
+	    scanf("%s", hasilfile);
+	 	strcat(hasilfile, ".bmp");
+	    FILE *cekBisa = fopen(hasilfile, "w");
+	
+	    if (cekBisa) {
+	        fclose(cekBisa); 
+	        remove(hasilfile);
+	        valid = true;
+	    } else {
+	        printf("| *File '%s' tidak bisa dibuat! Masukan nama file yang sesuai!.\n", hasilfile);
+	    }
+	}
+
+
+	valid = false;
+	while (!valid) {
+	    while (getchar() != '\n');
+	    printf("| \n| Masukan pesan yang ingin di enkripsi: ");
+	    scanf("%[^\n]s", psn);
+		
+		if (strlen(psn) > 500) {
+			printf("| *Panjang pesan tidak boleh lebih dari 500!\n");
+		} else {
+			valid = true;
+		}
+	
+	}
+	
 	var->peslen = strlen(psn);
 	
 	if(var->peslen%2 == 1){
@@ -117,12 +156,12 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	
 	int lenkun;
 	do{
-	    printf("Masukan kunci (4 huruf): ");
+	    printf("| Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);
-		if (lenkun > 4){
-			printf("Panjang kunci maksimal 4 huruf !!\n");
+		if (lenkun > 4 || lenkun < 4) {
+			printf("| Kunci harus memiliki 4 huruf!\n");
 		}	
 	}while (lenkun != 4);
 
@@ -155,7 +194,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 
 	pesan_encrypt(En, var);
 
-	printf("\nPesan yang sudah di enkripsi : ");
+	printf("\n| Pesan yang sudah di enkripsi : ");
 	i = 0;
 	while(i<var->isipesan){
         printf("%c",En->pesanEncrypt[i]);
@@ -174,9 +213,10 @@ void encryptBMP (Enkripsi *En, utama *var) {
     writeMsg(bmp, *binaryMessage);
 
 	writeBMP(hasilfile, bmp, head);
-	printf("berhasil!!\n");
+	printf("| Pesan berhasil disisipkan kedalam gambar!\n");
 	free(bmp->data);
 	free(bmp);
+	printf("| \n| ");
 	system("pause");
     system("cls");
     
@@ -193,15 +233,14 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
     char hasil[100];
     char key[4];
     int keytonum[4];
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n");
     printf("|=========================================DEKRIPSI BMP============================================|\n");
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n|");
 	
-	printf("Masukan nama file: ");
+	printf("\n| Masukan nama file: ");
     scanf("%s", hasilfile);
-    printf("Masukkan kunci : ");
+    printf("| Masukkan kunci : ");
     scanf("%s", key);
-
     
     matriks_key_LSB(key, keytonum, var);
 	
@@ -216,7 +255,7 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
     reallen = panjangpesan;
 
     panjangpesan = (panjangpesan * 4 + 8)+1;
-	printf("Pesan Hasil Ekstrak LSB : ");
+	printf("| Pesan Hasil Ekstrak LSB : ");
 	extractlsb(bmp, panjangpesan, reallen, hasil);
 	puts("");
 	
@@ -239,7 +278,7 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
 	enkripLL(De, first, tail, reallen);
 	
 //	printf("\n=========Pesan Dekripsi==========\n");
-    printf("Pesan Hasil Dekripsi  : ");
+    printf("| Pesan Hasil Dekripsi  : ");
     for(int k = 0; k < reallen; k++){
 		if(De->pesanDecrypt[k]=='~'){
 			De->pesanDecrypt[k]=' ';
@@ -248,6 +287,7 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
 	}
     puts(" ");
     printf("\n");
+	printf("| \n| ");
     system("pause");
     puts("");
     system("cls");
@@ -264,18 +304,18 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 
     printf("|=================================================================================================|\n");
     printf("|=======================================ENKRIPSI JPEG=============================================|\n");
-    printf("|=================================================================================================|\n");
+    printf("|=================================================================================================|\n|");
  
-    printf("\nMasukan nama file: ");
+    printf("\n| Masukan nama file: ");
     scanf("%s", bacafile);
 
 
-    printf("Masukan nama file setelah disisipkan pesan: "); 
+    printf("| Masukan nama file setelah disisipkan pesan: "); 
     scanf("%s", hasilfile);
 
  
     while (getchar() != '\n');
-    printf("\nMasukan pesan yang ingin di enkripsi: ");
+    printf("| \n| Masukan pesan yang ingin di enkripsi: ");
     scanf("%[^\n]s", psn);
 	var->peslen = strlen(psn);
 
@@ -295,12 +335,12 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 	
     int lenkun;
 	do{
-	    printf("Masukan kunci (4 huruf): ");
+	    printf("| Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);
 		if (lenkun > 4){
-			printf("Panjang kunci maksimal 4 huruf !!\n");
+			printf("| \n| Panjang kunci maksimal 4 huruf!\n");
 		}	
 	}while (lenkun != 4);
 	
@@ -323,15 +363,16 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 //	cetak_matriks_encrypt(var, En);
 //	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
-	printf("\nPesan yang sudah di enkripsi : ");
+	printf("| \n| Pesan yang sudah di enkripsi : ");
 	cetak_pesan_encrypt(En, var);
     puts("");
 //	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     
 //	printf("Encoding...\n");
     encodeJPEG(bacafile, hasilfile, var, En);
-	printf("berhasil!!\n");
+	printf("| Pesan berhasil disisipkan kedalam gambar!\n");
     puts("");
+	printf("| \n| ");
     system("pause");
     system("cls");
 }
@@ -344,13 +385,13 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
 	
     char key[4];
     int keytonum[4];
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n");
     printf("|=======================================DEKRIPSI JPEG=============================================|\n");
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n");
 	
-	printf("Masukan nama file: "); 
+	printf("| Masukan nama file: "); 
     scanf("%s", hasilfile);
-    printf("Masukkan kunci : ");
+    printf("| Masukkan kunci : ");
     scanf("%s", key);
     matriks_key_LSB(key, keytonum, var);
 	
@@ -371,7 +412,7 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
     pesan_decryptLSB(De, batas, var);
 //    printf("\n=========Pesan Dekripsi==========\n");
     enkripLL(De, first, tail, batas);
-    printf("Pesan Dekripsi : ");
+    printf("| Pesan Dekripsi : ");
     
 	for(int k = 0; k < batas; k++){
 		if(De->pesanDecrypt[k]=='~'){
@@ -381,28 +422,29 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
 	}
     puts("");
     printf("\n");
+	printf("| \n| ");
     system("pause");
     puts("");
     system("cls");
 }
 
 void encryptPNG(Enkripsi *En, utama *var){
-	printf("|=================================================================================================|\n");
+	printf("+=================================================================================================+\n");
     printf("|=========================================ENKRIPSI PNG============================================|\n");
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n");
 
 	char src_image[100], dest_image[100], message[1000], psn[500];
 	int i;
 	address first = NULL;
 	address tail = NULL;
 
-	printf("Masukan nama file: ");
+	printf("| Masukan nama file: ");
 	scanf("%s", src_image);
 
-	printf("Masukan nama file setelah disisipkan pesan: ");
+	printf("| Masukan nama file setelah disisipkan pesan: ");
 	scanf("%s", dest_image);
 	
-	printf("\nMasukan pesan yang ingin di enkripsi: ");
+	printf("|\n| Masukan pesan yang ingin di enkripsi: ");
 	scanf("%[^\n]s", psn);
 	getchar(); 
     scanf("%[^\n]s", psn);
@@ -424,12 +466,12 @@ void encryptPNG(Enkripsi *En, utama *var){
 	
     int lenkun;
 	do{
-	    printf("Masukan kunci (4 huruf): ");
+	    printf("| Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);
 		if (lenkun > 4){
-			printf("Panjang kunci maksimal 4 huruf !!\n");
+			printf("| Panjang kunci maksimal 4 huruf!\n");
 		}	
 	}while (lenkun != 4);
 	
@@ -461,16 +503,17 @@ void encryptPNG(Enkripsi *En, utama *var){
 //	printf("Encoding...\n");
 
 	encodePNG(src_image, dest_image, En->pesanEncrypt);
-	printf("berhasil!!\n");
+	printf("| Pesan berhasil disisipkan kedalam gambar!\n");
     puts("");
+	printf("| \n| ");
     system("pause");
     system("cls");
 }
 
 void decryptPNG(Dekripsi *De, utama *var){
-	printf("|=================================================================================================|\n");
+	printf("+=================================================================================================+\n");
     printf("|=========================================DEKRIPSI PNG============================================|\n");
-    printf("|=================================================================================================|\n");
+    printf("+=================================================================================================+\n");
 
 	char src_image[100], key[5], hasil[500];
 	address first = NULL;
@@ -479,10 +522,10 @@ void decryptPNG(Dekripsi *De, utama *var){
 	int num[2048];
 
 
-	printf("Masukan nama file: ");
+	printf("| Masukan nama file: ");
 	scanf("%s", src_image);
 
-	printf("Masukkan kunci : ");
+	printf("| Masukkan kunci : ");
     scanf("%s", key);
 	
 	decodePNG(src_image, hasil);
@@ -505,7 +548,7 @@ void decryptPNG(Dekripsi *De, utama *var){
     pesan_decryptLSB(De, len, var);
 //    printf("\n=========Pesan Dekripsi==========\n");
     enkripLL(De, first, tail, len);
-    printf("Pesan Dekripsi : ");
+    printf("| Pesan Dekripsi : ");
     
     for(int k = 0; k < len; k++){
 		if(De->pesanDecrypt[k]=='~'){
@@ -515,6 +558,7 @@ void decryptPNG(Dekripsi *De, utama *var){
 	}
 	printf("\n");
 	printf("\n");
+	printf("| \n| ");
 	system("pause");
     puts("");
     system("cls");

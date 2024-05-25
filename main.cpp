@@ -33,7 +33,7 @@ int main() {
 							encryptPNG(En, var);
 							main();
 							break;
-						case 9:
+						case 4:
 							main();
 							break;
 						case 0:

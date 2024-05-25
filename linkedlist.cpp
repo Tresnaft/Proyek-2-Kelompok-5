@@ -20,8 +20,9 @@ void printList(address head) {
         return;
     }
     address temp = head;
+    
     do {
-        printf("%c ", temp->info);
+//        printf("%c ", temp->info);
         temp = temp->next;
     } while (temp != head);
     printf("\n");
