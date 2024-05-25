@@ -16,7 +16,7 @@ void mengisiNode(address P, infotype value) {
 // Fungsi untuk menampilkan linked list
 void printList(address head) {
     if (head == NULL) {
-        printf("List is empty\n");
+        printf("| List is empty\n");
         return;
     }
     address temp = head;
@@ -25,7 +25,7 @@ void printList(address head) {
         printf("%c ", temp->info);
         temp = temp->next;
     } while (temp != head);
-    printf("\n");
+
 }
 
 // Fungsi untuk membalikkan linked list
@@ -60,7 +60,7 @@ void insertAkhir(infotype arr[], address* head, address* tail, int len) {
     for (int i = 0; i < len; i++) {
         pnew = createNode();
         if (pnew == NULL) {
-            printf("Memory penuh");
+            printf("| Memory penuh\n");
             return;
         } else {
             mengisiNode(pnew, arr[i]);
@@ -82,7 +82,7 @@ void insertAkhir(infotype arr[], address* head, address* tail, int len) {
 
 void moveWord(address *head, address *tail, int steps) {
     if (*head == NULL || *tail == NULL) {
-        printf("List is empty\n");
+        printf("| List kosong\n");
         return;
     }
 
@@ -104,7 +104,7 @@ void moveWord(address *head, address *tail, int steps) {
 void moveEvenToTail(address *head, address *tail, int len) {
 	address temp;
     if (*head == NULL || *tail == NULL) {
-        printf("List is empty\n");
+        printf("| List kosong\n");
         return;
     }
 
@@ -132,7 +132,7 @@ void insertGenap(address* head, address* tail, infotype arrnew[]) {
     for (int i = 0; i < half_len; i++) {
         pnew = createNode();
         if (pnew == NULL) {
-            printf("Alokasi gagal");
+            printf("| Alokasi gagal\n");
             return;
         } else {
             mengisiNode(pnew, arrnew[half_len + i]);
@@ -160,43 +160,55 @@ void linkedtoarr(char array[], address* head, address* tail){
     array[i] = '\0';
 }
 
-void dekripLL(utama *var, char psn[], address head, address tail){
-	insertAkhir(psn, &head, &tail, var->peslen);
-	printf("| Bentuk Linked List : \n| ");
-	printList(head);
-	for(int i = 0; i < 3; i++){
-    	moveWord(&head, &tail, var->peslen);
-	    printf("| Linked list setelah di balik (circular):\n| ");
-	    printList(head);
-	    
-	    moveEvenToTail(&head, &tail, var->peslen);
-	    printf("| Linked list setelah node genap di simpan di akhir:\n| ");
-	    printList(head);
-	
-	    reverseList(&head);
-	    printf("| Linked list setelah di-reverse:\n| ");
-	    printList(head);
-	}
-	linkedtoarr(var->pesan, &head, &tail);
+void enkripLL(Dekripsi *De, address head, address tail, int reallen){
+    insertAkhir(De->pesanDecrypt, &head, &tail, reallen);
+    printf("| Bentuk Linked List    : ");        
+    printList(head);
+    for(int i = 0; i < 3; i++){
+        reverseList(&head);
+        linkedtoarr(De->pesanDecrypt, &head, &tail);
+        printf("|\n|\n");
+        printf("| Reverse               : ");
+        printList(head);
+            
+        insertGenap (&head, &tail, De->pesanDecrypt);
+        printf("|\n|\n");
+        printf("| Dibagi 2 Insert Genap : ");
+        printList(head);
+            
+        moveWord(&head, &tail, reallen);
+        printf("|\n|\n");
+        printf("| Tukar posisi          : ");
+        printList(head);
+    }
+    printf("| ");
+    printf("\n|\n");
+    linkedtoarr(De->pesanDecrypt, &head, &tail);
 }
 
-void enkripLL(Dekripsi *De, address head, address tail, int reallen){
-	insertAkhir(De->pesanDecrypt, &head, &tail, reallen);
-	printf("| Bentuk Linked List : \n| ");
-	printList(head);
-	for(int i = 0; i < 3; i++){
-	        reverseList(&head);
-		    linkedtoarr(De->pesanDecrypt, &head, &tail);
-		    printf("| Linked list setelah di-reverse:\n| ");
-		    printList(head);
-		    
-		    insertGenap (&head, &tail, De->pesanDecrypt);
-		    printf("| Linked list setelah dibagi 2 insert tengah:\n| ");
-		    printList(head);
-		    
-		    moveWord(&head, &tail, reallen);
-		    printf("| Linked list setelah di balik (circular) :\n| ");
-		    printList(head);
-	}
-	linkedtoarr(De->pesanDecrypt, &head, &tail);
+void dekripLL(utama *var, char psn[], address head, address tail){
+    insertAkhir(psn, &head, &tail, var->peslen);
+    printf("| Bentuk Linked List    : ");
+    printList(head);
+    
+    for(int i = 0; i < 3; i++){
+        moveWord(&head, &tail, var->peslen);
+        printf("|\n|\n");
+        printf("| Tukar posisi          : ");
+        printList(head);
+        
+        moveEvenToTail(&head, &tail, var->peslen);
+        printf("|\n|\n");
+        printf("| Dibagi 2 Insert Genap : ");
+        printList(head);
+        
+        reverseList(&head);
+        printf("|\n|\n");
+        printf("| Reverse               : ");
+        printList(head);
+    }
+    printf("| ");
+    printf("\n|\n");
+    linkedtoarr(var->pesan, &head, &tail);
 }
+
