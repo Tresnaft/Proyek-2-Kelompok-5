@@ -63,7 +63,7 @@ void encodePNG(char *src_image, char *dest_image, char *message) {
     // Free memory used by the image
     freeImageData(img_data);
 
-    printf("Image Encoded Successfully\n");
+//    printf("Image Encoded Successfully\n");
 
 }
 
