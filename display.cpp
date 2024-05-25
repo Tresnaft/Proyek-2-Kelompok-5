@@ -146,6 +146,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 			valid = true;
 		}
 	}
+	puts("");
 	
 	var->peslen = strlen(psn);
 	
@@ -177,7 +178,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	
 	
 	do {
-	    printf("| Masukan kunci (4 huruf): ");
+	    printf("\n| Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);
@@ -421,7 +422,7 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 	var->pesantonum[var->peslen];
 	
 	do {
-	    printf("| Masukan kunci (4 huruf): ");
+	    printf("\n| Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);
@@ -616,7 +617,7 @@ void encryptPNG(Enkripsi *En, utama *var){
 	var->pesantonum[var->peslen];
 	
 	do {
-	    printf("| Masukan kunci (4 huruf): ");
+	    printf("\n| Masukan kunci (4 huruf): ");
 	    scanf("%s", var->kunci);
 		puts("");
 		lenkun = strlen(var->kunci);

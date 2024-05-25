@@ -50,12 +50,15 @@ int main() {
 					switch (jawab) {
 		        		case 1:
 		        			decryptBMP(En, var, De);
+		        			main();
 		            		break;
 		            	case 2:
 		            		decryptJPEG(En, var, De);
+		            		main();
 		            		break;
 						case 3:
 							decryptPNG(De, var);
+							main();
 						case 4:
 							main();
 							break;
