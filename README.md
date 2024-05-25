@@ -31,10 +31,11 @@ Politeknik Negeri Bandung
 | 5.  | Tresnardi Fathu Rhamdan     | 231511062  | Tresnaft        |
 | 6.  | Zidan Tri Satria Mukti      | 231511064  | ZidanTSM22      |
 
-Manajer : Sofy Fitriani, S.S.T., M.Kom NIP:199106142019032022
+Manager : Sofy Fitriani, S.S.T., M.Kom NIP:199106142019032022
 
 # Referensi
-https://engineering.purdue.edu/ece264/17au/hw/HW15
-https://abhijitnathwani.github.io/blog/2017/12/19/Introduction-to-Image-Processing-using-C
-https://www.codeproject.com/Questions/1209078/How-do-i-impement-image-steganography-in-C-using-L
-https://github.com/nothings/stb.git
+- https://engineering.purdue.edu/ece264/17au/hw/HW15
+- https://abhijitnathwani.github.io/blog/2017/12/19/Introduction-to-Image-Processing-using-C
+- https://www.codeproject.com/Questions/1209078/How-do-i-impement-image-steganography-in-C-using-L
+- https://github.com/nothings/stb.git
+- https://motubablog.blogspot.com/2019/01/source-code-hill-cipher-bahasa-c.html?m=1
