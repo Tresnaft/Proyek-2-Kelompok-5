@@ -62,7 +62,7 @@ void displaydecrypt (int *j, bool *valid) {
     printf("| [1]. Dekripsi BMP                                                                               |\n");
     printf("| [2]. Dekripsi JPEG                                                                              |\n");
     printf("| [3]. Dekripsi PNG                                                                               |\n");
-    printf("| [9]. Kembali                                                                                    |\n");  
+    printf("| [4]. Kembali                                                                                    |\n");  
     printf("| [0]. Keluar                                                                                     |\n");
     printf("+=================================================================================================+\n");
     printf("| Pilihan : ");
@@ -90,7 +90,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
     char *binaryMessage[MAX_MESSAGE_LENGTH * 8];
 
     printf("+=================================================================================================+\n");
-    printf("|=======================================ENKRIPSI BMP==============================================|\n");
+    printf("|==========================================ENKRIPSI BMP===========================================|\n");
     printf("+=================================================================================================+\n|");
  
 
@@ -101,15 +101,15 @@ void encryptBMP (Enkripsi *En, utama *var) {
     	scanf(" %[^\n]s", bacafile);
 		strcat(bacafile, ".bmp");
     	cekAda = fopen(bacafile, "r");
+    	
+    	if (cekSpasi(bacafile)) {
+	        printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else
 	    if (cekAda) {
 	        fclose(cekAda);
-	    	if (cekSpasi(bacafile)) {
-	        	printf("\n| Nama file tidak boleh mengandung spasi!");
-			} else {
-	    	    valid = true;
-	    	}
+	    	valid = true;
 	    } else {
-	        printf("| *File '%s' tidak ada! Masukan nama file yang sesuai!\n", bacafile);
+	        printf("| [INFO] File tidak ada! Masukan nama file yang sesuai!\n|");
 	    }
     }
     
@@ -121,16 +121,15 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	 	strcat(hasilfile, ".bmp");
 		cekBisa = fopen(hasilfile, "w");
 		
-	    if (cekBisa) {
+	    if (cekSpasi(hasilfile)) {
+	        	printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else 
+		if (cekBisa) {
 	        fclose(cekBisa); 
 	        remove(hasilfile);
-	        if (cekSpasi(hasilfile)) {
-	        	printf("\n| Nama file tidak boleh mengandung spasi!");
-			} else {
-	    	    valid = true;
-	    	}
+	    	valid = true;
 	    } else {
-	        printf("| *File tidak bisa dibuat! Masukan nama file yang sesuai!.\n");
+	        printf("| [INFO] File tidak bisa dibuat! Masukan nama file yang sesuai!\n|");
 	    }
 	}
 
@@ -142,7 +141,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 	    scanf("%[^\n]s", psn);
 		
 		if (strlen(psn) > 500) {
-			printf("| *Panjang pesan tidak boleh lebih dari 500!\n");
+			printf("| [INFO] Panjang pesan tidak boleh lebih dari 500!\n|");
 		} else {
 			valid = true;
 		}
@@ -183,7 +182,7 @@ void encryptBMP (Enkripsi *En, utama *var) {
 		puts("");
 		lenkun = strlen(var->kunci);
 		if (lenkun > 4 || lenkun < 4) {
-			printf("| Kunci harus memiliki 4 huruf!\n");
+			printf("| [INFO] Kunci harus memiliki 4 huruf!\n|");
 		}	
 	} while (lenkun != 4);
 
@@ -255,12 +254,32 @@ void decryptBMP (Enkripsi *En, utama *var, Dekripsi *De) {
     char hasil[100];
     char key[4];
     int keytonum[4];
+    bool valid;
+    FILE* cekBisa;
     printf("+=================================================================================================+\n");
     printf("|=========================================DEKRIPSI BMP============================================|\n");
     printf("+=================================================================================================+\n|");
 	
-	printf("\n| Masukan nama file: ");
-    scanf("%s", hasilfile);
+
+    valid = false;
+    while (!valid) {
+	    printf("\n| Masukan nama file: ");
+    	scanf(" %[^\n]s", hasilfile);
+		strcat(hasilfile, ".bmp");
+		cekBisa = fopen(hasilfile, "r");
+		
+		if (cekSpasi(hasilfile)) {
+	        	printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else 
+		if (cekBisa) {
+	        fclose(cekBisa); 
+	    	valid = true;
+	    } else {
+	        printf("| [INFO] File tidak ada! Masukan nama file yang sesuai!\n|");
+	    }
+	}
+    
+    
     printf("| Masukkan kunci : ");
     scanf("%s", key);
     
@@ -338,15 +357,15 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 		scanf(" %[^\n]s", bacafile);
 		strcat(bacafile, ".jpeg");
 		cekAda = fopen(bacafile, "r");
-		if (cekAda) {
-		    fclose(cekAda);
-			if (cekSpasi(bacafile)) {
-	        	printf("\n| Nama file tidak boleh mengandung spasi!");
-			} else {
-	    	    valid = true;
-	    	}
+		
+		if (cekSpasi(bacafile)) {
+	        printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else
+	    if (cekAda) {
+	        fclose(cekAda);
+	    	valid = true;
 	    } else {
-	        printf("| *File '%s' tidak ada! Masukan nama file yang sesuai!\n", bacafile);
+	        printf("| [INFO] File tidak ada! Masukan nama file yang sesuai!\n|");
 	    }
     }
     
@@ -358,16 +377,15 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 	 	strcat(hasilfile, ".jpeg");
 	    cekBisa = fopen(hasilfile, "w");
 	    
-	    if (cekBisa) {
+	    if (cekSpasi(hasilfile)) {
+	    	printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else 
+		if (cekBisa) {
 	        fclose(cekBisa); 
 	        remove(hasilfile);
-	        if (cekSpasi(hasilfile)) {
-	        	printf("\n| Nama file tidak boleh mengandung spasi!");
-			} else {
-	    	    valid = true;
-	    	}
+	    	valid = true;
 	    } else {
-	        printf("| *File '%s' tidak bisa dibuat! Masukan nama file yang sesuai!.\n", hasilfile);
+	        printf("| [INFO] File tidak bisa dibuat! Masukan nama file yang sesuai!\n|");
 	    }
 	}
 
@@ -379,7 +397,7 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 	    scanf("%[^\n]s", psn);
 		
 		if (strlen(psn) > 500) {
-			printf("| *Panjang pesan tidak boleh lebih dari 500!\n");
+			printf("| [INFO] Panjang pesan tidak boleh lebih dari 500!\n|");
 		} else {
 			valid = true;
 		}
@@ -408,7 +426,7 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 		puts("");
 		lenkun = strlen(var->kunci);
 		if (lenkun > 4 || lenkun < 4) {
-			printf("| Kunci harus memiliki 4 huruf!\n");
+			printf("| [INFO] Kunci harus memiliki 4 huruf!\n|");
 		}	
 	} while (lenkun != 4);
 	
@@ -431,8 +449,12 @@ void encryptJPEG (Enkripsi *En, utama *var) {
 //	cetak_matriks_encrypt(var, En);
 //	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
-	printf("| \n| Pesan yang sudah di enkripsi : ");
-	cetak_pesan_encrypt(En, var);
+	printf("\n| Pesan yang sudah di enkripsi : ");
+	i = 0;
+	while(i<var->isipesan){
+        printf("%c",En->pesanEncrypt[i]);
+        i++;
+    }
     puts("");
 //	printf("=======Proses Input Pesan ke Dalam Gambar==========\n");
     
@@ -450,15 +472,33 @@ void decryptJPEG (Enkripsi *En, utama *var, Dekripsi *De) {
 	char *hasil = (char *)malloc(MAX_MESSAGE_LENGTH + 1);
 	address first = NULL;
 	address tail = NULL;
+	bool valid;
+	FILE* cekBisa;
 	
     char key[4];
     int keytonum[4];
     printf("+=================================================================================================+\n");
     printf("|=======================================DEKRIPSI JPEG=============================================|\n");
-    printf("+=================================================================================================+\n");
+    printf("+=================================================================================================+\n|");
 	
-	printf("| Masukan nama file: "); 
-    scanf("%s", hasilfile);
+	valid = false;
+    while (!valid) {
+	    printf("\n| Masukan nama file: ");
+    	scanf(" %[^\n]s", hasilfile);
+		strcat(hasilfile, ".jpeg");
+		cekBisa = fopen(hasilfile, "r");
+		
+		if (cekSpasi(hasilfile)) {
+	        	printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else 
+		if (cekBisa) {
+	        fclose(cekBisa); 
+	    	valid = true;
+	    } else {
+	        printf("| [INFO] File tidak ada! Masukan nama file yang sesuai!\n|");
+	    }
+	}
+    
     printf("| Masukkan kunci : ");
     scanf("%s", key);
     matriks_key_LSB(key, keytonum, var);
@@ -513,17 +553,17 @@ void encryptPNG(Enkripsi *En, utama *var){
 	while (!valid) {
 		printf("\n| Masukan nama file: ");
 		scanf(" %[^\n]s", src_image);
-		strcat(src_image, ".jpeg");
+		strcat(src_image, ".png");
 		cekAda = fopen(src_image, "r");
-		if (cekAda) {
-		    fclose(cekAda);
-			if (cekSpasi(src_image)) {
-	        	printf("\n| Nama file tidak boleh mengandung spasi!");
-			} else {
-	    	    valid = true;
-	    	}
+		
+		if (cekSpasi(src_image)) {
+	        printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else
+	    if (cekAda) {
+	        fclose(cekAda);
+	    	valid = true;
 	    } else {
-	        printf("| *File '%s' tidak ada! Masukan nama file yang sesuai!\n", src_image);
+	        printf("| [INFO] File tidak ada! Masukan nama file yang sesuai!\n|");
 	    }
     }
 
@@ -531,19 +571,18 @@ void encryptPNG(Enkripsi *En, utama *var){
     while (!valid) {
 	    printf("| Masukan nama file setelah disisipkan pesan: "); 
 	    scanf(" %[^\n]s", dest_image);
-	 	strcat(dest_image, ".jpeg");
+	 	strcat(dest_image, ".png");
 	    cekBisa = fopen(dest_image, "w");
 	    
-	    if (cekBisa) {
+	    if (cekSpasi(dest_image)) {
+	    	printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else 
+		if (cekBisa) {
 	        fclose(cekBisa); 
-			remove(dest_image);
-	        if (cekSpasi(dest_image)) {
-	        	printf("\n| Nama file tidak boleh mengandung spasi!");
-			} else {
-	    	    valid = true;
-	    	}
+	        remove(dest_image);
+	    	valid = true;
 	    } else {
-	        printf("| *File '%s' tidak bisa dibuat! Masukan nama file yang sesuai!.\n", dest_image);
+	        printf("| [INFO] File tidak bisa dibuat! Masukan nama file yang sesuai!\n|");
 	    }
 	}
 	
@@ -554,7 +593,7 @@ void encryptPNG(Enkripsi *En, utama *var){
 	    scanf("%[^\n]s", psn);
 		
 		if (strlen(psn) > 500) {
-			printf("| *Panjang pesan tidak boleh lebih dari 500!\n");
+			printf("| [INFO] Panjang pesan tidak boleh lebih dari 500!\n|");
 		} else {
 			valid = true;
 		}
@@ -582,7 +621,7 @@ void encryptPNG(Enkripsi *En, utama *var){
 		puts("");
 		lenkun = strlen(var->kunci);
 		if (lenkun > 4 || lenkun < 4) {
-			printf("| Kunci harus memiliki 4 huruf!\n");
+			printf("| [INFO] Kunci harus memiliki 4 huruf!\n|");
 		}	
 	} while (lenkun != 4);
 	
@@ -605,6 +644,12 @@ void encryptPNG(Enkripsi *En, utama *var){
 //	cetak_matriks_encrypt(var, En);
 //	printf("=====Pesan Enkripsi=====");
 	pesan_encrypt(En, var);
+	printf("\n| Pesan yang sudah di enkripsi : ");
+	i = 0;
+	while(i<var->isipesan){
+        printf("%c",En->pesanEncrypt[i]);
+        i++;
+    }
 //	printf("\nPesan yang sudah di enkripsi : ");
 //	
 //	cetak_pesan_encrypt(En, var);
@@ -621,20 +666,39 @@ void encryptPNG(Enkripsi *En, utama *var){
     system("cls");
 }
 
-void decryptPNG(Dekripsi *De, utama *var){
-	printf("+=================================================================================================+\n");
-    printf("|=========================================DEKRIPSI PNG============================================|\n");
-    printf("+=================================================================================================+\n");
-
+void decryptPNG(Dekripsi *De, utama *var) {
 	char src_image[100], key[5], hasil[500];
 	address first = NULL;
 	address tail = NULL;
 	int keytonum[4];
 	int num[2048];
+	bool valid;
+	FILE* cekBisa;
+	
+	printf("+=================================================================================================+\n");
+    printf("|=========================================DEKRIPSI PNG============================================|\n");
+    printf("+=================================================================================================+\n|");
 
 
-	printf("| Masukan nama file: ");
-	scanf("%s", src_image);
+
+
+	valid = false;
+    while (!valid) {
+	    printf("\n| Masukan nama file: ");
+    	scanf(" %[^\n]s", src_image);
+		strcat(src_image, ".png");
+		cekBisa = fopen(src_image, "r");
+		
+		if (cekSpasi(src_image)) {
+	        	printf("\n| [INFO] Nama file tidak boleh mengandung spasi!\n|");
+		} else 
+		if (cekBisa) {
+	        fclose(cekBisa); 
+	    	valid = true;
+	    } else {
+	        printf("| [INFO] File tidak ada! Masukan nama file yang sesuai!\n|");
+	    }
+	}
 
 	printf("| Masukkan kunci : ");
     scanf("%s", key);

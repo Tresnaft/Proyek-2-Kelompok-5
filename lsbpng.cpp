@@ -8,14 +8,14 @@
 PNGImageData *loadImage(char *filename) {
     PNGImageData *img_data = (PNGImageData *)malloc(sizeof(PNGImageData));
     if (!img_data) {
-        printf("Memory allocation failed.\n");
+        printf("| Memory allocation failed.\n");
         return NULL;
     }
     
     // Load image using STB library
     img_data->image = stbi_load(filename, &img_data->width, &img_data->height, &img_data->channels, 0);
     if (img_data->image == NULL) {
-        printf("Error loading the image.\n");
+        printf("| Error loading the image.\n");
         free(img_data);
         return NULL;
     }
@@ -42,7 +42,7 @@ void encodePNG(char *src_image, char *dest_image, char *message) {
     int required_pixels = message_length * 8;
 
     if (required_pixels > image_size) {
-        printf("ERROR: Need larger file size\n");
+        printf("| ERROR: Need larger file size\n");
         freeImageData(img_data);
         return;
     }
@@ -90,9 +90,9 @@ void decodePNG(char *src_image, char *message) {
     char *terminator_pos = strstr(decoded_message, "$t3g0");
     if (terminator_pos != NULL) {
         *terminator_pos = '\0'; // Null-terminate the decoded message at the terminator position
-        printf("Decoded Message: %s\n", decoded_message);
+        printf("| Decoded Message: %s\n", decoded_message);
     } else {
-        printf("No Hidden Message Found\n");
+        printf("| No Hidden Message Found\n");
     }
 
     strcpy(message, decoded_message);

@@ -91,7 +91,7 @@ void moveWord(address *head, address *tail, int steps) {
     for (int i = 0; i < steps/2; i++) {
         current = current->next;
         if (current == *head) {
-            printf("Invalid step\n");
+//            printf("Invalid step\n");
             return;
         }
     }

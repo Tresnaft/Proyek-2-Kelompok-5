@@ -90,7 +90,7 @@ int extractinfolen(const BMPImage *img) {
     int combinedValue;
     int j = 0;
     if (!img) {
-        fprintf(stderr, "Invalid input\n");
+        printf("| [ERROR] File tidak dapat dibuka!\n");
         exit(1);
     }
     
@@ -179,7 +179,7 @@ void extractlsb(const BMPImage *img, int len, int panjang, char hasilLSB[]) {
         hasilLSB[index++] = combinedValue1;
        }
        
-        for (int i = 0; i < panjang - 2; i++) {
+        for (int i = 0; i < panjang; i++) {
         printf("%c", hasilLSB[i]);
         }
 }

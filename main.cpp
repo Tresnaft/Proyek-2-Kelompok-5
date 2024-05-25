@@ -37,10 +37,10 @@ int main() {
 							main();
 							break;
 						case 0:
-							printf("Terima Kasih...");
+							printf("|\n|Terima kasih sudah menggunakan program kami! ^_^\n|\n");
 							exit(0);
 		            	default:
-		            		printf("Masukkan input yang sesuai. \n\n");
+		            		printf("| [INFO] Masukkan input yang sesuai! \n|");
 					}	
 				} while (true);
 	            break;
@@ -56,22 +56,22 @@ int main() {
 		            		break;
 						case 3:
 							decryptPNG(De, var);
-						case 9:
+						case 4:
 							main();
 							break;
 						case 0:
-							printf("Terima Kasih...");
+							printf("|\n|Terima kasih sudah menggunakan program kami! ^_^\n|\n");
 							exit(0);
 		            	default:
-		            		printf("Masukkan input yang sesuai. \n\n");
+		            		printf("| [INFO] Masukkan input yang sesuai! \n|");
 					}
 				} while (true);
 				break;
 			case 0 :
-				printf("Terima Kasih...");	
+				printf("|\n|Terima kasih sudah menggunakan program kami! ^_^\n|\n");
 				exit(0);
 			default:
-	            printf("Masukkan input yang sesuai. \n\n");
+	            printf("| [INFO] Masukkan input yang sesuai! \n|");
 	    }
 	} while(true);   
     return 0;

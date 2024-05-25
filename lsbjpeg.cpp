@@ -4,7 +4,7 @@
 void open_image(const char *filename, JPEGImageData *image) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
-        printf("ERROR: Cannot open source image\n");
+        printf("| ERROR: Cannot open source image\n");
         exit(EXIT_FAILURE);
     }
 
@@ -14,7 +14,7 @@ void open_image(const char *filename, JPEGImageData *image) {
 
     image->buffer = (uint8_t *)malloc(image->buffer_size);
     if (!image->buffer) {
-        printf("ERROR: Memory allocation failed\n");
+        printf("| ERROR: Memory allocation failed\n");
         fclose(file);
         exit(EXIT_FAILURE);
     }
@@ -33,7 +33,7 @@ void encodeJPEG(const char *source_image, const char *dest_image, utama *var, En
 	
     FILE *outfile = fopen(dest_image, "wb");
     if (!outfile) {
-        printf("ERROR: Cannot open destination file\n");
+        printf("| ERROR: Cannot open destination file\n");
         close_image(&image);
         exit(EXIT_FAILURE);
     }
@@ -47,7 +47,7 @@ void encodeJPEG(const char *source_image, const char *dest_image, utama *var, En
 
     // Memeriksa apakah pesan dapat disisipkan dalam gambar
     if (total_message_length * 8 > buffer_size) {
-        printf("ERROR: Need larger file size\n");
+        printf("| ERROR: Need larger file size\n");
         close_image(&image);
         fclose(outfile);
         exit(EXIT_FAILURE);
@@ -73,7 +73,7 @@ void encodeJPEG(const char *source_image, const char *dest_image, utama *var, En
 
 void decodeJPEG(const char *image_path, char lsbjpg[]) {
     JPEGImageData image;
-    open_image("out.jpeg", &image);
+    open_image(image_path, &image);
 
     uint8_t *buffer = image.buffer;
     size_t buffer_size = image.buffer_size;
@@ -88,7 +88,7 @@ void decodeJPEG(const char *image_path, char lsbjpg[]) {
 
             
             if (!lsbjpg) {
-                printf("ERROR: Memory allocation failed\n");
+                printf("| ERROR: Memory allocation failed\n");
                 close_image(&image);
                 exit(EXIT_FAILURE);
             }
@@ -105,7 +105,7 @@ void decodeJPEG(const char *image_path, char lsbjpg[]) {
     }
 
     if (pos >= buffer_size - 4) {
-        printf("No Hidden Message Found\n");
+        printf("| No Hidden Message Found\n");
     }
 
     close_image(&image);
